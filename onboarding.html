@@ -328,21 +328,28 @@ function updatePreview() {
   document.getElementById('handleAvail').style.display = 'none';
 }
 
-// FIXED: Check handle uniqueness against Supabase before allowing proceed
 async function checkHandle() {
-  const h = document.getElementById('fhandle').value.trim().toLowerCase();
+  const h     = document.getElementById('fhandle').value.trim().toLowerCase();
+  const email = document.getElementById('femail').value.trim().toLowerCase();
   if (!h) return;
   const avail = document.getElementById('handleAvail');
   avail.className = 'handle-avail checking';
   avail.textContent = 'Checking availability…';
   avail.style.display = 'block';
   try {
-    const { data, error } = await sb.from('signups').select('handle').eq('handle', h);
+    const { data, error } = await sb.from('signups').select('handle, email').eq('handle', h);
     if (error) { avail.style.display = 'none'; return; }
     if (data && data.length > 0) {
-      handleIsAvailable = false;
-      avail.className = 'handle-avail taken';
-      avail.textContent = '✕ @'+h+' is already taken — try another';
+      // If this handle belongs to the same email — it's their own incomplete signup
+      if (email && data[0].email === email) {
+        handleIsAvailable = true;
+        avail.className = 'handle-avail free';
+        avail.textContent = '✓ @'+h+' is yours — you can continue';
+      } else {
+        handleIsAvailable = false;
+        avail.className = 'handle-avail taken';
+        avail.textContent = '✕ @'+h+' is already taken — try another';
+      }
     } else {
       handleIsAvailable = true;
       avail.className = 'handle-avail free';

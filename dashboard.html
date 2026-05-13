@@ -593,28 +593,33 @@ const tagFields = [
 ];
 
 // ── INIT ───────────────────────────────────────────────────────
-(async function init() {
-  try {
-    // 0. Check for auth error in URL hash (e.g. expired magic link)
-    const hashParams = new URLSearchParams(window.location.hash.replace('#', ''));
-    if (hashParams.get('error')) {
-      const code = hashParams.get('error_code') || '';
-      const msg  = code === 'otp_expired'
-        ? 'expired'
-        : 'invalid';
-      window.location.href = '/login.html?link=' + msg;
-      return;
-    }
+// Check for Supabase auth error in hash immediately (e.g. expired magic link)
+(function() {
+  const hashParams = new URLSearchParams(window.location.hash.replace('#', ''));
+  if (hashParams.get('error')) {
+    const code = hashParams.get('error_code') || '';
+    window.location.href = '/login.html?link=' + (code === 'otp_expired' ? 'expired' : 'invalid');
+  }
+})();
 
-    // 1. Check auth — redirect to login if no session
-    const { data: { session } } = await sb.auth.getSession();
-    if (!session) {
-      window.location.href = '/login.html';
-      return;
-    }
+// Use onAuthStateChange instead of getSession() — getSession() has a race
+// condition where it runs before Supabase has finished parsing the
+// #access_token hash from a magic link. onAuthStateChange fires after.
+let _dashboardLoaded = false;
+sb.auth.onAuthStateChange(async (event, session) => {
+  if (_dashboardLoaded) return;
+  if (event !== 'SIGNED_IN' && event !== 'INITIAL_SESSION') return;
+  _dashboardLoaded = true;
+
+  if (!session) {
+    window.location.href = '/login.html';
+    return;
+  }
+
+  try {
     userEmail = session.user.email;
 
-    // 2. Handle post-Stripe upgrade redirect (?upgraded=creator or ?upgraded=pro)
+    // Handle post-Stripe upgrade redirect (?upgraded=creator or ?upgraded=pro)
     const params = new URLSearchParams(window.location.search);
     const upgradedPlan = params.get('upgraded');
     if (upgradedPlan && ['creator', 'pro'].includes(upgradedPlan)) {
@@ -623,17 +628,15 @@ const tagFields = [
       showToast('🎉 Upgraded to ' + upgradedPlan.charAt(0).toUpperCase() + upgradedPlan.slice(1) + ' successfully!');
     }
 
-    // 3. Load profile from Supabase
+    // Load profile from Supabase
     const { data: dbProfile, error: profileErr } = await sb
       .from('signups').select('*').eq('email', userEmail).single();
 
     if (profileErr || !dbProfile) {
-      // Profile not found — send them to finish onboarding
       window.location.href = '/onboarding.html?email=' + encodeURIComponent(userEmail);
       return;
     }
 
-    // Normalize snake_case DB columns → camelCase for template compatibility
     profile = {
       name:      dbProfile.name      || 'Creator',
       handle:    dbProfile.handle    || '',
@@ -650,23 +653,22 @@ const tagFields = [
       tagJP:     dbProfile.tag_jp    || '',
     };
 
-    // 4. Load products from Supabase
     const { data: dbProducts } = await sb
       .from('products').select('*')
       .eq('handle', profile.handle)
       .order('created_at', { ascending: false });
     products = dbProducts || [];
 
-    // 5. Hide loader and render
     document.getElementById('loadingOverlay').classList.add('hidden');
     renderAll();
     loadClickCount();
+
   } catch (e) {
-    console.error('Dashboard init error:', e);
+    console.error('Dashboard error:', e);
     const overlay = document.getElementById('loadingOverlay');
     overlay.innerHTML = '<div style="text-align:center;padding:40px;font-family:sans-serif"><p style="color:#dc2626;margin-bottom:16px;font-size:15px">Something went wrong loading your dashboard.</p><a href="/login.html" style="color:#4f46e5;font-weight:600;font-size:14px">Sign in again →</a></div>';
   }
-})();
+});
 
 // ── RENDER ─────────────────────────────────────────────────────
 function renderAll() {
