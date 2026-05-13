@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkGlobe Debug</title>
+<style>
+body{font-family:monospace;background:#111;color:#eee;padding:24px;font-size:14px}
+h2{color:#fff;margin-bottom:16px}
+.step{margin-bottom:12px;padding:12px;border-radius:6px;background:#1e1e1e}
+.ok{border-left:4px solid #22c55e}
+.fail{border-left:4px solid #ef4444}
+.wait{border-left:4px solid #facc15}
+.label{color:#aaa;font-size:12px;margin-bottom:4px}
+.val{color:#fff;word-break:break-all}
+</style>
+</head>
+<body>
+<h2>LinkGlobe Connection Test</h2>
+<div id="out"></div>
+
+<script>
+const SUPABASE_URL      = 'https://lyknsmgvqrxuhxwryzws.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5a25zbWd2cXJ4dWh4d3J5endzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzA4ODksImV4cCI6MjA5Mzc0Njg4OX0.o1DVN9fEb7qfIi0Kw7zGFUpPuluaUvllGIXEY3wHTW4';
+
+const out = document.getElementById('out');
+
+function row(label, val, ok) {
+  out.innerHTML += '<div class="step ' + (ok === true ? 'ok' : ok === false ? 'fail' : 'wait') + '">'
+    + '<div class="label">' + label + '</div>'
+    + '<div class="val">' + val + '</div></div>';
+}
+
+async function run() {
+  // Step 1: Supabase JS loaded?
+  if (typeof supabase === 'undefined') {
+    row('Supabase JS library', 'FAILED TO LOAD — CDN blocked or no internet', false);
+    return;
+  }
+  row('Supabase JS library', 'Loaded OK', true);
+
+  // Step 2: Can create client?
+  let sb;
+  try {
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    row('Supabase client', 'Created OK', true);
+  } catch(e) {
+    row('Supabase client', 'FAILED: ' + e.message, false);
+    return;
+  }
+
+  // Step 3: Can reach Supabase? (raw fetch)
+  try {
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 5000);
+    const res = await fetch(SUPABASE_URL + '/rest/v1/', {
+      headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY },
+      signal: controller.signal
+    });
+    row('Network: can reach Supabase', 'HTTP ' + res.status + ' — ' + (res.ok ? 'OK' : 'Error'), res.ok || res.status === 400);
+  } catch(e) {
+    row('Network: can reach Supabase', 'FAILED — ' + e.message + ' (check internet / ad blocker)', false);
+    return;
+  }
+
+  // Step 4: Session
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      row('Auth session', 'Logged in as: ' + session.user.email, true);
+
+      // Step 5: Read signups
+      const { data, error } = await sb.from('signups').select('email, handle, plan').eq('email', session.user.email).single();
+      if (error) {
+        row('signups table read', 'ERROR: ' + error.message + ' (code: ' + error.code + ')', false);
+      } else if (data) {
+        row('signups table read', 'Found profile — handle: @' + data.handle + ', plan: ' + data.plan, true);
+      } else {
+        row('signups table read', 'No profile found for ' + session.user.email, false);
+      }
+    } else {
+      row('Auth session', 'Not logged in — no session found', null);
+    }
+  } catch(e) {
+    row('Auth / signups', 'ERROR: ' + e.message, false);
+  }
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" onload="run()" onerror="document.getElementById('out').innerHTML='<div class=\'step fail\'><div class=\'label\'>Supabase JS library</div><div class=\'val\'>FAILED TO LOAD from CDN — likely blocked by browser or network</div></div>'"></script>
+</body>
+</html>
