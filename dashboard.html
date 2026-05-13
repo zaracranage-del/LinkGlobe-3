@@ -664,23 +664,28 @@ async function _loadDashboard(session) {
     };
 
     _setLoadMsg('Loading your links…');
-    const { data: dbProducts } = await sb
+    const { data: dbProducts, error: prodErr } = await sb
       .from('products').select('*')
       .eq('handle', profile.handle)
       .order('created_at', { ascending: false });
     products = dbProducts || [];
 
+    _setLoadMsg('Rendering dashboard…');
     clearTimeout(timeoutId);
-    document.getElementById('loadingOverlay').classList.add('hidden');
     renderAll();
     loadClickCount();
+    document.getElementById('loadingOverlay').classList.add('hidden');
 
   } catch (e) {
     clearTimeout(timeoutId);
     console.error('Dashboard error:', e);
-    document.getElementById('loadingOverlay').innerHTML =
-      '<div style="text-align:center;padding:40px;font-family:sans-serif">' +
-      '<p style="color:#dc2626;margin-bottom:8px;font-size:15px">Error: ' + e.message + '</p>' +
+    const ov = document.getElementById('loadingOverlay');
+    ov.classList.remove('hidden');
+    ov.innerHTML =
+      '<div style="text-align:center;padding:40px;font-family:sans-serif;max-width:400px;margin:0 auto">' +
+      '<p style="font-size:22px;margin-bottom:12px">⚠️</p>' +
+      '<p style="font-weight:600;font-size:15px;margin-bottom:8px">Dashboard error</p>' +
+      '<p style="color:#dc2626;font-size:13px;margin-bottom:20px;word-break:break-all">' + e.message + '</p>' +
       '<a href="/login.html" style="color:#4f46e5;font-weight:600;font-size:14px">Sign in again →</a></div>';
   }
 }
