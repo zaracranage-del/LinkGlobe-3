@@ -1195,7 +1195,7 @@ function renderCollections() {
     var ids = c.collection_products.map(function(cp) { return cp.product_id; });
     var link = 'https://linkglobe.co/' + profile.handle + '?c=' + c.slug;
     var covers = products.slice(0, 3).map(function(p) {
-      return '<div class="coll-cover-item">' + (p.image ? '<img src="' + esc(p.image) + '" style="width:100%;height:100%;object-fit:cover;border-radius:7px" onerror="this.style.display='none'">' : '&#128717;') + '</div>';
+      return '<div class="coll-cover-item">' + (p.image ? '<img src="' + esc(p.image) + '" style="width:100%;height:100%;object-fit:cover;border-radius:7px" onerror="this.style.display=\'none\'">' : '&#128717;') + '</div>';
     }).join('');
     return '<div class="coll-card">'
       + '<div class="coll-cover">' + (covers || '<div class="coll-cover-item">&#128194;</div>') + '</div>'
@@ -1203,7 +1203,7 @@ function renderCollections() {
       + '<div class="coll-meta">' + ids.length + ' products</div>'
       + '<div class="coll-link">' + esc(link) + '</div>'
       + '<div class="coll-acts">'
-      + '<button class="btn-coll" onclick="copyCollLink('' + esc(link) + '',this)">Copy link</button>'
+      + '<button class="btn-coll" onclick="copyCollLink(\'' + esc(link) + '\',this)">Copy link</button>'
       + '<button class="btn-coll" onclick="manageCollection(' + c.id + ')">Manage</button>'
       + '<button class="btn-coll-del" onclick="deleteCollection(' + c.id + ')">&#10005;</button>'
       + '</div></div>';
