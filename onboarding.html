@@ -476,77 +476,77 @@ async function finish() {
   btn.textContent = 'Creating your storefront…';
   errBanner.style.display = 'none';
 
-  const handle = document.getElementById('fhandle').value.trim().toLowerCase();
-  const email  = document.getElementById('femail').value.trim();
+  try {
+    const handle = document.getElementById('fhandle').value.trim().toLowerCase();
+    const email  = document.getElementById('femail').value.trim();
 
-  // Double-check handle is still available (race condition safety)
-  const { data: existing } = await sb.from('signups').select('handle').eq('handle', handle);
-  if (existing && existing.length > 0) {
-    btn.disabled = false; btn.textContent = 'Create my storefront →';
-    errBanner.textContent = 'Sorry, @'+handle+' was just taken. Go back and choose a different handle.';
+    const { data: existing } = await sb.from('signups').select('handle').eq('handle', handle);
+    if (existing && existing.length > 0) {
+      errBanner.textContent = 'Sorry, @'+handle+' was just taken. Go back and choose a different handle.';
+      errBanner.style.display = 'block';
+      return;
+    }
+
+    const { data: existingEmail } = await sb.from('signups').select('handle').eq('email', email);
+    if (existingEmail && existingEmail.length > 0) {
+      errBanner.innerHTML = 'An account with this email already exists. <a href="/login.html" style="color:var(--indigo2);font-weight:500">Sign in instead →</a>';
+      errBanner.style.display = 'block';
+      return;
+    }
+
+    const profileData = {
+      name:      document.getElementById('fname').value.trim(),
+      email,
+      handle,
+      bio:       document.getElementById('fbio').value.trim() || null,
+      tiktok:    document.getElementById('ftiktok').value.trim().replace('@','') || null,
+      instagram: document.getElementById('finsta').value.trim().replace('@','') || null,
+      plan,
+      tag_au: document.getElementById('tAU').value.trim() || null,
+      tag_us: document.getElementById('tUS').value.trim() || null,
+      tag_uk: document.getElementById('tUK').value.trim() || null,
+      tag_ca: document.getElementById('tCA').value.trim() || null,
+      tag_de: document.getElementById('tDE').value.trim() || null,
+      tag_jp: document.getElementById('tJP').value.trim() || null,
+    };
+
+    const { error: insertErr } = await sb.from('signups').insert(profileData);
+    if (insertErr) {
+      errBanner.textContent = 'Error saving profile: ' + insertErr.message;
+      errBanner.style.display = 'block';
+      return;
+    }
+
+    await sb.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: 'https://linkglobe.co/dashboard.html' }
+    });
+
+    window._storeUrl = window.location.origin + '/' + handle;
+    document.getElementById('liveLink').textContent = window.location.hostname + '/' + handle;
+
+    if (plan !== 'free') {
+      const stripeUrl = plan === 'creator' ? STRIPE_CREATOR : STRIPE_PRO;
+      document.getElementById('successTitle').textContent = 'Profile saved! 🎉';
+      document.getElementById('successMsg').textContent =
+        'Complete your '+plan+' subscription, then check your email for the dashboard link.';
+      document.getElementById('dashBtn').textContent = 'Complete '+plan+' subscription →';
+      document.getElementById('dashBtn').onclick = function() {
+        const sp = new URLSearchParams({ prefilled_email: email, client_reference_id: handle });
+        window.location.href = stripeUrl + '?' + sp.toString();
+      };
+    }
+
+    document.getElementById('formWrap').style.display  = 'none';
+    document.getElementById('successWrap').style.display = 'block';
+
+  } catch(e) {
+    errBanner.textContent = 'Something went wrong — please try again. (' + e.message + ')';
     errBanner.style.display = 'block';
-    return;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Create my storefront →';
   }
-
-  // Check email is not already registered
-  const { data: existingEmail } = await sb.from('signups').select('handle').eq('email', email);
-  if (existingEmail && existingEmail.length > 0) {
-    btn.disabled = false; btn.textContent = 'Create my storefront →';
-    errBanner.innerHTML = 'An account with this email already exists. <a href="/login.html" style="color:var(--indigo2);font-weight:500">Sign in instead →</a>';
-    errBanner.style.display = 'block';
-    return;
-  }
-
-  const profileData = {
-    name:      document.getElementById('fname').value.trim(),
-    email,
-    handle,
-    bio:       document.getElementById('fbio').value.trim(),
-    tiktok:    document.getElementById('ftiktok').value.trim().replace('@','') || null,
-    instagram: document.getElementById('finsta').value.trim().replace('@','') || null,
-    plan,
-    // FIXED: now saves tag_de and tag_jp too
-    tag_au: document.getElementById('tAU').value.trim() || null,
-    tag_us: document.getElementById('tUS').value.trim() || null,
-    tag_uk: document.getElementById('tUK').value.trim() || null,
-    tag_ca: document.getElementById('tCA').value.trim() || null,
-    tag_de: document.getElementById('tDE').value.trim() || null,
-    tag_jp: document.getElementById('tJP').value.trim() || null,
-  };
-
-  // Save profile to Supabase signups table
-  const { error: insertErr } = await sb.from('signups').insert(profileData);
-  if (insertErr) {
-    btn.disabled = false; btn.textContent = 'Create my storefront →';
-    errBanner.textContent = 'Error saving profile: ' + insertErr.message;
-    errBanner.style.display = 'block';
-    return;
-  }
-
-  // Send magic link so they can access dashboard — also creates their auth user
-  await sb.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: 'https://linkglobe.co/dashboard.html' }
-  });
-
-  const storeUrl = window.location.origin + '/' + handle;
-  window._storeUrl = storeUrl;
-  document.getElementById('liveLink').textContent = window.location.hostname + '/' + handle;
-
-  // For paid plans: redirect to Stripe after saving. OTP email already sent.
-  if (plan !== 'free') {
-    const stripeUrl = plan === 'creator' ? STRIPE_CREATOR : STRIPE_PRO;
-    document.getElementById('successTitle').textContent = 'Profile saved! 🎉';
-    document.getElementById('successMsg').textContent =
-      'Complete your '+plan+' subscription, then check your email for the dashboard link.';
-    document.getElementById('dashBtn').textContent = 'Complete '+plan+' subscription →';
-    document.getElementById('dashBtn').onclick = () =>
-      const sp = new URLSearchParams({ prefilled_email: email, client_reference_id: handle });
-      window.location.href = stripeUrl + '?' + sp.toString();
-  }
-
-  document.getElementById('formWrap').style.display  = 'none';
-  document.getElementById('successWrap').style.display = 'block';
 }
 
 function copyLink() {

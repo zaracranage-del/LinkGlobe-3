@@ -111,35 +111,38 @@ async function sendLink() {
   const btn        = document.getElementById('sendBtn');
   const email      = emailInput.value.trim();
 
-  // Validate
   errMsg.textContent = '';
   errBanner.style.display = 'none';
   if (!email) { errMsg.textContent = 'Please enter your email'; emailInput.classList.add('err'); return; }
   if (!email.includes('@')) { errMsg.textContent = 'Please enter a valid email'; emailInput.classList.add('err'); return; }
   emailInput.classList.remove('err');
 
-  // Loading state
   btn.disabled = true;
   btn.classList.add('loading');
 
-  const { error } = await sb.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: 'https://linkglobe.co/dashboard.html' }
-  });
+  try {
+    const { error } = await sb.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: 'https://linkglobe.co/dashboard.html' }
+    });
 
-  btn.disabled = false;
-  btn.classList.remove('loading');
+    if (error) {
+      errBanner.textContent = 'Could not send link: ' + error.message + '. Please try again.';
+      errBanner.style.display = 'block';
+      return;
+    }
 
-  if (error) {
-    errBanner.textContent = 'Could not send link: ' + error.message + '. Please try again.';
+    document.getElementById('sentEmail').textContent = email;
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('successWrap').style.display = 'block';
+
+  } catch (e) {
+    errBanner.textContent = 'Something went wrong. Check your connection and try again.';
     errBanner.style.display = 'block';
-    return;
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
   }
-
-  // Show success state
-  document.getElementById('sentEmail').textContent = email;
-  document.getElementById('formWrap').style.display = 'none';
-  document.getElementById('successWrap').style.display = 'block';
 }
 </script>
 </body>
