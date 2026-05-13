@@ -27,8 +27,11 @@ a{text-decoration:none;color:inherit}
 .sf-soc:hover{background:rgba(255,255,255,.15);color:white}
 .sf-share-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);padding:5px 14px;border-radius:50px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-bottom:20px}
 .sf-share-btn:hover{background:rgba(255,255,255,.12);color:rgba(255,255,255,.7)}
-.sf-tab-row{background:rgba(255,255,255,.05);border-top:1px solid rgba(255,255,255,.08)}
-.sf-tab{display:inline-block;padding:13px 28px;font-size:13px;color:rgba(255,255,255,.6);border-bottom:2px solid rgba(255,255,255,.5);font-weight:500}
+.sf-tab-row{background:rgba(255,255,255,.05);border-top:1px solid rgba(255,255,255,.08);overflow-x:auto;white-space:nowrap;display:flex}
+.sf-tab{display:inline-block;padding:13px 22px;font-size:13px;color:rgba(255,255,255,.5);border-bottom:2px solid transparent;font-weight:500;cursor:pointer;text-decoration:none;flex-shrink:0;transition:color .15s,border-color .15s}
+.sf-tab:hover{color:rgba(255,255,255,.85)}
+.sf-tab.active{color:white;border-bottom-color:white}
+.sf-social-proof{font-size:11px;color:#f59e0b;font-weight:700;margin-bottom:8px;letter-spacing:.2px}
 /* MAIN */
 .sf-main{max-width:1000px;margin:0 auto;padding:36px 24px 80px}
 .sf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
@@ -94,11 +97,24 @@ function esc(s) {
   // Check for collection filter
   const collectionSlug = new URLSearchParams(window.location.search).get('c');
 
-  // Fetch profile + products in parallel
-  const [{ data: profile, error: profileErr }, { data: allProducts }] = await Promise.all([
+  // Fetch profile, products, click counts and collections in parallel
+  const [
+    { data: profile, error: profileErr },
+    { data: allProducts },
+    { data: clickRows },
+    { data: allCollections }
+  ] = await Promise.all([
     sb.from('signups').select('name,bio,instagram,tiktok,handle,plan,brand_color,custom_domain').eq('handle', handle).single(),
-    sb.from('products').select('*').eq('handle', handle).order('created_at', { ascending: false })
+    sb.from('products').select('*').eq('handle', handle).order('created_at', { ascending: false }),
+    sb.from('clicks').select('product_id').eq('handle', handle),
+    sb.from('collections').select('*, collection_products(product_id)').eq('handle', handle).order('created_at', { ascending: true })
   ]);
+
+  // Build click count map: { productId: totalClicks }
+  const clickCounts = {};
+  (clickRows || []).forEach(r => {
+    if (r.product_id) clickCounts[r.product_id] = (clickCounts[r.product_id] || 0) + 1;
+  });
 
   let products = allProducts || [];
 
@@ -120,13 +136,16 @@ function esc(s) {
     return;
   }
 
-  render(profile, products, activeCollection);
+  render(profile, products, activeCollection, clickCounts, allCollections || [], (allProducts || []).length);
 })();
 
 // ── RENDER STOREFRONT ──────────────────────────────────────────
-function render(p, products, collection) {
+function render(p, products, collection, clickCounts, allCollections, totalProducts) {
+  clickCounts = clickCounts || {};
+  allCollections = allCollections || [];
+  totalProducts = totalProducts || products.length;
   const initials = (p.name || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-  const storeUrl = window.location.href;
+  const storeUrl = window.location.href.split('?')[0];
 
   // Apply brand colour if set
   const brandColor = p.brand_color || '#0a0a0a';
@@ -148,7 +167,11 @@ function render(p, products, collection) {
         <p>Products are being added. Check back soon!</p>
        </div>`
     : `<div class="sf-grid">
-        ${products.map(prod => `
+        ${products.map(prod => {
+          const clicks = clickCounts[prod.id] || 0;
+          const fansLabel = clicks >= 1000 ? (clicks / 1000).toFixed(1) + 'k' : clicks;
+          const socialProof = clicks >= 5 ? `<div class="sf-social-proof">🔥 ${fansLabel} fans clicked</div>` : '';
+          return `
           <div class="sf-card" onclick="trackClick(${prod.id},'${esc(prod.store)}','${esc(prod.geo_link)}')">
             <div class="sf-card-img">
               ${prod.image
@@ -158,13 +181,14 @@ function render(p, products, collection) {
             <div class="sf-card-body">
               <div class="sf-card-store">${esc(prod.store_label)}</div>
               <div class="sf-card-name">${esc(prod.name)}</div>
+              ${socialProof}
               <div class="sf-card-actions">
                 <a class="btn-shop" href="${esc(prod.geo_link)}" target="_blank" onclick="event.stopPropagation();trackClick(${prod.id},'${esc(prod.store)}','${esc(prod.geo_link)}');return false;">Shop now →</a>
                 <button class="btn-copy-link" onclick="event.stopPropagation();copyProd('${esc(prod.geo_link)}',this)">Copy</button>
               </div>
             </div>
-          </div>`
-        ).join('')}
+          </div>`;
+        }).join('')}
        </div>`;
 
   document.getElementById('app').innerHTML = `
@@ -175,7 +199,14 @@ function render(p, products, collection) {
         ${p.bio ? `<p class="sf-bio">${esc(p.bio)}</p>` : ''}
         <div class="sf-socials">${socials}</div>
         <button class="sf-share-btn" onclick="shareStore('${esc(storeUrl)}')">🔗 Share my store</button>
-        <div class="sf-tab-row"><span class="sf-tab">${collection ? '🗂 ' + esc(collection.name) : 'All picks'} (${products.length})</span></div>
+        <div class="sf-tab-row">
+          <a class="sf-tab ${!collection ? 'active' : ''}" href="${storeUrl}">All picks (${totalProducts})</a>
+          ${allCollections.map(c => {
+            const count = c.collection_products ? c.collection_products.length : 0;
+            const isActive = collection && collection.id === c.id;
+            return `<a class="sf-tab ${isActive ? 'active' : ''}" href="${storeUrl}?c=${esc(c.slug)}">${esc(c.name)} (${count})</a>`;
+          }).join('')}
+        </div>
       </div>
     </header>
     <main class="sf-main">${cards}</main>
