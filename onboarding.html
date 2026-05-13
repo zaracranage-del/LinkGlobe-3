@@ -10,7 +10,7 @@
 :root{--black:#0a0a0a;--ink:#1c1c1c;--gray:#64646a;--muted:#a0a0a8;--pale:#d4d4d8;--bg:#fff;--warm:#f7f6f3;--warm2:#f0ede6;--border:#e8e6e1;--border2:#d4d2cd;--indigo:#4338ca;--indigo2:#4f46e5;--indigo-pale:#eef2ff;--indigo-mid:#c7d2fe;--green:#15803d;--red:#dc2626}
 /* FIX: removed overflow:hidden from html,body — was breaking mobile scroll */
 html,body{font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
-@media(min-width:821px){html,body{height:100%;overflow:hidden}}
+@media(min-width:821px){html,body{height:100%}.layout{height:100%}}
 a{text-decoration:none;color:inherit}
 .layout{display:grid;grid-template-columns:380px 1fr;min-height:100vh}
 
@@ -43,7 +43,7 @@ a{text-decoration:none;color:inherit}
 .si.active .si-txt{color:rgba(255,255,255,.8);font-weight:500}
 
 /* RIGHT */
-.right{background:var(--bg);overflow-y:auto;padding:48px 52px;display:flex;flex-direction:column;justify-content:center}
+.right{background:var(--bg);overflow-y:auto;padding:48px 52px;display:flex;flex-direction:column;justify-content:flex-start}
 .rhead{margin-bottom:24px}
 .rhead h1{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--black);letter-spacing:-.5px;margin-bottom:4px}
 .rhead p{font-size:14px;color:var(--muted)}
