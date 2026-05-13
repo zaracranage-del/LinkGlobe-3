@@ -416,25 +416,25 @@ async function proceedFromPlan() {
   errBox.style.display = 'none';
 
   // Re-check handle availability (race condition safety)
-  const { data: takenHandle } = await sb.from('signups').select('handle').eq('handle', handle);
-  if (takenHandle && takenHandle.length > 0) {
+  const { data: takenHandle } = await sb.from('signups').select('handle, email').eq('handle', handle);
+  const paidHandleOwned = takenHandle && takenHandle.length > 0 && takenHandle[0].email === email;
+  if (takenHandle && takenHandle.length > 0 && !paidHandleOwned) {
     btn.disabled = false; btn.textContent = 'Continue →';
-    errBox.textContent = '@' + handle + ' was just taken — go back and choose another.';
+    errBox.textContent = '@' + handle + ' is already taken — go back and choose another.';
     errBox.style.display = 'block';
     go(2);
     return;
   }
 
-  // Check email not already registered
+  // Check email not already registered with a different handle
   const { data: takenEmail } = await sb.from('signups').select('handle').eq('email', email);
-  if (takenEmail && takenEmail.length > 0) {
+  if (takenEmail && takenEmail.length > 0 && takenEmail[0].handle !== handle) {
     btn.disabled = false; btn.textContent = 'Continue →';
     errBox.innerHTML = 'An account with this email already exists. <a href="/login.html" style="color:var(--indigo2);font-weight:500">Sign in →</a>';
     errBox.style.display = 'block';
     return;
   }
 
-  // Save profile to Supabase (tags can be added from dashboard later)
   const profileData = {
     name,
     email,
@@ -445,7 +445,14 @@ async function proceedFromPlan() {
     plan,
   };
 
-  const { error: insertErr } = await sb.from('signups').insert(profileData);
+  let insertErr;
+  if (paidHandleOwned) {
+    const { error } = await sb.from('signups').update(profileData).eq('email', email);
+    insertErr = error;
+  } else {
+    const { error } = await sb.from('signups').insert(profileData);
+    insertErr = error;
+  }
   if (insertErr) {
     btn.disabled = false; btn.textContent = 'Continue →';
     errBox.textContent = 'Error saving profile: ' + insertErr.message;
@@ -480,15 +487,18 @@ async function finish() {
     const handle = document.getElementById('fhandle').value.trim().toLowerCase();
     const email  = document.getElementById('femail').value.trim();
 
-    const { data: existing } = await sb.from('signups').select('handle').eq('handle', handle);
-    if (existing && existing.length > 0) {
-      errBanner.textContent = 'Sorry, @'+handle+' was just taken. Go back and choose a different handle.';
+    const { data: existing } = await sb.from('signups').select('handle, email').eq('handle', handle);
+    const handleOwnedBySameEmail = existing && existing.length > 0 && existing[0].email === email;
+    if (existing && existing.length > 0 && !handleOwnedBySameEmail) {
+      errBanner.textContent = 'Sorry, @'+handle+' is already taken. Go back and choose a different handle.';
       errBanner.style.display = 'block';
       return;
     }
 
+    // If same email already has a different handle, they already have an account
     const { data: existingEmail } = await sb.from('signups').select('handle').eq('email', email);
-    if (existingEmail && existingEmail.length > 0) {
+    const emailHasDifferentHandle = existingEmail && existingEmail.length > 0 && existingEmail[0].handle !== handle;
+    if (emailHasDifferentHandle) {
       errBanner.innerHTML = 'An account with this email already exists. <a href="/login.html" style="color:var(--indigo2);font-weight:500">Sign in instead →</a>';
       errBanner.style.display = 'block';
       return;
@@ -510,7 +520,15 @@ async function finish() {
       tag_jp: document.getElementById('tJP').value.trim() || null,
     };
 
-    const { error: insertErr } = await sb.from('signups').insert(profileData);
+    let insertErr;
+    if (handleOwnedBySameEmail) {
+      // Resume incomplete signup — update existing record
+      const { error } = await sb.from('signups').update(profileData).eq('email', email);
+      insertErr = error;
+    } else {
+      const { error } = await sb.from('signups').insert(profileData);
+      insertErr = error;
+    }
     if (insertErr) {
       errBanner.textContent = 'Error saving profile: ' + insertErr.message;
       errBanner.style.display = 'block';
