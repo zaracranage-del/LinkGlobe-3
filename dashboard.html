@@ -675,6 +675,7 @@ async function _loadDashboard(session) {
     renderAll();
     loadClickCount();
     document.getElementById('loadingOverlay').classList.add('hidden');
+    setTimeout(() => refreshMissingImages(), 800);
 
   } catch (e) {
     clearTimeout(timeoutId);
@@ -832,16 +833,63 @@ async function saveTags() {
 async function fetchOgImage(url) {
   try {
     const proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
-    const res = await fetch(proxy, { signal: AbortSignal.timeout(6000) });
+    const res = await fetch(proxy, { signal: AbortSignal.timeout(9000) });
     if (!res.ok) return '';
     const data = await res.json();
+    const html = data.contents;
+    if (!html) return '';
     const parser = new DOMParser();
-    const doc = parser.parseFromString(data.contents, 'text/html');
-    const og = doc.querySelector('meta[property="og:image"], meta[name="twitter:image"]');
-    if (og && og.content) return og.content;
-    const img = doc.querySelector('img[src]');
-    return img ? img.src : '';
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // Try all common OG/Twitter image meta tags
+    const og = doc.querySelector(
+      'meta[property="og:image"], meta[property="og:image:url"], ' +
+      'meta[name="twitter:image"], meta[name="twitter:image:src"]'
+    );
+    if (og) {
+      const src = og.getAttribute('content');
+      if (src && src.startsWith('http')) return src;
+    }
+
+    // Try JSON-LD structured data (used by Shopify, Charlotte Tilbury, etc.)
+    for (const s of doc.querySelectorAll('script[type="application/ld+json"]')) {
+      try {
+        const j = JSON.parse(s.textContent);
+        const nodes = Array.isArray(j['@graph']) ? j['@graph'] : [j];
+        for (const n of nodes) {
+          const img = n.image;
+          if (!img) continue;
+          const src = Array.isArray(img) ? img[0] : (typeof img === 'string' ? img : img.url);
+          if (src && src.startsWith('http')) return src;
+        }
+      } catch {}
+    }
+    return '';
   } catch { return ''; }
+}
+
+// ── REFRESH MISSING IMAGES ────────────────────────────────────
+// Runs in background on load — fixes existing products saved without images
+async function refreshMissingImages() {
+  const missing = products.filter(p => !p.image && p.original_url);
+  if (!missing.length) return;
+  let anyUpdated = false;
+  for (const p of missing) {
+    try {
+      let img = '';
+      if (p.store === 'amazon') {
+        const asin = extractAsin(p.original_url);
+        if (asin) img = 'https://images-na.ssl-images-amazon.com/images/P/' + asin + '.01._SCLZZZZZZZ_.jpg';
+      } else {
+        img = await fetchOgImage(p.original_url);
+      }
+      if (!img) continue;
+      p.image = img;
+      await sb.from('products').update({ image: img }).eq('id', p.id);
+      anyUpdated = true;
+    } catch(e) { /* skip — don't block anything */ }
+  }
+  if (anyUpdated) renderProducts();
 }
 
 // ── ADD PRODUCT ────────────────────────────────────────────────
