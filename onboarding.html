@@ -456,7 +456,7 @@ async function proceedFromPlan() {
   // Send magic link so they can access dashboard after payment
   await sb.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: 'https://linkglobe.co/dashboard' }
+    options: { emailRedirectTo: 'https://linkglobe.co/dashboard.html' }
   });
 
   // Redirect straight to Stripe — no way to skip
@@ -526,7 +526,7 @@ async function finish() {
   // Send magic link so they can access dashboard — also creates their auth user
   await sb.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: 'https://linkglobe.co/dashboard' }
+    options: { emailRedirectTo: 'https://linkglobe.co/dashboard.html' }
   });
 
   const storeUrl = window.location.origin + '/' + handle;

@@ -95,13 +95,13 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // If user is already signed in, send them straight to dashboard
 sb.auth.getSession().then(({ data: { session } }) => {
-  if (session) window.location.href = '/dashboard';
+  if (session) window.location.href = '/dashboard.html';
 });
 
 // Also listen for auth state changes — handles clicking the magic link
 // (Supabase processes the token in the URL and fires this event)
 sb.auth.onAuthStateChange((event, session) => {
-  if (session) window.location.href = '/dashboard';
+  if (session) window.location.href = '/dashboard.html';
 });
 
 async function sendLink() {
@@ -124,7 +124,7 @@ async function sendLink() {
 
   const { error } = await sb.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: 'https://linkglobe.co/dashboard' }
+    options: { emailRedirectTo: 'https://linkglobe.co/dashboard.html' }
   });
 
   btn.disabled = false;
