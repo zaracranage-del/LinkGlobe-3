@@ -594,61 +594,67 @@ const tagFields = [
 
 // ── INIT ───────────────────────────────────────────────────────
 (async function init() {
-  // 1. Check auth — redirect to login if no session
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session) {
+  try {
+    // 1. Check auth — redirect to login if no session
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      window.location.href = '/login.html';
+      return;
+    }
+    userEmail = session.user.email;
+
+    // 2. Handle post-Stripe upgrade redirect (?upgraded=creator or ?upgraded=pro)
+    const params = new URLSearchParams(window.location.search);
+    const upgradedPlan = params.get('upgraded');
+    if (upgradedPlan && ['creator', 'pro'].includes(upgradedPlan)) {
+      await sb.from('signups').update({ plan: upgradedPlan }).eq('email', userEmail);
+      window.history.replaceState({}, '', '/dashboard.html');
+      showToast('🎉 Upgraded to ' + upgradedPlan.charAt(0).toUpperCase() + upgradedPlan.slice(1) + ' successfully!');
+    }
+
+    // 3. Load profile from Supabase
+    const { data: dbProfile, error: profileErr } = await sb
+      .from('signups').select('*').eq('email', userEmail).single();
+
+    if (profileErr || !dbProfile) {
+      // Profile not found — send them to finish onboarding
+      window.location.href = '/onboarding.html?email=' + encodeURIComponent(userEmail);
+      return;
+    }
+
+    // Normalize snake_case DB columns → camelCase for template compatibility
+    profile = {
+      name:      dbProfile.name      || 'Creator',
+      handle:    dbProfile.handle    || '',
+      email:     dbProfile.email,
+      bio:       dbProfile.bio       || '',
+      instagram: dbProfile.instagram || '',
+      tiktok:    dbProfile.tiktok    || '',
+      plan:      dbProfile.plan      || 'free',
+      tagAU:     dbProfile.tag_au    || '',
+      tagUS:     dbProfile.tag_us    || '',
+      tagUK:     dbProfile.tag_uk    || '',
+      tagCA:     dbProfile.tag_ca    || '',
+      tagDE:     dbProfile.tag_de    || '',
+      tagJP:     dbProfile.tag_jp    || '',
+    };
+
+    // 4. Load products from Supabase
+    const { data: dbProducts } = await sb
+      .from('products').select('*')
+      .eq('handle', profile.handle)
+      .order('created_at', { ascending: false });
+    products = dbProducts || [];
+
+    // 5. Hide loader and render
+    document.getElementById('loadingOverlay').classList.add('hidden');
+    renderAll();
+    loadClickCount();
+  } catch (e) {
+    document.getElementById('loadingOverlay').classList.add('hidden');
+    console.error('Dashboard init error:', e);
     window.location.href = '/login.html';
-    return;
   }
-  userEmail = session.user.email;
-
-  // 2. Handle post-Stripe upgrade redirect (?upgraded=creator or ?upgraded=pro)
-  const params = new URLSearchParams(window.location.search);
-  const upgradedPlan = params.get('upgraded');
-  if (upgradedPlan && ['creator', 'pro'].includes(upgradedPlan)) {
-    await sb.from('signups').update({ plan: upgradedPlan }).eq('email', userEmail);
-    window.history.replaceState({}, '', '/dashboard.html');
-    showToast('🎉 Upgraded to ' + upgradedPlan.charAt(0).toUpperCase() + upgradedPlan.slice(1) + ' successfully!');
-  }
-
-  // 3. Load profile from Supabase
-  const { data: dbProfile, error: profileErr } = await sb
-    .from('signups').select('*').eq('email', userEmail).single();
-
-  if (profileErr || !dbProfile) {
-    // Profile not found — send them to finish onboarding
-    window.location.href = '/onboarding?email=' + encodeURIComponent(userEmail);
-    return;
-  }
-
-  // Normalize snake_case DB columns → camelCase for template compatibility
-  profile = {
-    name:      dbProfile.name      || 'Creator',
-    handle:    dbProfile.handle    || '',
-    email:     dbProfile.email,
-    bio:       dbProfile.bio       || '',
-    instagram: dbProfile.instagram || '',
-    tiktok:    dbProfile.tiktok    || '',
-    plan:      dbProfile.plan      || 'free',
-    tagAU:     dbProfile.tag_au    || '',
-    tagUS:     dbProfile.tag_us    || '',
-    tagUK:     dbProfile.tag_uk    || '',
-    tagCA:     dbProfile.tag_ca    || '',
-    tagDE:     dbProfile.tag_de    || '',
-    tagJP:     dbProfile.tag_jp    || '',
-  };
-
-  // 4. Load products from Supabase
-  const { data: dbProducts } = await sb
-    .from('products').select('*')
-    .eq('handle', profile.handle)
-    .order('created_at', { ascending: false });
-  products = dbProducts || [];
-
-  // 5. Hide loader and render
-  document.getElementById('loadingOverlay').classList.add('hidden');
-  renderAll();
-  loadClickCount();
 })();
 
 // ── RENDER ─────────────────────────────────────────────────────
