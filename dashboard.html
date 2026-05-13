@@ -651,9 +651,9 @@ const tagFields = [
     renderAll();
     loadClickCount();
   } catch (e) {
-    document.getElementById('loadingOverlay').classList.add('hidden');
     console.error('Dashboard init error:', e);
-    window.location.href = '/login.html';
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.innerHTML = '<div style="text-align:center;padding:40px;font-family:sans-serif"><p style="color:#dc2626;margin-bottom:16px;font-size:15px">Something went wrong loading your dashboard.</p><a href="/login.html" style="color:#4f46e5;font-weight:600;font-size:14px">Sign in again →</a></div>';
   }
 })();
 
