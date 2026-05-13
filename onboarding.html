@@ -276,7 +276,7 @@ textarea{resize:vertical;min-height:70px}
       <div class="live-link-label">Your storefront URL</div>
       <span id="liveLink">linkglobe.co/yourname</span>
     </div>
-    <button class="btn-next" id="dashBtn" style="margin-bottom:8px" onclick="window.location.href='/login'">Go to dashboard →</button>
+    <button class="btn-next" id="dashBtn" style="margin-bottom:8px" onclick="window.location.href='/login.html'">Go to dashboard →</button>
     <button class="btn-back" onclick="copyLink()">Copy my storefront link</button>
   </div>
 </div>
@@ -429,7 +429,7 @@ async function proceedFromPlan() {
   const { data: takenEmail } = await sb.from('signups').select('handle').eq('email', email);
   if (takenEmail && takenEmail.length > 0) {
     btn.disabled = false; btn.textContent = 'Continue →';
-    errBox.innerHTML = 'An account with this email already exists. <a href="/login" style="color:var(--indigo2);font-weight:500">Sign in →</a>';
+    errBox.innerHTML = 'An account with this email already exists. <a href="/login.html" style="color:var(--indigo2);font-weight:500">Sign in →</a>';
     errBox.style.display = 'block';
     return;
   }
@@ -492,7 +492,7 @@ async function finish() {
   const { data: existingEmail } = await sb.from('signups').select('handle').eq('email', email);
   if (existingEmail && existingEmail.length > 0) {
     btn.disabled = false; btn.textContent = 'Create my storefront →';
-    errBanner.innerHTML = 'An account with this email already exists. <a href="/login" style="color:var(--indigo2);font-weight:500">Sign in instead →</a>';
+    errBanner.innerHTML = 'An account with this email already exists. <a href="/login.html" style="color:var(--indigo2);font-weight:500">Sign in instead →</a>';
     errBanner.style.display = 'block';
     return;
   }

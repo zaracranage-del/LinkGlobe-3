@@ -597,7 +597,7 @@ const tagFields = [
   // 1. Check auth — redirect to login if no session
   const { data: { session } } = await sb.auth.getSession();
   if (!session) {
-    window.location.href = '/login';
+    window.location.href = '/login.html';
     return;
   }
   userEmail = session.user.email;
@@ -607,7 +607,7 @@ const tagFields = [
   const upgradedPlan = params.get('upgraded');
   if (upgradedPlan && ['creator', 'pro'].includes(upgradedPlan)) {
     await sb.from('signups').update({ plan: upgradedPlan }).eq('email', userEmail);
-    window.history.replaceState({}, '', '/dashboard');
+    window.history.replaceState({}, '', '/dashboard.html');
     showToast('🎉 Upgraded to ' + upgradedPlan.charAt(0).toUpperCase() + upgradedPlan.slice(1) + ' successfully!');
   }
 
@@ -975,7 +975,7 @@ async function checkBrokenLinks() {
 // ── LOGOUT ─────────────────────────────────────────────────────
 async function logout() {
   await sb.auth.signOut();
-  window.location.href = '/login';
+  window.location.href = '/login.html';
 }
 
 // ── HELPERS ────────────────────────────────────────────────────

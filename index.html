@@ -321,8 +321,8 @@ footer nav a:hover { color: var(--black); }
     <a href="#testimonials">Creators</a>
   </div>
   <div class="lg-nav__right">
-    <a href="/dashboard" class="lg-nav__signin">Sign in</a>
-    <a href="/onboarding" class="lg-nav__cta">Start free →</a>
+    <a href="/dashboard.html" class="lg-nav__signin">Sign in</a>
+    <a href="/onboarding.html" class="lg-nav__cta">Start free →</a>
   </div>
 </nav>
 <!-- ── HERO ─────────────────────────────────────────────────── -->
@@ -499,7 +499,7 @@ footer nav a:hover { color: var(--black); }
         <li class="off">Custom storefront colour</li>
         <li class="off">Affiliate program manager</li>
       </ul>
-      <a href="/onboarding" class="btn-plan">Get started free</a>
+      <a href="/onboarding.html" class="btn-plan">Get started free</a>
     </div>
 
     <!-- CREATOR -->
@@ -521,7 +521,7 @@ footer nav a:hover { color: var(--black); }
         <li class="off">Custom domain</li>
         <li class="off">Remove LinkGlobe branding</li>
       </ul>
-      <a href="/onboarding?plan=creator" class="btn-plan primary">Start 14-day free trial →</a>
+      <a href="/onboarding.html?plan=creator" class="btn-plan primary">Start 14-day free trial →</a>
     </div>
 
     <!-- PRO -->
@@ -540,7 +540,7 @@ footer nav a:hover { color: var(--black); }
         <li><span class="f-wrap"><span class="f-name">100% your brand</span><span class="f-sub">No LinkGlobe watermark — anywhere, ever</span></span></li>
         <li><span class="f-wrap"><span class="f-name">Priority support</span><span class="f-sub">Next business day response — jump the queue</span></span></li>
       </ul>
-      <a href="/onboarding?plan=pro" class="btn-plan">Get Pro →</a>
+      <a href="/onboarding.html?plan=pro" class="btn-plan">Get Pro →</a>
     </div>
 
   </div>
@@ -608,8 +608,8 @@ footer nav a:hover { color: var(--black); }
   <nav>
     <a href="#features">Features</a>
     <a href="#pricing">Pricing</a>
-    <a href="/onboarding">Sign up</a>
-    <a href="/dashboard">Dashboard</a>
+    <a href="/onboarding.html">Sign up</a>
+    <a href="/dashboard.html">Dashboard</a>
     <a href="/terms">Terms</a>
     <a href="/privacy">Privacy</a>
   </nav>
@@ -654,14 +654,14 @@ function heroGo() {
   if (!el) return;
   const e = el.value.trim();
   if (!e || !e.includes('@')) { el.style.borderColor = 'rgba(220,38,38,0.6)'; return; }
-  window.location.href = '/onboarding?email=' + encodeURIComponent(e);
+  window.location.href = '/onboarding.html?email=' + encodeURIComponent(e);
 }
 function ctaGo() {
   const el = document.getElementById('ctaEmail');
   if (!el) return;
   const e = el.value.trim();
   if (!e || !e.includes('@')) { el.style.borderColor = 'rgba(220,38,38,0.6)'; return; }
-  window.location.href = '/onboarding?email=' + encodeURIComponent(e);
+  window.location.href = '/onboarding.html?email=' + encodeURIComponent(e);
 }
 
 function go(inputId) {
@@ -669,7 +669,7 @@ function go(inputId) {
   if (!el) return;
   const e = el.value.trim();
   if (!e || !e.includes('@')) { el.style.borderColor = 'rgba(220,38,38,0.6)'; return; }
-  window.location.href = '/onboarding?email=' + encodeURIComponent(e);
+  window.location.href = '/onboarding.html?email=' + encodeURIComponent(e);
 }
 </script>
 </body>
