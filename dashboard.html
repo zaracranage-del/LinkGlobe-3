@@ -595,6 +595,17 @@ const tagFields = [
 // ── INIT ───────────────────────────────────────────────────────
 (async function init() {
   try {
+    // 0. Check for auth error in URL hash (e.g. expired magic link)
+    const hashParams = new URLSearchParams(window.location.hash.replace('#', ''));
+    if (hashParams.get('error')) {
+      const code = hashParams.get('error_code') || '';
+      const msg  = code === 'otp_expired'
+        ? 'expired'
+        : 'invalid';
+      window.location.href = '/login.html?link=' + msg;
+      return;
+    }
+
     // 1. Check auth — redirect to login if no session
     const { data: { session } } = await sb.auth.getSession();
     if (!session) {

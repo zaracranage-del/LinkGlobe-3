@@ -99,10 +99,24 @@ sb.auth.getSession().then(({ data: { session } }) => {
 });
 
 // Also listen for auth state changes — handles clicking the magic link
-// (Supabase processes the token in the URL and fires this event)
 sb.auth.onAuthStateChange((event, session) => {
   if (session) window.location.href = '/dashboard.html';
 });
+
+// Show message if redirected back due to expired/invalid link
+(function() {
+  const p = new URLSearchParams(window.location.search);
+  const linkStatus = p.get('link');
+  if (linkStatus === 'expired') {
+    const b = document.getElementById('errBanner');
+    b.textContent = 'That sign-in link has expired. Enter your email below and we\'ll send a fresh one.';
+    b.style.display = 'block';
+  } else if (linkStatus === 'invalid') {
+    const b = document.getElementById('errBanner');
+    b.textContent = 'That sign-in link is no longer valid. Request a new one below.';
+    b.style.display = 'block';
+  }
+})();
 
 async function sendLink() {
   const emailInput = document.getElementById('email');
