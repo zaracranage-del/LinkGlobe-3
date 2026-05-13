@@ -407,7 +407,7 @@ async function proceedFromPlan() {
   // Paid plan — save now and go straight to Stripe
   const btn      = document.getElementById('step3Btn');
   const errBox   = document.getElementById('step3Err');
-  const email    = document.getElementById('femail').value.trim();
+  const email    = document.getElementById('femail').value.trim().toLowerCase();
   const handle   = document.getElementById('fhandle').value.trim().toLowerCase();
   const name     = document.getElementById('fname').value.trim();
 
@@ -492,7 +492,7 @@ async function finish() {
 
   try {
     const handle = document.getElementById('fhandle').value.trim().toLowerCase();
-    const email  = document.getElementById('femail').value.trim();
+    const email  = document.getElementById('femail').value.trim().toLowerCase();
 
     const { data: existing } = await sb.from('signups').select('handle, email').eq('handle', handle);
     const handleOwnedBySameEmail = existing && existing.length > 0 && existing[0].email === email;
