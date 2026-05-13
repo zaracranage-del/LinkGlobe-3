@@ -593,33 +593,14 @@ const tagFields = [
 ];
 
 // ── INIT ───────────────────────────────────────────────────────
-// Check for Supabase auth error in hash immediately (e.g. expired magic link)
-(function() {
-  const hashParams = new URLSearchParams(window.location.hash.replace('#', ''));
-  if (hashParams.get('error')) {
-    const code = hashParams.get('error_code') || '';
-    window.location.href = '/login.html?link=' + (code === 'otp_expired' ? 'expired' : 'invalid');
-  }
-})();
-
-// Use onAuthStateChange instead of getSession() — getSession() has a race
-// condition where it runs before Supabase has finished parsing the
-// #access_token hash from a magic link. onAuthStateChange fires after.
 let _dashboardLoaded = false;
-sb.auth.onAuthStateChange(async (event, session) => {
+
+async function _loadDashboard(session) {
   if (_dashboardLoaded) return;
-  if (event !== 'SIGNED_IN' && event !== 'INITIAL_SESSION') return;
   _dashboardLoaded = true;
-
-  if (!session) {
-    window.location.href = '/login.html';
-    return;
-  }
-
   try {
     userEmail = session.user.email;
 
-    // Handle post-Stripe upgrade redirect (?upgraded=creator or ?upgraded=pro)
     const params = new URLSearchParams(window.location.search);
     const upgradedPlan = params.get('upgraded');
     if (upgradedPlan && ['creator', 'pro'].includes(upgradedPlan)) {
@@ -628,7 +609,6 @@ sb.auth.onAuthStateChange(async (event, session) => {
       showToast('🎉 Upgraded to ' + upgradedPlan.charAt(0).toUpperCase() + upgradedPlan.slice(1) + ' successfully!');
     }
 
-    // Load profile from Supabase
     const { data: dbProfile, error: profileErr } = await sb
       .from('signups').select('*').eq('email', userEmail).single();
 
@@ -665,10 +645,39 @@ sb.auth.onAuthStateChange(async (event, session) => {
 
   } catch (e) {
     console.error('Dashboard error:', e);
-    const overlay = document.getElementById('loadingOverlay');
-    overlay.innerHTML = '<div style="text-align:center;padding:40px;font-family:sans-serif"><p style="color:#dc2626;margin-bottom:16px;font-size:15px">Something went wrong loading your dashboard.</p><a href="/login.html" style="color:#4f46e5;font-weight:600;font-size:14px">Sign in again →</a></div>';
+    document.getElementById('loadingOverlay').innerHTML =
+      '<div style="text-align:center;padding:40px;font-family:sans-serif">' +
+      '<p style="color:#dc2626;margin-bottom:16px;font-size:15px">Something went wrong loading your dashboard.</p>' +
+      '<a href="/login.html" style="color:#4f46e5;font-weight:600;font-size:14px">Sign in again →</a></div>';
   }
+}
+
+// Handle magic link clicks: onAuthStateChange fires AFTER Supabase
+// processes the #access_token hash, so we catch fresh sign-ins here.
+sb.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN' && session) _loadDashboard(session);
 });
+
+// Handle normal navigation (cached session already in localStorage).
+// Also detects expired/invalid link errors in the hash.
+(async function() {
+  const hash = new URLSearchParams(window.location.hash.replace('#', ''));
+  if (hash.get('error')) {
+    const code = hash.get('error_code') || '';
+    window.location.href = '/login.html?link=' + (code === 'otp_expired' ? 'expired' : 'invalid');
+    return;
+  }
+  // If there's an access_token in the hash, let onAuthStateChange handle it
+  if (hash.get('access_token')) return;
+
+  // No magic link hash — check for an existing cached session
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    _loadDashboard(session);
+  } else {
+    window.location.href = '/login.html';
+  }
+})();
 
 // ── RENDER ─────────────────────────────────────────────────────
 function renderAll() {
