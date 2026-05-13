@@ -595,10 +595,30 @@ const tagFields = [
 // ── INIT ───────────────────────────────────────────────────────
 let _dashboardLoaded = false;
 
+function _setLoadMsg(msg) {
+  const p = document.querySelector('#loadingOverlay p');
+  if (p) p.textContent = msg;
+}
+
 async function _loadDashboard(session) {
   if (_dashboardLoaded) return;
   _dashboardLoaded = true;
+
+  // Timeout: if nothing finishes in 12s, show what step we're on
+  const timeoutId = setTimeout(() => {
+    const p = document.querySelector('#loadingOverlay p');
+    const step = p ? p.textContent : '?';
+    document.getElementById('loadingOverlay').innerHTML =
+      '<div style="text-align:center;padding:40px;font-family:sans-serif;max-width:400px;margin:0 auto">' +
+      '<p style="font-size:22px;margin-bottom:12px">⏱</p>' +
+      '<p style="font-weight:600;font-size:15px;margin-bottom:8px">Connection timed out</p>' +
+      '<p style="color:#64646a;font-size:13px;margin-bottom:6px">Stuck at: <strong>' + step + '</strong></p>' +
+      '<p style="color:#64646a;font-size:12px;margin-bottom:20px">This usually means Supabase RLS is blocking the request, or the table doesn\'t exist yet.</p>' +
+      '<a href="/login.html" style="color:#4f46e5;font-weight:600;font-size:14px">Try again →</a></div>';
+  }, 12000);
+
   try {
+    _setLoadMsg('Checking session…');
     userEmail = session.user.email;
 
     const params = new URLSearchParams(window.location.search);
@@ -609,15 +629,18 @@ async function _loadDashboard(session) {
       showToast('🎉 Upgraded to ' + upgradedPlan.charAt(0).toUpperCase() + upgradedPlan.slice(1) + ' successfully!');
     }
 
+    _setLoadMsg('Loading your profile…');
     const { data: dbProfile, error: profileErr } = await sb
       .from('signups').select('*').eq('email', userEmail).single();
 
     if (profileErr || !dbProfile) {
+      clearTimeout(timeoutId);
       document.getElementById('loadingOverlay').innerHTML =
         '<div style="text-align:center;padding:40px;font-family:sans-serif;max-width:360px;margin:0 auto">' +
         '<p style="font-size:22px;margin-bottom:12px">⚠️</p>' +
         '<p style="font-weight:600;margin-bottom:8px;font-size:15px">Profile not found</p>' +
-        '<p style="color:#64646a;font-size:13px;margin-bottom:20px">Signed in as <strong>' + userEmail + '</strong> but no LinkGlobe account exists for this email.</p>' +
+        '<p style="color:#64646a;font-size:13px;margin-bottom:4px">Signed in as <strong>' + userEmail + '</strong></p>' +
+        '<p style="color:#64646a;font-size:12px;margin-bottom:20px">Error: ' + (profileErr ? profileErr.message : 'no row returned') + '</p>' +
         '<a href="/onboarding.html" style="display:inline-block;background:#0a0a0a;color:#fff;padding:11px 22px;border-radius:50px;font-size:14px;font-weight:600;text-decoration:none;margin-right:8px">Create account →</a>' +
         '<a href="/login.html" style="display:inline-block;color:#4f46e5;font-size:13px;font-weight:500">Wrong account?</a>' +
         '</div>';
@@ -640,21 +663,24 @@ async function _loadDashboard(session) {
       tagJP:     dbProfile.tag_jp    || '',
     };
 
+    _setLoadMsg('Loading your links…');
     const { data: dbProducts } = await sb
       .from('products').select('*')
       .eq('handle', profile.handle)
       .order('created_at', { ascending: false });
     products = dbProducts || [];
 
+    clearTimeout(timeoutId);
     document.getElementById('loadingOverlay').classList.add('hidden');
     renderAll();
     loadClickCount();
 
   } catch (e) {
+    clearTimeout(timeoutId);
     console.error('Dashboard error:', e);
     document.getElementById('loadingOverlay').innerHTML =
       '<div style="text-align:center;padding:40px;font-family:sans-serif">' +
-      '<p style="color:#dc2626;margin-bottom:16px;font-size:15px">Something went wrong loading your dashboard.</p>' +
+      '<p style="color:#dc2626;margin-bottom:8px;font-size:15px">Error: ' + e.message + '</p>' +
       '<a href="/login.html" style="color:#4f46e5;font-weight:600;font-size:14px">Sign in again →</a></div>';
   }
 }
