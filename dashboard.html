@@ -858,7 +858,21 @@ function _parseImageFromHtml(html) {
   return '';
 }
 
-async function fetchOgImage(url) {
+// Strip ad/tracking params — proxies reject long URLs with gclid, gad_source etc.
+function _cleanUrl(url) {
+  try {
+    const u = new URL(url);
+    const adParams = ['gclid','gclsrc','gad_source','gad_campaignid','gbraid','dxid','dxgaid',
+                      'utm_source','utm_medium','utm_campaign','utm_term','utm_content',
+                      'fbclid','msclkid','twclid','ref','referrer'];
+    adParams.forEach(p => u.searchParams.delete(p));
+    return u.toString();
+  } catch { return url; }
+}
+
+async function fetchOgImage(rawUrl) {
+  const url = _cleanUrl(rawUrl);
+
   // Primary: microlink.io — renders JS-heavy pages (Sephora, CT, SKIMS etc.)
   try {
     const res = await fetch('https://api.microlink.io/?url=' + encodeURIComponent(url),
@@ -870,7 +884,7 @@ async function fetchOgImage(url) {
     }
   } catch {}
 
-  // Fallback 1: allorigins (returns JSON wrapper)
+  // Fallback 1: allorigins
   try {
     const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url),
       { signal: AbortSignal.timeout(9000) });
@@ -883,7 +897,7 @@ async function fetchOgImage(url) {
     }
   } catch {}
 
-  // Fallback 2: corsproxy.io (returns raw HTML)
+  // Fallback 2: corsproxy.io
   try {
     const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url),
       { signal: AbortSignal.timeout(9000) });
