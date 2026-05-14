@@ -859,7 +859,18 @@ function _parseImageFromHtml(html) {
 }
 
 async function fetchOgImage(url) {
-  // Proxy 1: allorigins (returns JSON wrapper)
+  // Primary: microlink.io — renders JS-heavy pages (Sephora, CT, SKIMS etc.)
+  try {
+    const res = await fetch('https://api.microlink.io/?url=' + encodeURIComponent(url),
+      { signal: AbortSignal.timeout(12000) });
+    if (res.ok) {
+      const data = await res.json();
+      const img = data?.data?.image?.url;
+      if (img && img.startsWith('http')) return img;
+    }
+  } catch {}
+
+  // Fallback 1: allorigins (returns JSON wrapper)
   try {
     const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url),
       { signal: AbortSignal.timeout(9000) });
@@ -872,7 +883,7 @@ async function fetchOgImage(url) {
     }
   } catch {}
 
-  // Proxy 2: corsproxy.io (returns raw HTML)
+  // Fallback 2: corsproxy.io (returns raw HTML)
   try {
     const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url),
       { signal: AbortSignal.timeout(9000) });
@@ -1285,14 +1296,24 @@ function copyCollLink(link, btn) {
 
 async function createCollection() {
   var name = document.getElementById('collNameInput').value.trim();
-  if (!name) return;
+  if (!name) { showToast('Type a collection name first'); return; }
   var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  var btn = document.querySelector('.btn-coll-create');
+  if (btn) { btn.textContent = 'Creating…'; btn.disabled = true; }
   var res = await sb.from('collections').insert({ handle: profile.handle, user_email: userEmail, name: name, slug: slug }).select().single();
-  if (res.error) { showToast('Error: ' + res.error.message); return; }
+  if (btn) { btn.textContent = 'Create'; btn.disabled = false; }
+  if (res.error) {
+    if (res.error.message.includes('does not exist')) {
+      showToast('⚠️ Run the SQL in Supabase first to create the collections table');
+    } else {
+      showToast('❌ ' + res.error.message);
+    }
+    return;
+  }
   document.getElementById('collNameInput').value = '';
   collections.unshift(res.data);
   renderCollections();
-  showToast('Collection created');
+  showToast('✓ Collection created');
 }
 
 async function deleteCollection(id) {
