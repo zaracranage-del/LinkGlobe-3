@@ -906,13 +906,7 @@ async function refreshMissingImages() {
   let anyUpdated = false;
   for (const p of missing) {
     try {
-      let img = '';
-      if (p.store === 'amazon') {
-        const asin = extractAsin(p.original_url);
-        if (asin) img = 'https://images-na.ssl-images-amazon.com/images/P/' + asin + '.01._SCLZZZZZZZ_.jpg';
-      } else {
-        img = await fetchOgImage(p.original_url);
-      }
+      let img = await fetchOgImage(p.original_url);
       if (!img) continue;
       p.image = img;
       await sb.from('products').update({ image: img }).eq('id', p.id);
@@ -995,12 +989,7 @@ async function addProduct() {
     }, 700);
   });
 
-  let productImage = '';
-  if (asin) {
-    productImage = 'https://images-na.ssl-images-amazon.com/images/P/' + asin + '.01._SCLZZZZZZZ_.jpg';
-  } else {
-    productImage = await fetchOgImage(raw);
-  }
+  let productImage = await fetchOgImage(raw);
 
   const newProduct = {
     handle:       profile.handle,
@@ -1319,7 +1308,7 @@ async function createCollection() {
   }
   _collError('');
   document.getElementById('collNameInput').value = '';
-  collections.unshift(res.data);
+  collections.unshift(Object.assign({ collection_products: [] }, res.data));
   renderCollections();
   showToast('✓ Collection created');
 }
