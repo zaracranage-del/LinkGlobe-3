@@ -221,8 +221,10 @@ a { text-decoration: none; color: inherit; }
 .pc.featured .pc-feats li { color: rgba(255,255,255,.75); }
 .pc-feats li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; font-size: 12px; margin-top: 1px; }
 .pc.featured .pc-feats li::before { color: #86efac; }
-.pc-feats li.off { color: var(--pale); }
-.pc-feats li.off::before { content: '—'; color: var(--border); }
+.pc-feats li.off { color: var(--muted); }
+.pc-feats li.off::before { content: '✗'; color: var(--red); font-size: 11px; }
+.pc.featured .pc-feats li.off { color: rgba(255,255,255,.3); }
+.pc.featured .pc-feats li.off::before { content: '✗'; color: #f87171; }
 .btn-plan { display: block; text-align: center; padding: 12px 20px; border-radius: 50px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--border2); color: var(--black); transition: all .2s; font-family: 'DM Sans', sans-serif; background: white; }
 .btn-plan:hover { border-color: var(--black); }
 .btn-plan.primary { background: white; color: var(--black); border-color: white; font-weight: 600; }
@@ -485,19 +487,20 @@ footer nav a:hover { color: var(--black); }
   <div class="price-grid">
 
     <!-- FREE -->
+    <!-- FREE -->
     <div class="pc">
       <div class="pc-tier">Free</div>
       <div class="pc-price"><sup>$</sup>0<sub>/mo</sub></div>
       <p class="pc-desc">Dip your toes in. Start earning from Amazon globally — no card needed.</p>
       <ul class="pc-feats">
         <li>5 products</li>
-        <li>Amazon geo-redirect (all regions)</li>
+        <li class="off">Brand redirects — SKIMS, Sephora, ASOS, Charlotte Tilbury + more</li>
         <li>All countries supported</li>
-        <li>Your storefront at linkglobe.co/you</li>
-        <li class="off">Brand redirects (SKIMS, Sephora etc.)</li>
         <li class="off">Click analytics</li>
-        <li class="off">Custom storefront colour</li>
-        <li class="off">Affiliate program manager</li>
+        <li class="off">Custom storefront accent colour</li>
+        <li class="off">Email support</li>
+        <li class="off">Custom domain</li>
+        <li class="off">Multiple storefronts</li>
       </ul>
       <a href="/onboarding.html" class="btn-plan">Get started free</a>
     </div>
@@ -515,11 +518,8 @@ footer nav a:hover { color: var(--black); }
         <li>Total click count per product</li>
         <li>Custom storefront accent colour</li>
         <li>Email support</li>
-        <li class="off">Full analytics dashboard</li>
-        <li class="off">Affiliate program manager</li>
-        <li class="off">Unlimited products</li>
         <li class="off">Custom domain</li>
-        <li class="off">Remove LinkGlobe branding</li>
+        <li class="off">Multiple storefronts</li>
       </ul>
       <a href="/onboarding.html?plan=creator" class="btn-plan primary">Start 14-day free trial →</a>
     </div>
@@ -529,16 +529,16 @@ footer nav a:hover { color: var(--black); }
       <div class="pc-badge" style="background:var(--black);color:white">For serious creators</div>
       <div class="pc-tier">Pro</div>
       <div class="pc-price"><sup>$</sup>29<sub>/mo</sub></div>
-      <p class="pc-desc">The full picture. Know exactly who's buying, from where, and make it look 100% yours.</p>
+      <p class="pc-desc">The full picture. Unlimited products, full analytics, and it looks 100% yours.</p>
       <ul class="pc-feats">
-        <li>Everything in Creator</li>
         <li><span class="f-wrap"><span class="f-name">Unlimited products</span><span class="f-sub">No ceiling — add everything you love</span></span></li>
-        <li><span class="f-wrap"><span class="f-name">Full analytics dashboard</span><span class="f-sub">Countries · links · referrers · devices · OS · browsers</span></span></li>
-        <li><span class="f-wrap"><span class="f-name">Affiliate program manager</span><span class="f-sub">Connect any network — Rakuten, LTK, Awin, CJ, Impact — keep 100% commission</span></span></li>
-        <li><span class="f-wrap"><span class="f-name">Your own domain</span><span class="f-sub">shop.yourname.com — looks completely yours</span></span></li>
-        <li><span class="f-wrap"><span class="f-name">Multiple storefronts</span><span class="f-sub">Separate shops for fashion, beauty, home — whatever you need</span></span></li>
-        <li><span class="f-wrap"><span class="f-name">100% your brand</span><span class="f-sub">No LinkGlobe watermark — anywhere, ever</span></span></li>
-        <li><span class="f-wrap"><span class="f-name">Priority support</span><span class="f-sub">Next business day response — jump the queue</span></span></li>
+        <li><span class="f-wrap"><span class="f-name">All brand redirects</span><span class="f-sub">SKIMS, Sephora, ASOS, Charlotte Tilbury + more</span></span></li>
+        <li>All countries supported</li>
+        <li><span class="f-wrap"><span class="f-name">Full analytics dashboard</span><span class="f-sub">Countries · referrers · devices · browsers</span></span></li>
+        <li>Custom storefront accent colour</li>
+        <li>Priority support</li>
+        <li><span class="f-wrap"><span class="f-name">Custom domain</span><span class="f-sub">shop.yourname.com — looks completely yours</span></span></li>
+        <li><span class="f-wrap"><span class="f-name">Multiple storefronts</span><span class="f-sub">Separate shops for fashion, beauty, home</span></span></li>
       </ul>
       <a href="/onboarding.html?plan=pro" class="btn-plan">Get Pro →</a>
     </div>

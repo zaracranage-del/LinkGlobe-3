@@ -56,29 +56,32 @@ input.err{border-color:var(--red)}
   <!-- Login form -->
   <div id="formWrap">
     <h1>Welcome back</h1>
-    <p class="subtitle">Enter your email and we'll send you a magic link to sign in instantly — no password needed.</p>
+    <p class="subtitle">Sign in to your LinkGlobe dashboard.</p>
 
     <div class="err-banner" id="errBanner"></div>
 
-    <div>
+    <div style="margin-bottom:14px">
       <label for="email">Email address</label>
       <input type="email" id="email" placeholder="jane@example.com" autocomplete="email"
-             onkeydown="if(event.key==='Enter')sendLink()">
-      <p class="err-msg" id="errMsg"></p>
+             onkeydown="if(event.key==='Enter')signIn()">
+      <p class="err-msg" id="errEmail"></p>
     </div>
 
-    <button class="btn" id="sendBtn" onclick="sendLink()">
-      <div class="spin"></div>
-      <span class="btn-txt">Send magic link →</span>
-    </button>
-  </div>
+    <div style="margin-bottom:4px">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Your password" autocomplete="current-password"
+             onkeydown="if(event.key==='Enter')signIn()">
+      <p class="err-msg" id="errPass"></p>
+    </div>
 
-  <!-- Success state (shown after email sent) -->
-  <div class="success" id="successWrap">
-    <div class="success-icon">✉️</div>
-    <h2>Check your email</h2>
-    <p>We've sent a magic link to <span class="email-highlight" id="sentEmail"></span>.<br>
-    Click the link in that email to sign in — it's valid for 60 minutes.</p>
+    <p style="text-align:right;margin-bottom:16px">
+      <a href="#" onclick="forgotPassword();return false;" style="font-size:12px;color:var(--indigo2)">Forgot password?</a>
+    </p>
+
+    <button class="btn" id="signInBtn" onclick="signIn()">
+      <div class="spin"></div>
+      <span class="btn-txt">Sign in →</span>
+    </button>
   </div>
 
   <div class="card-footer">
@@ -98,58 +101,45 @@ sb.auth.getSession().then(({ data: { session } }) => {
   if (session) window.location.href = '/dashboard.html';
 });
 
-// Also listen for auth state changes — handles clicking the magic link
 sb.auth.onAuthStateChange((event, session) => {
   if (session) window.location.href = '/dashboard.html';
 });
 
-// Show message if redirected back due to expired/invalid link
-(function() {
-  const p = new URLSearchParams(window.location.search);
-  const linkStatus = p.get('link');
-  if (linkStatus === 'expired') {
-    const b = document.getElementById('errBanner');
-    b.textContent = 'That sign-in link has expired. Enter your email below and we\'ll send a fresh one.';
-    b.style.display = 'block';
-  } else if (linkStatus === 'invalid') {
-    const b = document.getElementById('errBanner');
-    b.textContent = 'That sign-in link is no longer valid. Request a new one below.';
-    b.style.display = 'block';
-  }
-})();
-
-async function sendLink() {
+async function signIn() {
   const emailInput = document.getElementById('email');
-  const errMsg     = document.getElementById('errMsg');
+  const passInput  = document.getElementById('password');
+  const errEmail   = document.getElementById('errEmail');
+  const errPass    = document.getElementById('errPass');
   const errBanner  = document.getElementById('errBanner');
-  const btn        = document.getElementById('sendBtn');
+  const btn        = document.getElementById('signInBtn');
   const email      = emailInput.value.trim();
+  const password   = passInput.value;
 
-  errMsg.textContent = '';
+  errEmail.textContent = '';
+  errPass.textContent  = '';
   errBanner.style.display = 'none';
-  if (!email) { errMsg.textContent = 'Please enter your email'; emailInput.classList.add('err'); return; }
-  if (!email.includes('@')) { errMsg.textContent = 'Please enter a valid email'; emailInput.classList.add('err'); return; }
   emailInput.classList.remove('err');
+  passInput.classList.remove('err');
+
+  let valid = true;
+  if (!email) { errEmail.textContent = 'Please enter your email'; emailInput.classList.add('err'); valid = false; }
+  if (!password) { errPass.textContent = 'Please enter your password'; passInput.classList.add('err'); valid = false; }
+  if (!valid) return;
 
   btn.disabled = true;
   btn.classList.add('loading');
 
   try {
-    const { error } = await sb.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: 'https://linkglobe.co/dashboard.html' }
-    });
-
+    const { error } = await sb.auth.signInWithPassword({ email, password });
     if (error) {
-      errBanner.textContent = 'Could not send link: ' + error.message + '. Please try again.';
+      if (error.message.toLowerCase().includes('invalid login')) {
+        errBanner.textContent = 'Incorrect email or password. Please try again.';
+      } else {
+        errBanner.textContent = error.message;
+      }
       errBanner.style.display = 'block';
-      return;
     }
-
-    document.getElementById('sentEmail').textContent = email;
-    document.getElementById('formWrap').style.display = 'none';
-    document.getElementById('successWrap').style.display = 'block';
-
+    // on success onAuthStateChange fires and redirects
   } catch (e) {
     errBanner.textContent = 'Something went wrong. Check your connection and try again.';
     errBanner.style.display = 'block';
@@ -157,6 +147,33 @@ async function sendLink() {
     btn.disabled = false;
     btn.classList.remove('loading');
   }
+}
+
+async function forgotPassword() {
+  const email = document.getElementById('email').value.trim();
+  const errBanner = document.getElementById('errBanner');
+  errBanner.style.display = 'none';
+
+  if (!email) {
+    errBanner.textContent = 'Enter your email address above, then click Forgot password.';
+    errBanner.style.display = 'block';
+    errBanner.style.background = '#eff6ff';
+    errBanner.style.borderColor = '#bfdbfe';
+    errBanner.style.color = '#1d4ed8';
+    return;
+  }
+
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://linkglobe.co/dashboard.html'
+  });
+
+  errBanner.style.background = '#f0fdf4';
+  errBanner.style.borderColor = '#bbf7d0';
+  errBanner.style.color = '#15803d';
+  errBanner.textContent = error
+    ? 'Could not send reset email: ' + error.message
+    : 'Password reset email sent! Check your inbox.';
+  errBanner.style.display = 'block';
 }
 </script>
 </body>

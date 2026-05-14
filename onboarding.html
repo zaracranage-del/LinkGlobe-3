@@ -57,7 +57,7 @@ a{text-decoration:none;color:inherit}
 @keyframes fin{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
 .field{margin-bottom:16px}
 label{display:block;font-size:13px;font-weight:500;color:var(--ink);margin-bottom:5px}
-input[type=text],input[type=email],textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--black);background:var(--bg);outline:none;transition:border-color .2s}
+input[type=text],input[type=email],input[type=password],textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--black);background:var(--bg);outline:none;transition:border-color .2s}
 input:focus,textarea:focus{border-color:var(--black)}
 input.err{border-color:var(--red)}
 textarea{resize:vertical;min-height:70px}
@@ -74,13 +74,19 @@ textarea{resize:vertical;min-height:70px}
 .handle-avail.free{background:#f0fdf4;color:var(--green)}
 .err-msg{font-size:12px;color:var(--red);margin-top:4px}
 .plan-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-.plan-opt{border:1.5px solid var(--border);border-radius:10px;padding:13px 16px;cursor:pointer;transition:all .15s;display:flex;justify-content:space-between;align-items:center;background:var(--warm)}
+.plan-opt{border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;gap:10px;background:var(--warm)}
 .plan-opt:hover{border-color:var(--border2);background:var(--warm2)}
-.plan-opt.sel{border-color:var(--black);background:var(--bg)}
-.po-l strong{display:block;font-size:14px;font-weight:500;color:var(--black);margin-bottom:1px}
-.po-l span{font-size:12px;color:var(--muted)}
-.po-p{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gray)}
+.plan-opt.sel{border-color:var(--black);background:var(--bg);box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.po-top{display:flex;justify-content:space-between;align-items:baseline}
+.po-top strong{font-size:14px;font-weight:600;color:var(--black)}
+.po-p{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--gray)}
 .plan-opt.sel .po-p{color:var(--black)}
+.po-feats{display:flex;flex-direction:column;gap:4px}
+.po-feat{display:flex;align-items:baseline;gap:7px;font-size:12px;color:var(--gray);line-height:1.4}
+.po-feat .ck{flex-shrink:0;font-size:11px;width:13px;font-weight:700}
+.po-feat.yes .ck{color:var(--green)}
+.po-feat.no .ck{color:var(--red)}
+.po-feat.no{color:var(--muted)}
 .trial-note{font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
 .aff-info{line-height:1.6;background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px}
 .aff-info h4{font-size:13px;font-weight:500;color:var(--black);margin-bottom:4px}
@@ -156,7 +162,6 @@ textarea{resize:vertical;min-height:70px}
       <div class="si active" id="si1"><div class="si-dot" id="sd1">1</div><div class="si-txt">Create your account</div></div>
       <div class="si" id="si2"><div class="si-dot" id="sd2">2</div><div class="si-txt">Claim your storefront</div></div>
       <div class="si" id="si3"><div class="si-dot" id="sd3">3</div><div class="si-txt">Choose your plan</div></div>
-      <div class="si" id="si4"><div class="si-dot" id="sd4">4</div><div class="si-txt">Affiliate tags</div></div>
     </div>
   </div>
 </div>
@@ -171,8 +176,7 @@ textarea{resize:vertical;min-height:70px}
       <div class="ind active" id="ind1"></div>
       <div class="ind" id="ind2"></div>
       <div class="ind" id="ind3"></div>
-      <div class="ind" id="ind4"></div>
-      <span class="ind-lbl" id="indLbl">Step 1 of 4</span>
+      <span class="ind-lbl" id="indLbl">Step 1 of 3</span>
     </div>
 
     <!-- Step 1: Account -->
@@ -186,6 +190,11 @@ textarea{resize:vertical;min-height:70px}
         <label>Email address</label>
         <input type="email" id="femail" placeholder="jane@example.com" autocomplete="email">
         <p class="err-msg" id="e-email"></p>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="fpassword" placeholder="At least 8 characters" autocomplete="new-password">
+        <p class="err-msg" id="e-password"></p>
       </div>
       <div class="field">
         <label>Short bio <span style="color:var(--muted);font-weight:400">(optional)</span></label>
@@ -224,16 +233,43 @@ textarea{resize:vertical;min-height:70px}
     <div class="fstep" id="step3">
       <div class="plan-opts">
         <div class="plan-opt" id="po-free" onclick="selPlan('free')">
-          <div class="po-l"><strong>Free</strong><span>5 products · Amazon only · All countries</span></div>
-          <div class="po-p">$0</div>
+          <div class="po-top"><strong>Free</strong><div class="po-p">$0</div></div>
+          <div class="po-feats">
+            <div class="po-feat yes"><span class="ck">✓</span>5 products</div>
+            <div class="po-feat no"><span class="ck">✗</span>Amazon only — no brand redirects</div>
+            <div class="po-feat yes"><span class="ck">✓</span>All countries supported</div>
+            <div class="po-feat no"><span class="ck">✗</span>Click analytics</div>
+            <div class="po-feat no"><span class="ck">✗</span>Custom storefront accent colour</div>
+            <div class="po-feat no"><span class="ck">✗</span>Email support</div>
+            <div class="po-feat no"><span class="ck">✗</span>Custom domain</div>
+            <div class="po-feat no"><span class="ck">✗</span>Multiple storefronts</div>
+          </div>
         </div>
         <div class="plan-opt sel" id="po-creator" onclick="selPlan('creator')">
-          <div class="po-l"><strong>Creator ★</strong><span>20 products · All brand redirects · Click analytics · Custom storefront colour</span></div>
-          <div class="po-p">$16<sub style="font-size:13px;color:var(--muted)">/mo</sub></div>
+          <div class="po-top"><strong>Creator ★</strong><div class="po-p">$16<sub style="font-size:12px;color:var(--muted)">/mo</sub></div></div>
+          <div class="po-feats">
+            <div class="po-feat yes"><span class="ck">✓</span>20 products</div>
+            <div class="po-feat yes"><span class="ck">✓</span>All brand redirects — SKIMS, Sephora, ASOS, Charlotte Tilbury + more</div>
+            <div class="po-feat yes"><span class="ck">✓</span>All countries supported</div>
+            <div class="po-feat yes"><span class="ck">✓</span>Total click count per product</div>
+            <div class="po-feat yes"><span class="ck">✓</span>Custom storefront accent colour</div>
+            <div class="po-feat yes"><span class="ck">✓</span>Email support</div>
+            <div class="po-feat no"><span class="ck">✗</span>Custom domain</div>
+            <div class="po-feat no"><span class="ck">✗</span>Multiple storefronts</div>
+          </div>
         </div>
         <div class="plan-opt" id="po-pro" onclick="selPlan('pro')">
-          <div class="po-l"><strong>Pro</strong><span>Unlimited products · Full analytics · Custom domain · Multiple storefronts</span></div>
-          <div class="po-p">$29<sub style="font-size:13px;color:var(--muted)">/mo</sub></div>
+          <div class="po-top"><strong>Pro</strong><div class="po-p">$29<sub style="font-size:12px;color:var(--muted)">/mo</sub></div></div>
+          <div class="po-feats">
+            <div class="po-feat yes"><span class="ck">✓</span>Unlimited products</div>
+            <div class="po-feat yes"><span class="ck">✓</span>All brand redirects — SKIMS, Sephora, ASOS, Charlotte Tilbury + more</div>
+            <div class="po-feat yes"><span class="ck">✓</span>All countries supported</div>
+            <div class="po-feat yes"><span class="ck">✓</span>Full analytics dashboard</div>
+            <div class="po-feat yes"><span class="ck">✓</span>Custom storefront accent colour</div>
+            <div class="po-feat yes"><span class="ck">✓</span>Priority support</div>
+            <div class="po-feat yes"><span class="ck">✓</span>Custom domain</div>
+            <div class="po-feat yes"><span class="ck">✓</span>Multiple storefronts</div>
+          </div>
         </div>
       </div>
       <p class="trial-note" id="trialNote">✓ 14-day free trial — no credit card required</p>
@@ -242,29 +278,8 @@ textarea{resize:vertical;min-height:70px}
       <button class="btn-back" onclick="go(2)">← Back</button>
     </div>
 
-    <!-- Step 4: Affiliate tags -->
-    <div class="fstep" id="step4">
-      <div class="aff-info">
-        <h4>What is an affiliate tag?</h4>
-        <p>When you join Amazon's affiliate program, they give you a unique tracking code — your <strong>tag</strong>. Every time a fan buys through a link that includes your tag, Amazon pays you a commission (usually 3–8%).</p>
-        <p style="margin-top:8px">A product URL with your tag looks like this:</p>
-        <div style="background:#f0ede6;border-radius:8px;padding:10px 12px;margin:8px 0;font-family:monospace;font-size:11px;word-break:break-all;color:#64646a">amazon.com.au/dp/B08XYZ<strong style="color:#0a0a0a">?tag=yourname-21</strong></div>
-        <p>Each country's Amazon is a <strong>separate program</strong> with a <strong>separate tag</strong>. That's why we ask for each one — so every fan, wherever they are, earns you commission. You can add more tags any time from your dashboard.</p>
-        <p style="margin-top:8px;font-size:12px;color:#a0a0a8">👉 Find your tags: Amazon Associates → <em>Tools → Manage Your Tags</em></p>
-      </div>
-      <div class="tags-grid">
-        <div class="tag-f"><label>🇦🇺 Australia</label><input type="text" id="tAU" placeholder="yourname-21"></div>
-        <div class="tag-f"><label>🇺🇸 United States</label><input type="text" id="tUS" placeholder="yourname-20"></div>
-        <div class="tag-f"><label>🇬🇧 United Kingdom</label><input type="text" id="tUK" placeholder="yourname-21"></div>
-        <div class="tag-f"><label>🇨🇦 Canada</label><input type="text" id="tCA" placeholder="yourname-21"></div>
-        <div class="tag-f"><label>🇩🇪 Germany</label><input type="text" id="tDE" placeholder="yourname-21"></div>
-        <div class="tag-f"><label>🇯🇵 Japan</label><input type="text" id="tJP" placeholder="yourname-21"></div>
-      </div>
-      <div class="err-banner" id="errBanner"></div>
-      <button class="btn-next" id="finBtn" onclick="finish()" style="margin-top:16px">Create my storefront →</button>
-      <button class="btn-back" onclick="go(3)">← Back</button>
-      <p class="skip-link" onclick="finish()">Skip for now — I'll add tags in my dashboard</p>
-    </div>
+    <!-- Step 3 finish error -->
+    <div class="err-banner" id="errBanner" style="display:none;margin-top:12px"></div>
   </div>
 
   <!-- Success -->
@@ -370,6 +385,9 @@ function go(n) {
       else { document.getElementById('fname').classList.remove('err'); document.getElementById('e-name').textContent=''; }
       if (!em || !em.includes('@')) { document.getElementById('femail').classList.add('err'); document.getElementById('e-email').textContent='Enter a valid email'; ok=false; }
       else { document.getElementById('femail').classList.remove('err'); document.getElementById('e-email').textContent=''; }
+      const pw = document.getElementById('fpassword').value;
+      if (pw.length < 8) { document.getElementById('fpassword').classList.add('err'); document.getElementById('e-password').textContent='Password must be at least 8 characters'; ok=false; }
+      else { document.getElementById('fpassword').classList.remove('err'); document.getElementById('e-password').textContent=''; }
       if (!ok) return;
     }
     if (step === 2) {
@@ -385,8 +403,8 @@ function go(n) {
   document.getElementById('step'+step).classList.add('active');
   document.getElementById('stepTitle').textContent = titles[step];
   document.getElementById('stepDesc').textContent  = descs[step];
-  document.getElementById('indLbl').textContent    = 'Step '+step+' of 4';
-  for (let i=1; i<=4; i++) {
+  document.getElementById('indLbl').textContent    = 'Step '+step+' of 3';
+  for (let i=1; i<=3; i++) {
     document.getElementById('ind'+i).className = 'ind'+(i===step?' active':i<step?' done':'');
     const si=document.getElementById('si'+i), sd=document.getElementById('sd'+i);
     if (i < step)      { si.className='si done';   sd.textContent='✓'; }
@@ -397,10 +415,10 @@ function go(n) {
 
 // Called when user clicks Continue on step 3 (plan selection)
 // Paid plans: save profile + redirect to Stripe immediately (no loophole)
-// Free plan: proceed to step 4 (affiliate tags) as normal
+// Free plan: create account directly
 async function proceedFromPlan() {
   if (plan === 'free') {
-    go(4);
+    finish();
     return;
   }
 
@@ -467,11 +485,15 @@ async function proceedFromPlan() {
     return;
   }
 
-  // Send magic link so they can access dashboard after payment
-  await sb.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: 'https://linkglobe.co/dashboard.html' }
-  });
+  // Create auth account so they can log in after payment
+  const password = document.getElementById('fpassword').value;
+  const { error: authErr } = await sb.auth.signUp({ email, password });
+  if (authErr && !authErr.message.toLowerCase().includes('already registered')) {
+    btn.disabled = false; btn.textContent = 'Continue →';
+    errBox.textContent = 'Could not create account: ' + authErr.message;
+    errBox.style.display = 'block';
+    return;
+  }
 
   // Redirect straight to Stripe — no way to skip
   const stripeUrl = plan === 'creator' ? STRIPE_CREATOR : STRIPE_PRO;
@@ -484,16 +506,33 @@ async function proceedFromPlan() {
 
 
 async function finish() {
-  const btn = document.getElementById('finBtn');
+  const step3Btn  = document.getElementById('step3Btn');
   const errBanner = document.getElementById('errBanner');
-  btn.disabled = true;
-  btn.textContent = 'Creating your storefront…';
+  const errBox    = document.getElementById('step3Err');
+  step3Btn.disabled = true;
+  step3Btn.textContent = 'Creating your storefront…';
   errBanner.style.display = 'none';
+  if (errBox) errBox.style.display = 'none';
 
   try {
-    const handle = document.getElementById('fhandle').value.trim().toLowerCase();
-    const email  = document.getElementById('femail').value.trim().toLowerCase();
+    const handle   = document.getElementById('fhandle').value.trim().toLowerCase();
+    const email    = document.getElementById('femail').value.trim().toLowerCase();
+    const password = document.getElementById('fpassword').value;
+    const name     = document.getElementById('fname').value.trim();
 
+    // Basic validation
+    if (!name || !email || !handle || !password) {
+      errBanner.textContent = 'Please complete all required fields (go back and check).';
+      errBanner.style.display = 'block';
+      return;
+    }
+    if (password.length < 8) {
+      errBanner.textContent = 'Password must be at least 8 characters.';
+      errBanner.style.display = 'block';
+      return;
+    }
+
+    // Check handle not taken by someone else
     const { data: existing } = await sb.from('signups').select('handle, email').eq('handle', handle);
     const handleOwnedBySameEmail = existing && existing.length > 0 && existing[0].email === email;
     if (existing && existing.length > 0 && !handleOwnedBySameEmail) {
@@ -502,7 +541,7 @@ async function finish() {
       return;
     }
 
-    // If same email already has a different handle, they already have an account
+    // Check email not already registered with a different handle
     const { data: existingEmail } = await sb.from('signups').select('handle').eq('email', email);
     const emailHasDifferentHandle = existingEmail && existingEmail.length > 0 && existingEmail[0].handle !== handle;
     if (emailHasDifferentHandle) {
@@ -512,24 +551,17 @@ async function finish() {
     }
 
     const profileData = {
-      name:      document.getElementById('fname').value.trim(),
+      name,
       email,
       handle,
       bio:       document.getElementById('fbio').value.trim() || null,
       tiktok:    document.getElementById('ftiktok').value.trim().replace('@','') || null,
       instagram: document.getElementById('finsta').value.trim().replace('@','') || null,
       plan,
-      tag_au: document.getElementById('tAU').value.trim() || null,
-      tag_us: document.getElementById('tUS').value.trim() || null,
-      tag_uk: document.getElementById('tUK').value.trim() || null,
-      tag_ca: document.getElementById('tCA').value.trim() || null,
-      tag_de: document.getElementById('tDE').value.trim() || null,
-      tag_jp: document.getElementById('tJP').value.trim() || null,
     };
 
     let insertErr;
     if (handleOwnedBySameEmail) {
-      // Resume incomplete signup — update existing record
       const { error } = await sb.from('signups').update(profileData).eq('email', email);
       insertErr = error;
     } else {
@@ -542,10 +574,19 @@ async function finish() {
       return;
     }
 
-    await sb.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: 'https://linkglobe.co/dashboard.html' }
-    });
+    // Create auth account (or sign in if already exists from a previous attempt)
+    const { error: signUpErr } = await sb.auth.signUp({ email, password });
+    if (signUpErr && signUpErr.message.toLowerCase().includes('already registered')) {
+      // Account exists — sign them in directly
+      await sb.auth.signInWithPassword({ email, password });
+    } else if (signUpErr) {
+      errBanner.textContent = 'Could not create account: ' + signUpErr.message;
+      errBanner.style.display = 'block';
+      return;
+    } else {
+      // New account — sign in immediately so they're logged in
+      await sb.auth.signInWithPassword({ email, password });
+    }
 
     window._storeUrl = window.location.origin + '/' + handle;
     document.getElementById('liveLink').textContent = window.location.hostname + '/' + handle;
@@ -554,7 +595,7 @@ async function finish() {
       const stripeUrl = plan === 'creator' ? STRIPE_CREATOR : STRIPE_PRO;
       document.getElementById('successTitle').textContent = 'Profile saved! 🎉';
       document.getElementById('successMsg').textContent =
-        'Complete your '+plan+' subscription, then check your email for the dashboard link.';
+        'Complete your '+plan+' subscription to unlock all features.';
       document.getElementById('dashBtn').textContent = 'Complete '+plan+' subscription →';
       document.getElementById('dashBtn').onclick = function() {
         const sp = new URLSearchParams({ prefilled_email: email, client_reference_id: handle });
@@ -569,8 +610,8 @@ async function finish() {
     errBanner.textContent = 'Something went wrong — please try again. (' + e.message + ')';
     errBanner.style.display = 'block';
   } finally {
-    btn.disabled = false;
-    btn.textContent = 'Create my storefront →';
+    step3Btn.disabled = false;
+    step3Btn.textContent = 'Continue →';
   }
 }
 

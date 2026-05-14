@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro Dashboard Preview – LinkGlobe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#0a0a0a;--ink:#1c1c1c;--gray:#64646a;--muted:#a0a0a8;--pale:#d4d4d8;--bg:#fff;--warm:#f7f6f3;--warm2:#f0ede6;--border:#e8e6e1;--border2:#d4d2cd;--indigo:#4338ca;--indigo2:#4f46e5;--indigo-pale:#eef2ff;--indigo-mid:#c7d2fe;--green:#15803d;--green-bg:#f0fdf4;--red:#dc2626;--red-bg:#fef2f2}
+html,body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+
+/* ── PREVIEW BANNER — same style as the upgrade banner in real dashboard ── */
+.preview-bar{background:var(--indigo2);padding:10px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.preview-bar p{color:rgba(255,255,255,.75);font-size:13px}
+.preview-bar p strong{color:white}
+.preview-bar a{color:white;font-size:12px;font-weight:600;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 14px;border-radius:50px;transition:background .15s}
+.preview-bar a:hover{background:rgba(255,255,255,.25)}
+
+/* ── EXACT NAV from dashboard.html ── */
+nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:600;color:var(--black)}
+.nav-logo-mark{width:28px;height:28px;background:white;border:1px solid rgba(0,0,0,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.nav-r{display:flex;align-items:center;gap:10px}
+.plan-badge{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gray);background:var(--warm2);border:1px solid var(--border2);padding:3px 10px;border-radius:50px}
+.plan-badge.pro{background:var(--black);color:white;border-color:var(--black)}
+.btn-view-store{background:var(--black);color:white;font-size:12px;font-weight:500;padding:7px 16px;border-radius:50px}
+.nav-av{width:32px;height:32px;border-radius:50%;background:var(--warm2);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:var(--gray)}
+
+/* ── CONTAINER — exact from dashboard.html ── */
+.container{max-width:900px;margin:0 auto;padding:36px 24px 80px}
+
+/* ── WELCOME CARD ── */
+.welcome-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.welcome-card h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:3px;color:var(--black)}
+.welcome-card p{color:var(--muted);font-size:13px;line-height:1.5;max-width:480px}
+.store-link-pill{background:var(--warm);border:1.5px solid var(--border2);border-radius:50px;padding:9px 18px;font-size:12px;color:var(--gray);font-weight:500;white-space:nowrap;flex-shrink:0}
+
+/* ── STATS — exact from dashboard.html ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--black);line-height:1}
+.stat-l{font-size:12px;color:var(--muted);margin-top:3px}
+
+/* ── CARD BASE (used for every section) ── */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:18px}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--black)}
+.card-title-row{display:flex;align-items:center;gap:8px}
+.pro-pill{font-size:9px;font-weight:700;letter-spacing:.5px;background:var(--black);color:white;padding:2px 7px;border-radius:4px;text-transform:uppercase}
+.btn-sm{font-size:12px;color:var(--muted);background:var(--warm);border:1px solid var(--border);padding:5px 12px;border-radius:50px;cursor:default;font-family:'DM Sans',sans-serif}
+
+/* ── PRODUCTS SECTION ── */
+.prod-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.prod-header h2{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--black)}
+.filter-tabs{display:flex;gap:5px}
+.ftab{padding:5px 12px;border-radius:50px;font-size:12px;border:1px solid var(--border);background:var(--bg);color:var(--muted);font-family:'DM Sans',sans-serif}
+.ftab.active{background:var(--black);color:white;border-color:var(--black)}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:18px}
+.prod-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.prod-img{width:100%;height:150px;background:var(--warm2);display:flex;align-items:center;justify-content:center;font-size:36px;overflow:hidden}
+.prod-img img{width:100%;height:100%;object-fit:cover}
+.prod-body{padding:12px 14px}
+.prod-store{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--indigo2);margin-bottom:3px}
+.prod-name{font-size:13px;font-weight:500;margin-bottom:10px;line-height:1.4;color:var(--ink)}
+.prod-clicks{font-size:11px;color:var(--muted);margin-bottom:8px}
+.prod-clicks strong{color:var(--ink)}
+.prod-actions{display:flex;gap:5px}
+.btn-copy{flex:1;background:var(--warm);border:1px solid var(--border);color:var(--gray);padding:6px 10px;border-radius:50px;font-size:11px;font-weight:500;font-family:'DM Sans',sans-serif}
+.btn-del{background:none;border:1px solid var(--border);color:var(--pale);padding:6px 9px;border-radius:50px;font-size:11px;font-family:'DM Sans',sans-serif}
+
+/* ── ANALYTICS (PRO) ── */
+.an-tabs{display:flex;gap:4px;margin-bottom:16px;background:var(--warm);border:1px solid var(--border);border-radius:50px;padding:4px;width:fit-content}
+.an-tab{padding:6px 14px;border-radius:50px;font-size:12px;font-weight:500;border:none;background:none;font-family:'DM Sans',sans-serif;color:var(--muted)}
+.an-tab.active{background:var(--black);color:white}
+.an-grid{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+
+/* Chart */
+.chart-wrap{background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:16px}
+.chart-wrap h4{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.chart-area{height:100px}
+.chart-area svg{width:100%;height:100%}
+
+/* Breakdown */
+.breakdown-wrap{background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:16px}
+.breakdown-wrap h4{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.breakdown-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.breakdown-row:last-child{margin-bottom:0}
+.br-label{font-size:12px;color:var(--ink);width:80px;flex-shrink:0}
+.br-bar-wrap{flex:1;background:var(--border);border-radius:3px;height:5px;overflow:hidden}
+.br-bar{height:100%;background:var(--black);border-radius:3px}
+.br-val{font-size:11px;color:var(--muted);width:30px;text-align:right;flex-shrink:0}
+
+/* ── COLLECTIONS (PRO) ── */
+.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.coll-card{background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px}
+.coll-emoji{width:36px;height:36px;background:var(--bg);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.coll-name{font-size:13px;font-weight:500;color:var(--black);margin-bottom:2px}
+.coll-count{font-size:11px;color:var(--muted)}
+.coll-add{background:none;border:1.5px dashed var(--border2);color:var(--muted);border-radius:10px;padding:14px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-family:'DM Sans',sans-serif}
+
+/* ── CUSTOMISE (PRO) ── */
+.cust-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cust-section h4{font-size:13px;font-weight:600;color:var(--black);margin-bottom:10px}
+.cust-field{margin-bottom:12px}
+.cust-field label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.cust-input{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--black);background:var(--bg)}
+.color-row{display:flex;align-items:center;gap:8px}
+.color-swatch{width:34px;height:34px;border-radius:8px;background:#4f46e5;border:2px solid var(--border);flex-shrink:0}
+.swatches{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.sw{width:22px;height:22px;border-radius:5px;border:2px solid transparent}
+.sw.active{border-color:var(--black)}
+/* Mini storefront preview */
+.sf-mini{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:12px}
+.sf-mini-hd{background:#4f46e5;padding:12px;text-align:center}
+.sf-mini-av{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.9);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#4f46e5;font-family:'Cormorant Garamond',serif}
+.sf-mini-name{font-size:11px;font-weight:600;color:white}
+.sf-mini-body{padding:8px;background:var(--warm);display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+.sf-mini-card{background:white;border-radius:5px;overflow:hidden}
+.sf-mini-img{height:28px;background:var(--warm2)}
+.sf-mini-btn{height:5px;background:var(--black);margin:4px 4px}
+
+/* Domain display */
+.domain-row{display:flex;align-items:center;gap:8px;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:10px}
+.domain-url{font-size:13px;color:var(--indigo2);font-weight:500;flex:1}
+.domain-status{font-size:11px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:4px}
+.domain-status::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block}
+
+/* ── SECTION DIVIDER ── */
+.section-note{font-size:11px;color:var(--muted);background:var(--warm2);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;margin-bottom:18px;display:flex;align-items:center;gap:6px}
+
+@media(max-width:680px){nav{padding:0 16px}.container{padding:24px 16px 60px}.stats{grid-template-columns:1fr 1fr}.an-grid,.cust-grid,.coll-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- Preview banner matches the upgrade-banner style from the real dashboard -->
+<div class="preview-bar">
+  <p><strong>Pro dashboard preview</strong> — this is what your dashboard looks like on Pro. All features below are unlocked.</p>
+  <a href="/dashboard.html">← Back to my dashboard</a>
+</div>
+
+<!-- ── EXACT SAME NAV AS DASHBOARD.HTML ── -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-mark">🌏</div>
+    LinkGlobe
+  </div>
+  <div class="nav-r">
+    <span class="plan-badge pro">Pro</span>
+    <a class="btn-view-store" href="#">View store →</a>
+    <div class="nav-av">S</div>
+  </div>
+</nav>
+
+<!-- ── SAME CONTAINER AS DASHBOARD.HTML ── -->
+<div class="container">
+
+  <!-- Welcome card — identical structure to real dashboard -->
+  <div class="welcome-card">
+    <div>
+      <h2>Welcome back, Sophie 👋</h2>
+      <p>Your storefront is live. You're on Pro — no limits, no branding, no compromises.</p>
+    </div>
+    <div class="store-link-pill">linkglobe.co/sophie</div>
+  </div>
+
+  <!-- Stats — same 4-column grid, Pro gets click count visible without lock -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n">47</div>
+      <div class="stat-l">Products live</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">4,218</div>
+      <div class="stat-l">Total clicks</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">6</div>
+      <div class="stat-l">Collections</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">🇦🇺</div>
+      <div class="stat-l">Top country</div>
+    </div>
+  </div>
+
+  <!-- ─── PRO SECTION MARKER ─────────────────────────────── -->
+  <div class="section-note">
+    ✦ Everything below this line is unlocked on Pro — Free and Creator plans show an upgrade prompt here instead.
+  </div>
+
+  <!-- Analytics — PRO only -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title-row">
+        <span class="card-title">Analytics</span>
+        <span class="pro-pill">Pro</span>
+      </div>
+      <div class="an-tabs">
+        <button class="an-tab">Clicks</button>
+        <button class="an-tab active">Countries</button>
+        <button class="an-tab">Referrers</button>
+        <button class="an-tab">Devices</button>
+      </div>
+    </div>
+    <div class="an-grid">
+      <div class="chart-wrap">
+        <h4>Clicks — last 30 days</h4>
+        <div class="chart-area">
+          <svg viewBox="0 0 400 100" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0a0a0a" stop-opacity=".1"/>
+                <stop offset="100%" stop-color="#0a0a0a" stop-opacity=".01"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,75 C20,70 35,60 55,52 C75,44 90,55 110,46 C130,37 145,25 165,20 C185,15 200,28 220,22 C240,16 255,8 275,12 C295,16 310,24 330,18 C350,12 370,6 400,10 L400,100 L0,100 Z" fill="url(#g)"/>
+            <path d="M0,75 C20,70 35,60 55,52 C75,44 90,55 110,46 C130,37 145,25 165,20 C185,15 200,28 220,22 C240,16 255,8 275,12 C295,16 310,24 330,18 C350,12 370,6 400,10" fill="none" stroke="#0a0a0a" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="breakdown-wrap">
+        <h4>By country</h4>
+        <div class="breakdown-row"><span class="br-label">🇦🇺 Australia</span><div class="br-bar-wrap"><div class="br-bar" style="width:72%"></div></div><span class="br-val">38%</span></div>
+        <div class="breakdown-row"><span class="br-label">🇺🇸 US</span><div class="br-bar-wrap"><div class="br-bar" style="width:36%"></div></div><span class="br-val">19%</span></div>
+        <div class="breakdown-row"><span class="br-label">🇬🇧 UK</span><div class="br-bar-wrap"><div class="br-bar" style="width:26%"></div></div><span class="br-val">14%</span></div>
+        <div class="breakdown-row"><span class="br-label">🇨🇦 Canada</span><div class="br-bar-wrap"><div class="br-bar" style="width:17%"></div></div><span class="br-val">9%</span></div>
+        <div class="breakdown-row"><span class="br-label">Other</span><div class="br-bar-wrap"><div class="br-bar" style="width:11%"></div></div><span class="br-val">20%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products — same grid as real dashboard, Pro shows click counts per card -->
+  <div class="prod-header">
+    <h2>Your products</h2>
+    <div class="filter-tabs">
+      <span class="ftab active">All (47)</span>
+      <span class="ftab">Beauty</span>
+      <span class="ftab">Fashion</span>
+    </div>
+  </div>
+  <div class="prod-grid">
+    <div class="prod-card">
+      <div class="prod-img" style="background:#1a0a10">
+        <img src="https://www.charlottetilbury.com/cdn/shop/files/Pillow_Talk_Lipstick_3.5g_PDP_Product_Image.jpg" alt="" onerror="this.parentElement.innerHTML='💄'" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div class="prod-body">
+        <div class="prod-store">Charlotte Tilbury</div>
+        <div class="prod-name">Pillow Talk Lipstick</div>
+        <div class="prod-clicks">🔥 <strong>842 clicks</strong> · 🇦🇺 🇬🇧 🇺🇸</div>
+        <div class="prod-actions">
+          <button class="btn-copy">Copy link</button>
+          <button class="btn-del">Remove</button>
+        </div>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img" style="font-size:36px">👙</div>
+      <div class="prod-body">
+        <div class="prod-store">SKIMS</div>
+        <div class="prod-name">Seamless Sculpt Bodysuit</div>
+        <div class="prod-clicks">🔥 <strong>604 clicks</strong> · 🇺🇸 🇦🇺</div>
+        <div class="prod-actions">
+          <button class="btn-copy">Copy link</button>
+          <button class="btn-del">Remove</button>
+        </div>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img" style="font-size:36px">🌸</div>
+      <div class="prod-body">
+        <div class="prod-store">Sephora</div>
+        <div class="prod-name">Collection Lip Gloss Set</div>
+        <div class="prod-clicks"><strong>318 clicks</strong> · 🇺🇸 🇦🇺</div>
+        <div class="prod-actions">
+          <button class="btn-copy">Copy link</button>
+          <button class="btn-del">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collections — PRO only -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title-row">
+        <span class="card-title">Collections</span>
+        <span class="pro-pill">Pro</span>
+      </div>
+      <button class="btn-sm">+ New collection</button>
+    </div>
+    <div class="coll-grid">
+      <div class="coll-card">
+        <div class="coll-emoji">💄</div>
+        <div><div class="coll-name">Beauty</div><div class="coll-count">8 products · 1,204 clicks</div></div>
+      </div>
+      <div class="coll-card">
+        <div class="coll-emoji">👗</div>
+        <div><div class="coll-name">Fashion</div><div class="coll-count">6 products · 892 clicks</div></div>
+      </div>
+      <div class="coll-card">
+        <div class="coll-emoji">🏠</div>
+        <div><div class="coll-name">Home</div><div class="coll-count">4 products · 347 clicks</div></div>
+      </div>
+      <div class="coll-card">
+        <div class="coll-emoji">☀️</div>
+        <div><div class="coll-name">Summer Picks</div><div class="coll-count">12 products · 668 clicks</div></div>
+      </div>
+      <div class="coll-card">
+        <div class="coll-emoji">🎁</div>
+        <div><div class="coll-name">Gift Guide</div><div class="coll-count">9 products · 521 clicks</div></div>
+      </div>
+      <button class="coll-add">＋ New collection</button>
+    </div>
+  </div>
+
+  <!-- Customise — PRO only -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title-row">
+        <span class="card-title">Customise storefront</span>
+        <span class="pro-pill">Pro</span>
+      </div>
+    </div>
+    <div class="cust-grid">
+      <div class="cust-section">
+        <h4>Accent colour</h4>
+        <div class="cust-field">
+          <label>Applied to buttons and store labels</label>
+          <div class="color-row">
+            <div class="color-swatch"></div>
+            <input class="cust-input" value="#4f46e5" style="flex:1">
+          </div>
+          <div class="swatches">
+            <div class="sw active" style="background:#4f46e5"></div>
+            <div class="sw" style="background:#0a0a0a"></div>
+            <div class="sw" style="background:#be185d"></div>
+            <div class="sw" style="background:#0f766e"></div>
+            <div class="sw" style="background:#b45309"></div>
+            <div class="sw" style="background:#7c3aed"></div>
+            <div class="sw" style="background:#dc2626"></div>
+            <div class="sw" style="background:#0284c7"></div>
+          </div>
+        </div>
+        <div class="sf-mini">
+          <div class="sf-mini-hd">
+            <div class="sf-mini-av">S</div>
+            <div class="sf-mini-name">Sophie's Picks</div>
+          </div>
+          <div class="sf-mini-body">
+            <div class="sf-mini-card"><div class="sf-mini-img"></div><div class="sf-mini-btn"></div></div>
+            <div class="sf-mini-card"><div class="sf-mini-img"></div><div class="sf-mini-btn"></div></div>
+            <div class="sf-mini-card"><div class="sf-mini-img"></div><div class="sf-mini-btn"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="cust-section">
+        <h4>Custom domain</h4>
+        <div class="domain-row">
+          <span class="domain-url">🌐 sophie.style</span>
+          <span class="domain-status">Connected</span>
+        </div>
+        <div class="cust-field">
+          <label>Connect a different domain</label>
+          <input class="cust-input" placeholder="yourdomain.com">
+        </div>
+        <h4 style="margin-top:16px">Profile</h4>
+        <div class="cust-field">
+          <label>Display name</label>
+          <input class="cust-input" value="Sophie Laurent">
+        </div>
+        <div class="cust-field">
+          <label>Bio</label>
+          <input class="cust-input" value="Beauty & lifestyle creator 🌸">
+        </div>
+        <button style="background:var(--black);color:white;border:none;padding:9px 20px;border-radius:50px;font-size:13px;font-weight:500;cursor:default;font-family:'DM Sans',sans-serif;width:100%;margin-top:4px">Save changes</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</body>
+</html>

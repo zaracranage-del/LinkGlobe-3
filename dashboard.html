@@ -93,8 +93,10 @@ nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;he
 .prod-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:transform .15s,box-shadow .15s;animation:cardIn .25s ease}
 @keyframes cardIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
 .prod-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.07)}
-.prod-img{width:100%;height:150px;background:var(--warm2);display:flex;align-items:center;justify-content:center;font-size:36px;overflow:hidden}
+.prod-img{width:100%;height:150px;background:var(--warm2);display:flex;align-items:center;justify-content:center;font-size:36px;overflow:hidden;position:relative}
 .prod-img img{width:100%;height:100%;object-fit:cover}
+@keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+.img-shimmer{position:absolute;inset:0;background:linear-gradient(90deg,var(--warm2) 0%,var(--border) 40%,var(--warm2) 80%);background-size:1200px 100%;animation:shimmer 1.5s infinite linear}
 .prod-body{padding:12px 14px}
 .prod-store{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--indigo2);margin-bottom:3px}
 .prod-name{font-size:13px;font-weight:500;margin-bottom:10px;line-height:1.4;color:var(--ink)}
@@ -694,7 +696,7 @@ async function _loadDashboard(session) {
     renderAll();
     loadClickCount();
     document.getElementById('loadingOverlay').classList.add('hidden');
-    setTimeout(() => refreshMissingImages(), 800);
+    setTimeout(() => refreshMissingImages(), 150);
 
   } catch (e) {
     clearTimeout(timeoutId);
@@ -963,9 +965,17 @@ function _updateCardImage(productId, imgSrc, fallbackEmoji) {
   if (!slot) return;
   const imgEl = document.createElement('img');
   imgEl.alt = '';
-  imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover';
-  imgEl.onerror = () => { slot.innerHTML = '<span style="font-size:36px">' + (fallbackEmoji || '🛍️') + '</span>'; };
-  imgEl.onload  = () => { slot.innerHTML = ''; slot.appendChild(imgEl); };
+  imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;display:none';
+  imgEl.onerror = () => {
+    slot.innerHTML = '<span style="font-size:36px">' + (fallbackEmoji || '🛍️') + '</span>';
+  };
+  imgEl.onload = () => {
+    slot.innerHTML = '';
+    imgEl.style.display = '';
+    slot.appendChild(imgEl);
+  };
+  // Pre-attach so onerror fires even if src is set before appending
+  slot.appendChild(imgEl);
   imgEl.src = imgSrc;
 }
 
@@ -1101,8 +1111,10 @@ function renderProducts() {
     <div class="prod-card${brokenIds.has(p.id) ? ' broken' : ''}" data-id="${p.id}">
       <div class="prod-img">
         ${p.image
-          ? `<img src="${esc(p.image)}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span style=font-size:36px>${p.emoji || '🛍️'}</span>'">`
-          : `<span>${p.emoji || '🛍️'}</span>`}
+          ? `<img src="${esc(p.image)}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=font-size:36px>${p.emoji||'🛍️'}</span>'">`
+          : p.original_url
+            ? `<div class="img-shimmer"></div>`
+            : `<span>${p.emoji || '🛍️'}</span>`}
       </div>
       <div class="prod-body">
         ${brokenIds.has(p.id) ? '<div class="broken-badge">⚠️ Link may be broken</div>' : ''}
