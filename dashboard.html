@@ -356,10 +356,11 @@ nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;he
   </div>
   <div id="collectionsSection">
     <div id="collCreatorView" style="display:none">
-      <div class="coll-new-form" style="margin-bottom:12px">
+      <div class="coll-new-form" style="margin-bottom:4px">
         <input type="text" id="collNameInput" placeholder="New collection e.g. Morning Routine..." maxlength="50">
         <button class="btn-coll-create" onclick="createCollection()">Create</button>
       </div>
+      <p id="collError" style="display:none;font-size:12px;color:#dc2626;padding:6px 2px 10px;"></p>
       <div class="coll-grid" id="collGrid"></div>
     </div>
     <div class="pro-gate" id="collGateView">
@@ -873,7 +874,17 @@ function _cleanUrl(url) {
 async function fetchOgImage(rawUrl) {
   const url = _cleanUrl(rawUrl);
 
-  // Primary: microlink.io — renders JS-heavy pages (Sephora, CT, SKIMS etc.)
+  // Primary: our own serverless function (no CORS, no proxy blocks)
+  try {
+    const res = await fetch('/api/og?url=' + encodeURIComponent(url),
+      { signal: AbortSignal.timeout(12000) });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.image && data.image.startsWith('http')) return data.image;
+    }
+  } catch {}
+
+  // Fallback: microlink.io
   try {
     const res = await fetch('https://api.microlink.io/?url=' + encodeURIComponent(url),
       { signal: AbortSignal.timeout(12000) });
@@ -881,30 +892,6 @@ async function fetchOgImage(rawUrl) {
       const data = await res.json();
       const img = data?.data?.image?.url;
       if (img && img.startsWith('http')) return img;
-    }
-  } catch {}
-
-  // Fallback 1: allorigins
-  try {
-    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url),
-      { signal: AbortSignal.timeout(9000) });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.contents) {
-        const img = _parseImageFromHtml(data.contents);
-        if (img) return img;
-      }
-    }
-  } catch {}
-
-  // Fallback 2: corsproxy.io
-  try {
-    const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url),
-      { signal: AbortSignal.timeout(9000) });
-    if (res.ok) {
-      const html = await res.text();
-      const img = _parseImageFromHtml(html);
-      if (img) return img;
     }
   } catch {}
 
@@ -1308,22 +1295,29 @@ function copyCollLink(link, btn) {
   });
 }
 
+function _collError(msg) {
+  var el = document.getElementById('collError');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
 async function createCollection() {
+  _collError('');
   var name = document.getElementById('collNameInput').value.trim();
-  if (!name) { showToast('Type a collection name first'); return; }
+  if (!name) { _collError('Please type a collection name above first.'); return; }
   var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   var btn = document.querySelector('.btn-coll-create');
   if (btn) { btn.textContent = 'Creating…'; btn.disabled = true; }
-  var res = await sb.from('collections').insert({ handle: profile.handle, user_email: userEmail, name: name, slug: slug }).select().single();
+  var res = await sb.from('collections')
+    .insert({ handle: profile.handle, user_email: userEmail, name: name, slug: slug })
+    .select().single();
   if (btn) { btn.textContent = 'Create'; btn.disabled = false; }
   if (res.error) {
-    if (res.error.message.includes('does not exist')) {
-      showToast('⚠️ Run the SQL in Supabase first to create the collections table');
-    } else {
-      showToast('❌ ' + res.error.message);
-    }
+    _collError('Error: ' + res.error.message);
     return;
   }
+  _collError('');
   document.getElementById('collNameInput').value = '';
   collections.unshift(res.data);
   renderCollections();

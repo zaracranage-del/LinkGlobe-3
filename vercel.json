@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/:handle", "destination": "/storefront.html" }
+    { "source": "/:handle((?!api|_next|favicon)[^/]+)", "destination": "/storefront.html" }
   ]
 }
