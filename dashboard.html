@@ -276,6 +276,43 @@ nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;he
 .btn-upload-avatar:hover{border-color:var(--black)}
 .bio-textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--ink);resize:vertical;min-height:72px;max-height:140px;transition:border-color .15s}
 .bio-textarea:focus{outline:none;border-color:var(--black)}
+
+/* ── NAV LOGO AS LINK ── */
+a.nav-logo{text-decoration:none;cursor:pointer}
+
+/* ── APPEAR LIVE PREVIEW ── */
+.appear-layout{display:grid;grid-template-columns:1fr 210px;gap:28px;align-items:start}
+.appear-controls{}
+.appear-preview-col{position:sticky;top:20px}
+.appear-preview-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.9px;color:var(--muted);text-align:center;margin-bottom:12px}
+/* Phone frame */
+.phone-frame{width:160px;margin:0 auto;border-radius:26px;overflow:hidden;border:5px solid #1c1c1c;box-shadow:0 16px 40px rgba(0,0,0,.28)}
+.phone-notch{width:50px;height:10px;background:#1c1c1c;border-radius:0 0 7px 7px;margin:0 auto}
+.phone-screen{background:#f7f6f3;border-radius:0 0 21px 21px;overflow:hidden}
+/* Preview header */
+.pv-header{padding:16px 10px 10px;text-align:center;transition:background .25s}
+.pv-avatar-wrap{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;font-weight:600;overflow:hidden;flex-shrink:0}
+.pv-avatar-wrap img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.pv-name{font-size:11px;font-weight:600;color:white;margin-bottom:2px;transition:font-family .2s}
+.pv-bio-text{font-size:8px;color:rgba(255,255,255,.55);margin-bottom:10px;line-height:1.4;max-width:120px;margin-left:auto;margin-right:auto}
+.pv-tabs{background:rgba(0,0,0,.18);border-top:1px solid rgba(255,255,255,.07);display:flex;padding:0 8px;gap:10px;height:24px;align-items:center}
+.pv-tab{font-size:8px;color:rgba(255,255,255,.4);font-weight:500;white-space:nowrap;flex-shrink:0;height:100%;display:flex;align-items:center;border-bottom:1.5px solid transparent}
+.pv-tab.pv-active{color:white;border-bottom-color:white}
+/* Preview body */
+.pv-body{padding:8px}
+.pv-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.pv-card{background:white;border-radius:8px;overflow:hidden;border:1px solid #e8e6e1}
+.pv-card-img{height:40px;background:#f0ede6;display:flex;align-items:center;justify-content:center;font-size:18px}
+.pv-card-body{padding:5px 6px 6px}
+.pv-card-store{font-size:6px;font-weight:700;text-transform:uppercase;color:#4f46e5;margin-bottom:2px;letter-spacing:.3px}
+.pv-card-name{font-size:7px;color:#1c1c1c;margin-bottom:4px;line-height:1.3}
+.pv-btn{width:100%;padding:3px 0;background:#0a0a0a;color:white;border:none;border-radius:50px;font-size:6px;font-weight:700;text-align:center;cursor:default;transition:border-radius .15s,background .15s}
+.pv-footer{text-align:center;padding:6px;border-top:1px solid #e8e6e1;font-size:7px;color:#a0a0a8}
+@media(max-width:960px){
+  .appear-layout{grid-template-columns:1fr}
+  .appear-preview-col{order:-1}
+  .phone-frame{width:140px}
+}
 </style>
 
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
@@ -409,72 +446,136 @@ nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;he
   </div>
   <div class="appear-card">
 
-    <!-- Avatar & Bio -->
-    <div class="appear-section">
-      <div class="appear-label">Profile photo</div>
-      <div class="avatar-row">
-        <div class="avatar-thumb" id="avatarThumb"></div>
-        <div>
-          <input type="file" id="avatarFile" accept="image/*" style="display:none" onchange="handleAvatarUpload(this)">
-          <button class="btn-upload-avatar" onclick="document.getElementById('avatarFile').click()">Upload photo</button>
-          <p style="font-size:11px;color:var(--muted);margin-top:5px">Square image · JPG or PNG · shown at top of your storefront</p>
+    <div class="appear-layout">
+      <!-- ── LEFT: Controls ── -->
+      <div class="appear-controls">
+
+        <!-- Avatar & Bio -->
+        <div class="appear-section">
+          <div class="appear-label">Profile photo</div>
+          <div class="avatar-row">
+            <div class="avatar-thumb" id="avatarThumb"></div>
+            <div>
+              <input type="file" id="avatarFile" accept="image/*" style="display:none" onchange="handleAvatarUpload(this)">
+              <button class="btn-upload-avatar" onclick="document.getElementById('avatarFile').click()">Upload photo</button>
+              <p style="font-size:11px;color:var(--muted);margin-top:5px">Square image · JPG or PNG</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="appear-section">
+          <div class="appear-label">Bio <span style="font-size:11px;color:var(--muted);font-weight:400">— shown on your storefront</span></div>
+          <textarea class="bio-textarea" id="bioInput" maxlength="160" placeholder="A short bio about you and what you love…" oninput="document.getElementById('bioCount').textContent=this.value.length;updatePreview()"></textarea>
+          <div style="font-size:11px;color:var(--muted);text-align:right;margin-top:3px"><span id="bioCount">0</span>/160</div>
+        </div>
+
+        <!-- Theme -->
+        <div class="appear-section">
+          <div class="appear-label">Theme</div>
+          <div class="theme-swatches" id="themeSwatches">
+            <div class="theme-swatch active" data-theme="purple"   style="background:linear-gradient(135deg,#4f46e5,#7c3aed)"        onclick="selectTheme(this)" title="Purple"><span class="swatch-check">✓</span></div>
+            <div class="theme-swatch"        data-theme="rose"     style="background:linear-gradient(135deg,#be185d,#db2777)"        onclick="selectTheme(this)" title="Rose"><span class="swatch-check">✓</span></div>
+            <div class="theme-swatch"        data-theme="sunset"   style="background:linear-gradient(135deg,#ea580c,#be185d)"        onclick="selectTheme(this)" title="Sunset"><span class="swatch-check">✓</span></div>
+            <div class="theme-swatch"        data-theme="ocean"    style="background:linear-gradient(135deg,#0369a1,#0891b2)"        onclick="selectTheme(this)" title="Ocean"><span class="swatch-check">✓</span></div>
+            <div class="theme-swatch"        data-theme="forest"   style="background:linear-gradient(135deg,#15803d,#065f46)"        onclick="selectTheme(this)" title="Forest"><span class="swatch-check">✓</span></div>
+            <div class="theme-swatch"        data-theme="black"    style="background:#0a0a0a"                                         onclick="selectTheme(this)" title="Black"><span class="swatch-check">✓</span></div>
+            <div class="theme-swatch"        data-theme="midnight" style="background:linear-gradient(135deg,#1e1b4b,#312e81)"        onclick="selectTheme(this)" title="Midnight"><span class="swatch-check">✓</span></div>
+            <div class="theme-swatch"        data-theme="sand"     style="background:linear-gradient(135deg,#e8dcc8,#d4c9b0);border:1px solid #c5b89a" onclick="selectTheme(this)" title="Sand"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
+          </div>
+        </div>
+
+        <!-- Font -->
+        <div class="appear-section">
+          <div class="appear-label">Name font</div>
+          <div class="font-opts" id="fontOpts">
+            <div class="font-opt active" data-font="serif" onclick="selectFont(this)">
+              <div class="font-opt-name" style="font-family:'Cormorant Garamond',serif;font-size:17px">Elegant</div>
+              <div class="font-opt-label">Serif</div>
+            </div>
+            <div class="font-opt" data-font="sans" onclick="selectFont(this)">
+              <div class="font-opt-name" style="font-family:'DM Sans',sans-serif">Modern</div>
+              <div class="font-opt-label">Sans-serif</div>
+            </div>
+            <div class="font-opt" data-font="mono" onclick="selectFont(this)">
+              <div class="font-opt-name" style="font-family:monospace">Mono</div>
+              <div class="font-opt-label">Mono</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Button style -->
+        <div class="appear-section">
+          <div class="appear-label">Button style</div>
+          <div class="btn-style-opts" id="btnStyleOpts">
+            <button class="btn-style-opt active" data-btn="rounded"  onclick="selectBtnStyle(this)">● Rounded</button>
+            <button class="btn-style-opt"         data-btn="soft"     onclick="selectBtnStyle(this)">◼ Soft</button>
+            <button class="btn-style-opt"         data-btn="sharp"    onclick="selectBtnStyle(this)">■ Sharp</button>
+            <button class="btn-style-opt"         data-btn="outline"  onclick="selectBtnStyle(this)">○ Outline</button>
+          </div>
+        </div>
+
+        <button class="btn-save-tags" onclick="saveAppearance()" style="margin-top:8px">Save appearance</button>
+        <span class="save-confirm" id="appearSaveConfirm" style="display:none;margin-left:10px;font-size:12px;color:var(--green);font-weight:600">✓ Saved</span>
+      </div>
+
+      <!-- ── RIGHT: Live preview ── -->
+      <div class="appear-preview-col">
+        <div class="appear-preview-label">Live preview</div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="pv-header" id="pvHeader" style="background:linear-gradient(135deg,#4f46e5,#7c3aed)">
+              <div class="pv-avatar-wrap" id="pvAvatar">S</div>
+              <div class="pv-name" id="pvName">Your Name</div>
+              <div class="pv-bio-text" id="pvBio"></div>
+            </div>
+            <div class="pv-tabs" id="pvTabs">
+              <div class="pv-tab pv-active">All</div>
+              <div class="pv-tab">Beauty</div>
+              <div class="pv-tab">Fashion</div>
+            </div>
+            <div class="pv-body">
+              <div class="pv-grid">
+                <div class="pv-card">
+                  <div class="pv-card-img">💄</div>
+                  <div class="pv-card-body">
+                    <div class="pv-card-store">CHARLOTTE TILBURY</div>
+                    <div class="pv-card-name">Eyes to Mesmerise</div>
+                    <div class="pv-btn" id="pvBtn">Shop →</div>
+                  </div>
+                </div>
+                <div class="pv-card">
+                  <div class="pv-card-img">👗</div>
+                  <div class="pv-card-body">
+                    <div class="pv-card-store">SKIMS</div>
+                    <div class="pv-card-name">Fits Everybody Dress</div>
+                    <div class="pv-btn pv-btn-2">Shop →</div>
+                  </div>
+                </div>
+                <div class="pv-card">
+                  <div class="pv-card-img">🌹</div>
+                  <div class="pv-card-body">
+                    <div class="pv-card-store">SEPHORA</div>
+                    <div class="pv-card-name">Rare Beauty Blush</div>
+                    <div class="pv-btn pv-btn-3">Shop →</div>
+                  </div>
+                </div>
+                <div class="pv-card">
+                  <div class="pv-card-img">👟</div>
+                  <div class="pv-card-body">
+                    <div class="pv-card-store">ASOS</div>
+                    <div class="pv-card-name">Platform Trainers</div>
+                    <div class="pv-btn pv-btn-4">Shop →</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pv-footer">🌏 Powered by LinkGlobe</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="appear-section">
-      <div class="appear-label">Bio <span style="font-size:11px;color:var(--muted);font-weight:400">— shown on your storefront</span></div>
-      <textarea class="bio-textarea" id="bioInput" maxlength="160" placeholder="A short bio about you and what you love…" oninput="document.getElementById('bioCount').textContent=this.value.length"></textarea>
-      <div style="font-size:11px;color:var(--muted);text-align:right;margin-top:3px"><span id="bioCount">0</span>/160</div>
     </div>
-
-    <!-- Theme -->
-    <div class="appear-section">
-      <div class="appear-label">Theme</div>
-      <div class="theme-swatches" id="themeSwatches">
-        <div class="theme-swatch active" data-theme="purple" style="background:linear-gradient(135deg,#4f46e5,#7c3aed)" onclick="selectTheme(this)" title="Purple"><span class="swatch-check">✓</span></div>
-        <div class="theme-swatch" data-theme="rose"    style="background:linear-gradient(135deg,#be185d,#db2777)" onclick="selectTheme(this)" title="Rose"><span class="swatch-check">✓</span></div>
-        <div class="theme-swatch" data-theme="sunset"  style="background:linear-gradient(135deg,#ea580c,#be185d)" onclick="selectTheme(this)" title="Sunset"><span class="swatch-check">✓</span></div>
-        <div class="theme-swatch" data-theme="ocean"   style="background:linear-gradient(135deg,#0369a1,#0891b2)" onclick="selectTheme(this)" title="Ocean"><span class="swatch-check">✓</span></div>
-        <div class="theme-swatch" data-theme="forest"  style="background:linear-gradient(135deg,#15803d,#065f46)" onclick="selectTheme(this)" title="Forest"><span class="swatch-check">✓</span></div>
-        <div class="theme-swatch" data-theme="black"   style="background:#0a0a0a" onclick="selectTheme(this)" title="Black"><span class="swatch-check">✓</span></div>
-        <div class="theme-swatch" data-theme="midnight" style="background:linear-gradient(135deg,#1e1b4b,#312e81)" onclick="selectTheme(this)" title="Midnight"><span class="swatch-check">✓</span></div>
-        <div class="theme-swatch" data-theme="sand"    style="background:linear-gradient(135deg,#e8dcc8,#d4c9b0);border:1px solid #c5b89a" onclick="selectTheme(this)" title="Sand"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
-      </div>
-    </div>
-
-    <!-- Font -->
-    <div class="appear-section">
-      <div class="appear-label">Name font</div>
-      <div class="font-opts" id="fontOpts">
-        <div class="font-opt active" data-font="serif" onclick="selectFont(this)">
-          <div class="font-opt-name" style="font-family:'Cormorant Garamond',serif;font-size:17px">Elegant</div>
-          <div class="font-opt-label">Serif</div>
-        </div>
-        <div class="font-opt" data-font="sans" onclick="selectFont(this)">
-          <div class="font-opt-name" style="font-family:'DM Sans',sans-serif">Modern</div>
-          <div class="font-opt-label">Sans-serif</div>
-        </div>
-        <div class="font-opt" data-font="mono" onclick="selectFont(this)">
-          <div class="font-opt-name" style="font-family:monospace">Mono</div>
-          <div class="font-opt-label">Monospace</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Button style -->
-    <div class="appear-section">
-      <div class="appear-label">Button style</div>
-      <div class="btn-style-opts" id="btnStyleOpts">
-        <button class="btn-style-opt active" data-btn="rounded" onclick="selectBtnStyle(this)">● Rounded</button>
-        <button class="btn-style-opt" data-btn="soft" onclick="selectBtnStyle(this)">◼ Soft</button>
-        <button class="btn-style-opt" data-btn="sharp" onclick="selectBtnStyle(this)">■ Sharp</button>
-        <button class="btn-style-opt" data-btn="outline" onclick="selectBtnStyle(this)">○ Outline</button>
-      </div>
-    </div>
-
-    <button class="btn-save-tags" onclick="saveAppearance()" style="margin-top:8px">Save appearance</button>
-    <span class="save-confirm" id="appearSaveConfirm" style="display:none;margin-left:10px;font-size:12px;color:var(--green);font-weight:600">✓ Saved</span>
   </div>
 
   <!-- ── COLLECTIONS ─────────────────────────────────── -->
@@ -685,7 +786,7 @@ function showPreview() {
     if (document.getElementById('prodUrl').value.trim() !== previewUrl) return;
     if (!src) return;
     imgEl.onload  = () => { emojiEl.style.display = 'none'; imgEl.style.display = 'block'; };
-    imgEl.onerror = () => { imgEl.style.display = 'none'; emojiEl.style.display = 'flex'; };
+    imgEl.onerror = () => { if(!imgEl._proxied){ imgEl._proxied=true; var u=imgEl.src; imgEl.src='https://images.weserv.nl/?url='+encodeURIComponent(u); } else { imgEl.style.display='none'; emojiEl.style.display='flex'; } };
     imgEl.src = src;
   });
 }
@@ -1075,7 +1176,8 @@ function _updateCardImage(productId, imgSrc, fallbackEmoji) {
   imgEl.alt = '';
   imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;display:none';
   imgEl.onerror = () => {
-    slot.innerHTML = '<span style="font-size:36px">' + (fallbackEmoji || '🛍️') + '</span>';
+    if(!imgEl._proxied){ imgEl._proxied=true; var u=imgEl.src; imgEl.src='https://images.weserv.nl/?url='+encodeURIComponent(u); }
+    else { slot.innerHTML = '<span style="font-size:36px">' + (fallbackEmoji || '🛍️') + '</span>'; }
   };
   imgEl.onload = () => {
     slot.innerHTML = '';
@@ -1219,7 +1321,7 @@ function renderProducts() {
     <div class="prod-card${brokenIds.has(p.id) ? ' broken' : ''}" data-id="${p.id}">
       <div class="prod-img">
         ${p.image
-          ? `<img src="${esc(p.image)}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=font-size:36px>${p.emoji||'🛍️'}</span>'">`
+          ? `<img src="${esc(p.image)}" alt="" style="width:100%;height:100%;object-fit:cover" data-fs="36" onerror="proxyImg(this,'${p.emoji||'🛍️'}')">`
           : p.original_url
             ? `<div class="img-shimmer"></div>`
             : `<span>${p.emoji || '🛍️'}</span>`}
@@ -1275,6 +1377,10 @@ async function logout() {
 function esc(s) {
   if (!s) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function proxyImg(el, emoji){
+  if(!el._proxied){ el._proxied=true; var u=el.src; el.src='https://images.weserv.nl/?url='+encodeURIComponent(u); }
+  else { el.parentElement.innerHTML='<span style="font-size:'+((el.dataset.fs)||'36')+'px">'+(emoji||'🛍️')+'</span>'; }
 }
 
 function showToast(msg) {
@@ -1422,7 +1528,7 @@ function renderCollections() {
     var ids = c.collection_products.map(function(cp) { return cp.product_id; });
     var link = 'https://linkglobe.co/' + profile.handle + '?c=' + c.slug;
     var covers = products.slice(0, 3).map(function(p) {
-      return '<div class="coll-cover-item">' + (p.image ? '<img src="' + esc(p.image) + '" style="width:100%;height:100%;object-fit:cover;border-radius:7px" onerror="this.style.display=\'none\'">' : '&#128717;') + '</div>';
+      return '<div class="coll-cover-item">' + (p.image ? '<img src="' + esc(p.image) + '" style="width:100%;height:100%;object-fit:cover;border-radius:7px" onerror="proxyImg(this,\'\')">' : '&#128717;') + '</div>';
     }).join('');
     return '<div class="coll-card">'
       + '<div class="coll-cover">' + (covers || '<div class="coll-cover-item">&#128194;</div>') + '</div>'
@@ -1514,7 +1620,7 @@ function renderManagePanel() {
   body.innerHTML = products.map(function(p) {
     var inColl = manageInColl.has(p.id);
     var thumb = p.image
-      ? '<img src="' + esc(p.image) + '" onerror="this.parentElement.innerHTML=\'<span style=font-size:22px>' + (p.emoji || '🛍️') + '</span>\'">'
+      ? '<img src="' + esc(p.image) + '" data-fs="22" onerror="proxyImg(this,\'' + (p.emoji || '🛍️') + '\')">'
       : '<span>' + (p.emoji || '🛍️') + '</span>';
     return '<div class="manage-prod-row">'
       + '<div class="manage-prod-thumb">' + thumb + '</div>'
@@ -1765,19 +1871,23 @@ function loadAppearance(){
     const cnt = document.getElementById('bioCount');
     if(cnt) cnt.textContent = bioEl.value.length;
   }
+  updatePreview();
 }
 
 function selectTheme(el){
   document.querySelectorAll('.theme-swatch').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
+  updatePreview();
 }
 function selectFont(el){
   document.querySelectorAll('.font-opt').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
+  updatePreview();
 }
 function selectBtnStyle(el){
   document.querySelectorAll('.btn-style-opt').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
+  updatePreview();
 }
 
 async function handleAvatarUpload(input){
@@ -1801,6 +1911,73 @@ async function handleAvatarUpload(input){
   const thumb = document.getElementById('avatarThumb');
   if(thumb) thumb.innerHTML = `<img src="${avatarUrl}" alt="">`;
   await sb.from('signups').update({ avatar_url: avatarUrl }).eq('email', userEmail);
+}
+
+function updatePreview(){
+  const themeMap = {
+    purple:   'linear-gradient(135deg,#4f46e5,#7c3aed)',
+    rose:     'linear-gradient(135deg,#be185d,#db2777)',
+    sunset:   'linear-gradient(135deg,#ea580c,#be185d)',
+    ocean:    'linear-gradient(135deg,#0369a1,#0891b2)',
+    forest:   'linear-gradient(135deg,#15803d,#065f46)',
+    black:    '#0a0a0a',
+    midnight: 'linear-gradient(135deg,#1e1b4b,#312e81)',
+    sand:     'linear-gradient(135deg,#e8dcc8,#d4c9b0)'
+  };
+  const btnRadiusMap = { rounded:'50px', soft:'10px', sharp:'4px', outline:'50px' };
+
+  const theme = document.querySelector('.theme-swatch.active')?.dataset.theme || 'purple';
+  const font  = document.querySelector('.font-opt.active')?.dataset.font  || 'serif';
+  const btn   = document.querySelector('.btn-style-opt.active')?.dataset.btn || 'rounded';
+  const isSand = theme === 'sand';
+
+  // Header bg
+  const pvHeader = document.getElementById('pvHeader');
+  if(pvHeader) pvHeader.style.background = themeMap[theme] || themeMap.purple;
+
+  // Avatar text colour
+  const pvAv = document.getElementById('pvAvatar');
+  if(pvAv){
+    pvAv.style.color = isSand ? '#1c1c1c' : 'white';
+    pvAv.style.background = isSand ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.2)';
+    // show avatar image if available
+    if(profile?.avatar_url && !pvAv.querySelector('img')){
+      pvAv.innerHTML = `<img src="${profile.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+    } else if(!profile?.avatar_url){
+      pvAv.textContent = (profile?.name || 'Y').charAt(0).toUpperCase();
+    }
+  }
+
+  // Name
+  const pvName = document.getElementById('pvName');
+  if(pvName){
+    const fontFamily = font==='sans'?"'DM Sans',sans-serif":font==='mono'?'monospace':"'Cormorant Garamond',serif";
+    pvName.style.fontFamily = fontFamily;
+    pvName.style.color = isSand ? '#1c1c1c' : 'white';
+    pvName.textContent = (profile?.name || 'Your Name').split(' ')[0];
+  }
+
+  // Bio
+  const pvBio = document.getElementById('pvBio');
+  if(pvBio){
+    pvBio.style.color = isSand ? 'rgba(0,0,0,.45)' : 'rgba(255,255,255,.55)';
+    const bioVal = document.getElementById('bioInput')?.value || '';
+    pvBio.textContent = bioVal ? (bioVal.slice(0,50)+(bioVal.length>50?'…':'')) : '';
+  }
+
+  // Tabs bg
+  const pvTabs = document.getElementById('pvTabs');
+  if(pvTabs) pvTabs.style.background = isSand ? 'rgba(0,0,0,.07)' : 'rgba(0,0,0,.18)';
+
+  // Buttons
+  const radius = btnRadiusMap[btn] || '50px';
+  const isOutline = btn === 'outline';
+  document.querySelectorAll('.pv-btn,.pv-btn-2,.pv-btn-3,.pv-btn-4').forEach(b=>{
+    b.style.borderRadius = radius;
+    b.style.background   = isOutline ? 'transparent' : '#0a0a0a';
+    b.style.color        = isOutline ? '#0a0a0a' : 'white';
+    b.style.border       = isOutline ? '1px solid #0a0a0a' : 'none';
+  });
 }
 
 async function saveAppearance(){

@@ -147,6 +147,10 @@ function esc(s){
   if(!s) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
+function proxyImg(el, emoji){
+  if(!el._proxied){ el._proxied=true; var u=el.src; el.src='https://images.weserv.nl/?url='+encodeURIComponent(u); }
+  else { el.parentElement.innerHTML='<span style="font-size:48px">'+(emoji||'🛍️')+'</span>'; }
+}
 
 (async function load(){
   if(!handle){ renderNotFound(''); return; }
@@ -237,7 +241,7 @@ function render(p, products, collection, clickCounts, allCollections, totalProdu
         const fansLabel = clicks>=1000?(clicks/1000).toFixed(1)+'k':clicks;
         const proof = clicks>=5 ? `<div class="sf-social-proof"><svg width="11" height="11" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>${fansLabel} fans clicked</div>` : '';
         const imgHtml = prod.image
-          ? `<img src="${esc(prod.image)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<span style=font-size:48px>${prod.emoji||'🛍️'}</span>'">`
+          ? `<img src="${esc(prod.image)}" alt="" loading="lazy" onerror="proxyImg(this,'${prod.emoji||'🛍️'}')">`
           : `<span>${prod.emoji||'🛍️'}</span>`;
         return `
         <div class="sf-card">
