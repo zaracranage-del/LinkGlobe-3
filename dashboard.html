@@ -510,14 +510,14 @@ a.nav-logo{text-decoration:none;cursor:pointer}
         <div class="appear-section">
           <div class="appear-label">Theme</div>
 <div class="theme-swatches" id="themeSwatches">
-  <div class="theme-swatch active" data-theme="noir"    style="background:#0a0a0a"                                            onclick="selectTheme(this)" title="Noir"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="slate"   style="background:linear-gradient(160deg,#0d1621,#1a2d47)"            onclick="selectTheme(this)" title="Midnight"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="plum"    style="background:linear-gradient(160deg,#1a0828,#32124e)"            onclick="selectTheme(this)" title="Plum"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="blush"   style="background:linear-gradient(160deg,#3d1428,#6b2540)"            onclick="selectTheme(this)" title="Rose"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="terra"   style="background:linear-gradient(160deg,#3a1a0a,#6b3218)"            onclick="selectTheme(this)" title="Cognac"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="caramel" style="background:linear-gradient(160deg,#2a1a0e,#5a3b20)"            onclick="selectTheme(this)" title="Mocha"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="sage"    style="background:linear-gradient(160deg,#0a1a10,#183020)"            onclick="selectTheme(this)" title="Forest"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="ivory"   style="background:linear-gradient(160deg,#f5ece0,#ede4d4);border:1px solid #c5b89a" onclick="selectTheme(this)" title="Cream"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
+  <div class="theme-swatch active" data-theme="noir"    style="background:#0a0a0a"                                               onclick="selectTheme(this)" title="Noir"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="slate"   style="background:linear-gradient(160deg,#0a0015,#160029)"               onclick="selectTheme(this)" title="Midnight Violet"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="plum"    style="background:linear-gradient(160deg,#3d0f20,#773344)"               onclick="selectTheme(this)" title="Wine Plum"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="blush"   style="background:linear-gradient(160deg,#5c1030,#8D2645)"               onclick="selectTheme(this)" title="Orchid"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="terra"   style="background:linear-gradient(160deg,#250f08,#513229)"               onclick="selectTheme(this)" title="Rawhide"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="caramel" style="background:linear-gradient(160deg,#1c1012,#554345)"               onclick="selectTheme(this)" title="Coffee"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="sage"    style="background:linear-gradient(160deg,#0e2828,#1a4545)"               onclick="selectTheme(this)" title="Deep Teal"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="ivory"   style="background:#F4F1E2;border:1px solid #c5b89a"                      onclick="selectTheme(this)" title="Bleached Bone"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
 </div>
         </div>
 
@@ -548,6 +548,27 @@ a.nav-logo{text-decoration:none;cursor:pointer}
             <button class="btn-style-opt"         data-btn="soft"     onclick="selectBtnStyle(this)">◼ Soft</button>
             <button class="btn-style-opt"         data-btn="sharp"    onclick="selectBtnStyle(this)">■ Sharp</button>
             <button class="btn-style-opt"         data-btn="outline"  onclick="selectBtnStyle(this)">○ Outline</button>
+          </div>
+        </div>
+
+        <!-- Button colour -->
+        <div class="appear-section">
+          <div class="appear-label">Button colour</div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div style="display:flex;gap:7px;flex-wrap:wrap" id="btnColorSwatches">
+              <div class="theme-swatch active" data-bc="#0a0a0a" style="background:#0a0a0a"  onclick="selectBtnColor(this)" title="Noir"><span class="swatch-check">✓</span></div>
+              <div class="theme-swatch" data-bc="#160029" style="background:#160029"         onclick="selectBtnColor(this)" title="Midnight Violet"><span class="swatch-check">✓</span></div>
+              <div class="theme-swatch" data-bc="#773344" style="background:#773344"         onclick="selectBtnColor(this)" title="Wine Plum"><span class="swatch-check">✓</span></div>
+              <div class="theme-swatch" data-bc="#8D2645" style="background:#8D2645"         onclick="selectBtnColor(this)" title="Orchid"><span class="swatch-check">✓</span></div>
+              <div class="theme-swatch" data-bc="#D463A1" style="background:#D463A1"         onclick="selectBtnColor(this)" title="Hot Orchid"><span class="swatch-check">✓</span></div>
+              <div class="theme-swatch" data-bc="#D44D5C" style="background:#D44D5C"         onclick="selectBtnColor(this)" title="Lobster Pink"><span class="swatch-check">✓</span></div>
+              <div class="theme-swatch" data-bc="#DD4E28" style="background:#DD4E28"         onclick="selectBtnColor(this)" title="Blood Orange"><span class="swatch-check">✓</span></div>
+              <div class="theme-swatch" data-bc="#513229" style="background:#513229"         onclick="selectBtnColor(this)" title="Rawhide"><span class="swatch-check">✓</span></div>
+            </div>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer;flex-shrink:0">
+              <input type="color" id="btnColorWheel" value="#0a0a0a" style="width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:none" oninput="onBtnColorWheel(this.value)">
+              Custom
+            </label>
           </div>
         </div>
 
@@ -947,6 +968,7 @@ async function _loadDashboard(session) {
       bio:       dbProfile.bio       || '',
       sf_theme:      dbProfile.sf_theme      || 'noir',
       sf_font_color: dbProfile.sf_font_color || '#ffffff',
+      sf_btn_color:  dbProfile.sf_btn_color  || '#0a0a0a',
       sf_font:      dbProfile.sf_font      || 'serif',
       sf_btn_style: dbProfile.sf_btn_style || 'rounded',
       sf_bg_image:  dbProfile.sf_bg_image  || '',
@@ -2007,6 +2029,16 @@ function loadAppearance(){
     const first = document.querySelector('#themeSwatches .theme-swatch');
     if(first) first.classList.add('active');
   }
+  // Button colour
+  const bc = profile.sf_btn_color || '#0a0a0a';
+  const bcWheel = document.getElementById('btnColorWheel');
+  if(bcWheel) bcWheel.value = bc;
+  let bcMatched = false;
+  document.querySelectorAll('#btnColorSwatches .theme-swatch').forEach(s=>{
+    const match = s.dataset.bc === bc;
+    s.classList.toggle('active', match);
+    if(match) bcMatched = true;
+  });
   // Font colour
   const fc = profile.sf_font_color || '#ffffff';
   document.querySelectorAll('#fontColorOpts .theme-swatch').forEach(s=>{
@@ -2056,6 +2088,17 @@ function selectTheme(el){
 function selectFontColor(el){
   document.querySelectorAll('#fontColorOpts .theme-swatch').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
+  updatePreview();
+}
+function selectBtnColor(el){
+  document.querySelectorAll('#btnColorSwatches .theme-swatch').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  const wheel = document.getElementById('btnColorWheel');
+  if(wheel) wheel.value = el.dataset.bc;
+  updatePreview();
+}
+function onBtnColorWheel(val){
+  document.querySelectorAll('#btnColorSwatches .theme-swatch').forEach(s=>s.classList.remove('active'));
   updatePreview();
 }
 function selectFont(el){
@@ -2132,13 +2175,13 @@ async function handleAvatarUpload(input){
 function updatePreview(){
   const themeMap = {
     noir:    '#0a0a0a',
-    slate:   'linear-gradient(160deg,#0d1621,#1a2d47)',
-    plum:    'linear-gradient(160deg,#1a0828,#32124e)',
-    blush:   'linear-gradient(160deg,#3d1428,#6b2540)',
-    terra:   'linear-gradient(160deg,#3a1a0a,#6b3218)',
-    caramel: 'linear-gradient(160deg,#2a1a0e,#5a3b20)',
-    sage:    'linear-gradient(160deg,#0a1a10,#183020)',
-    ivory:   'linear-gradient(160deg,#f5ece0,#ede4d4)'
+    slate:   'linear-gradient(160deg,#0a0015,#160029)',
+    plum:    'linear-gradient(160deg,#3d0f20,#773344)',
+    blush:   'linear-gradient(160deg,#5c1030,#8D2645)',
+    terra:   'linear-gradient(160deg,#250f08,#513229)',
+    caramel: 'linear-gradient(160deg,#1c1012,#554345)',
+    sage:    'linear-gradient(160deg,#0e2828,#1a4545)',
+    ivory:   '#F4F1E2'
   };
   const btnRadiusMap = { rounded:'50px', soft:'10px', sharp:'4px', outline:'50px' };
 
@@ -2193,11 +2236,13 @@ function updatePreview(){
   // Buttons
   const radius = btnRadiusMap[btn] || '50px';
   const isOutline = btn === 'outline';
+  const activeSwatch = document.querySelector('#btnColorSwatches .theme-swatch.active');
+  const btnColor = activeSwatch ? activeSwatch.dataset.bc : (document.getElementById('btnColorWheel')?.value || '#0a0a0a');
   document.querySelectorAll('.pv-btn,.pv-btn-2,.pv-btn-3,.pv-btn-4').forEach(b=>{
     b.style.borderRadius = radius;
-    b.style.background   = isOutline ? 'transparent' : '#0a0a0a';
-    b.style.color        = isOutline ? '#0a0a0a' : 'white';
-    b.style.border       = isOutline ? '1px solid #0a0a0a' : 'none';
+    b.style.background   = isOutline ? 'transparent' : btnColor;
+    b.style.color        = isOutline ? btnColor : 'white';
+    b.style.border       = isOutline ? `1px solid ${btnColor}` : 'none';
   });
 }
 
@@ -2208,10 +2253,14 @@ async function saveAppearance(){
   const fontColor = document.querySelector('#fontColorOpts .theme-swatch.active')?.dataset.fc || '#ffffff';
   const bio       = document.getElementById('bioInput')?.value.trim() || '';
 
+  const activeBcSwatch = document.querySelector('#btnColorSwatches .theme-swatch.active');
+  const btnColor = activeBcSwatch ? activeBcSwatch.dataset.bc : (document.getElementById('btnColorWheel')?.value || '#0a0a0a');
+
   profile.sf_theme      = theme;
   profile.sf_font       = font;
   profile.sf_btn_style  = btn;
   profile.sf_font_color = fontColor;
+  profile.sf_btn_color  = btnColor;
   profile.bio           = bio;
 
   const bgImg = document.getElementById('bgImageUrl')?.value?.trim() || '';
@@ -2219,8 +2268,8 @@ async function saveAppearance(){
   const { error } = await sb.from('signups').update({
     sf_theme: theme, sf_font: font, sf_btn_style: btn, bio, sf_bg_image: bgImg
   }).eq('email', userEmail);
-  // sf_font_color saved separately — silently ignore if column not yet in DB
-  try { await sb.from('signups').update({ sf_font_color: fontColor }).eq('email', userEmail); } catch(e){}
+  // optional columns — silently ignore if not yet in DB
+  try { await sb.from('signups').update({ sf_font_color: fontColor, sf_btn_color: btnColor }).eq('email', userEmail); } catch(e){}
 
   const conf = document.getElementById('appearSaveConfirm');
   if(conf){
