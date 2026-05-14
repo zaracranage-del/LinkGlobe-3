@@ -895,42 +895,26 @@ function _cleanUrl(url) {
   } catch { return url; }
 }
 
-// Verify an image URL actually loads in the browser (img tags bypass CORS)
-function probeImage(url, ms) {
-  return new Promise(function(resolve) {
-    var img = new Image(); var done = false;
-    var t = setTimeout(function() { if (!done) { done=true; img.src=''; resolve(''); } }, ms||4000);
-    img.onload  = function() { if (!done) { done=true; clearTimeout(t); resolve(url); } };
-    img.onerror = function() { if (!done) { done=true; clearTimeout(t); resolve('');  } };
-    img.src = url;
-  });
-}
-
 async function fetchOgImage(rawUrl) {
-  const url  = _cleanUrl(rawUrl);
-  const asin = extractAsin(rawUrl);
+  const url = _cleanUrl(rawUrl);
 
-  // For Amazon: try ASIN-based CDN paths directly — img tags bypass CORS,
-  // no server-side fetch needed (and server fetches get bot-detected by Amazon)
-  if (asin) {
-    const ok = await probeImage('https://images-na.ssl-images-amazon.com/images/P/' + asin + '.01.LZZZZZZZ.jpg', 5000)
-            || await probeImage('https://m.media-amazon.com/images/P/' + asin + '.01.LZZZZZZZ.jpg', 5000);
-    if (ok) return ok;
+  // Run our serverless function and microlink in parallel — take the first valid image
+  function tryApi() {
+    return fetch('/api/og?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(10000) })
+      .then(function(r) { return r.ok ? r.json() : {}; })
+      .then(function(d) { return (d.image && d.image.startsWith('http')) ? d.image : Promise.reject(''); })
+      .catch(function() { return Promise.reject(''); });
+  }
+  function tryMicrolink() {
+    return fetch('https://api.microlink.io/?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(12000) })
+      .then(function(r) { return r.ok ? r.json() : {}; })
+      .then(function(d) { var img = d && d.data && d.data.image && d.data.image.url; return img ? img : Promise.reject(''); })
+      .catch(function() { return Promise.reject(''); });
   }
 
-  // Serverless function: fetches page HTML server-side (no CORS, works for brand sites)
   try {
-    const r = await fetch('/api/og?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(8000) });
-    if (r.ok) { const d = await r.json(); if (d.image?.startsWith('http')) return d.image; }
-  } catch {}
-
-  // microlink.io: headless-browser service, handles bot detection
-  try {
-    const r = await fetch('https://api.microlink.io/?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(10000) });
-    if (r.ok) { const d = await r.json(); const img = d?.data?.image?.url; if (img?.startsWith('http')) return img; }
-  } catch {}
-
-  return '';
+    return await Promise.any([tryApi(), tryMicrolink()]);
+  } catch { return ''; }
 }
 
 // ── REFRESH MISSING IMAGES ────────────────────────────────────
