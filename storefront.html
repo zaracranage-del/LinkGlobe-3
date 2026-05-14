@@ -88,6 +88,36 @@ a{text-decoration:none;color:inherit}
 .sf-notfound h1{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;margin-bottom:10px}
 .sf-notfound p{font-size:14px;color:var(--muted);margin-bottom:24px}
 
+/* ── THEMES ── */
+[data-theme="purple"]  .sf-header{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%)}
+[data-theme="rose"]    .sf-header{background:linear-gradient(135deg,#be185d 0%,#db2777 100%)}
+[data-theme="sunset"]  .sf-header{background:linear-gradient(135deg,#ea580c 0%,#be185d 100%)}
+[data-theme="ocean"]   .sf-header{background:linear-gradient(135deg,#0369a1 0%,#0891b2 100%)}
+[data-theme="forest"]  .sf-header{background:linear-gradient(135deg,#15803d 0%,#065f46 100%)}
+[data-theme="black"]   .sf-header{background:#0a0a0a}
+[data-theme="midnight"].sf-header{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 100%)}
+[data-theme="sand"]    .sf-header{background:linear-gradient(135deg,#e8dcc8 0%,#d4c9b0 100%)}
+[data-theme="sand"]    .sf-name{color:#1c1c1c}
+[data-theme="sand"]    .sf-bio{color:rgba(0,0,0,.5)}
+[data-theme="sand"]    .sf-avatar{color:#1c1c1c}
+[data-theme="sand"]    .sf-soc{background:rgba(0,0,0,.07);border-color:rgba(0,0,0,.12);color:rgba(0,0,0,.6)}
+[data-theme="sand"]    .sf-share-btn{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.1);color:rgba(0,0,0,.5)}
+[data-theme="sand"]    .sf-tab{color:rgba(0,0,0,.4)}
+[data-theme="sand"]    .sf-tab.active{color:#1c1c1c;border-bottom-color:#1c1c1c}
+[data-theme="sand"]    .sf-tabs{background:rgba(0,0,0,.06)}
+
+/* ── FONTS ── */
+[data-font="sans"]  .sf-name{font-family:'DM Sans',sans-serif;letter-spacing:-.5px}
+[data-font="mono"]  .sf-name{font-family:'Courier New',Courier,monospace;letter-spacing:-.5px;font-weight:700}
+
+/* ── BUTTON STYLES ── */
+[data-btn="soft"]    .btn-shop{border-radius:12px}
+[data-btn="soft"]    .btn-copy{border-radius:12px}
+[data-btn="sharp"]   .btn-shop{border-radius:4px}
+[data-btn="sharp"]   .btn-copy{border-radius:4px}
+[data-btn="outline"] .btn-shop{background:transparent;color:var(--black);border:1.5px solid var(--black)}
+[data-btn="outline"] .btn-shop:hover{opacity:1;background:var(--black);color:white}
+
 footer{text-align:center;padding:20px;border-top:1px solid var(--border)}
 footer a{font-size:12px;color:var(--muted);transition:color .2s}
 footer a:hover{color:var(--black)}
@@ -129,7 +159,7 @@ function esc(s){
     {data:clickRows},
     {data:allCollections}
   ] = await Promise.all([
-    sb.from('signups').select('name,bio,instagram,tiktok,handle,plan,brand_color,custom_domain,avatar_url').eq('handle',handle).single(),
+    sb.from('signups').select('name,bio,instagram,tiktok,handle,plan,brand_color,custom_domain,avatar_url,sf_theme,sf_font,sf_btn_style').eq('handle',handle).single(),
     sb.from('products').select('*').eq('handle',handle).order('created_at',{ascending:false}),
     sb.from('clicks').select('product_id').eq('handle',handle),
     sb.from('collections').select('*,collection_products(product_id)').eq('handle',handle).order('created_at',{ascending:true})
@@ -162,6 +192,13 @@ function render(p, products, collection, clickCounts, allCollections, totalProdu
   const storeUrl = window.location.href.split('?')[0];
   const brandColor = p.brand_color || '#0a0a0a';
   document.documentElement.style.setProperty('--sf-accent', brandColor);
+
+  const theme = p.sf_theme || 'purple';
+  const font  = p.sf_font  || 'serif';
+  const btn   = p.sf_btn_style || 'rounded';
+  document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.font  = font;
+  document.documentElement.dataset.btn   = btn;
 
   document.getElementById('pageTitle').textContent = (p.name||'Creator')+"'s Picks – LinkGlobe";
   document.getElementById('ogTitle').setAttribute('content',(p.name||'Creator')+"'s Picks");
@@ -219,7 +256,7 @@ function render(p, products, collection, clickCounts, allCollections, totalProdu
 
   const footer = p.plan==='pro'
     ? `<footer></footer>`
-    : `<footer><a href="https://linkglobe.co">🌏 Powered by LinkGlobe</a></footer>`;
+    : `<footer><a href="https://linkglobe.co" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);text-decoration:none;padding:4px 12px;border:1px solid var(--border);border-radius:50px;transition:all .2s" onmouseover="this.style.color='var(--black)';this.style.borderColor='var(--black)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Powered by LinkGlobe</a></footer>`;
 
   document.getElementById('app').innerHTML = `
     <header class="sf-header">
@@ -249,7 +286,7 @@ function renderNotFound(h){
       <p>${h?`This store isn't available right now.`:'No store handle provided.'}</p>
       <a href="https://linkglobe.co" style="display:inline-block;background:var(--black);color:white;padding:12px 28px;border-radius:50px;font-size:14px;font-weight:500;margin-top:16px">Go to LinkGlobe →</a>
     </div>
-    <footer><a href="https://linkglobe.co">🌏 Powered by LinkGlobe</a></footer>`;
+    <footer><a href="https://linkglobe.co" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);text-decoration:none;padding:4px 12px;border:1px solid var(--border);border-radius:50px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Powered by LinkGlobe</a></footer>`;
 }
 
 function parseUA(){
