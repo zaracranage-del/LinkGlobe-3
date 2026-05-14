@@ -178,7 +178,7 @@ a { text-decoration: none; color: inherit; }
 /* ──────────────────────── FEATURES ──────────────────────── */
 .feat-section { padding: 0 40px 88px; max-width: 960px; margin: 0 auto; }
 .feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); }
-.feat { background: var(--bg); padding: 30px 26px; transition: background .15s; }
+.feat { background: var(--bg); padding: 30px 26px; transition: background .15s; cursor: pointer; text-decoration: none; display: block; color: inherit; }
 .feat:hover { background: var(--warm); }
 .feat-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--warm2); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 16px; }
 .feat h3 { font-size: 15px; font-weight: 500; color: var(--black); margin-bottom: 7px; }
@@ -494,8 +494,8 @@ footer nav a:hover { color: var(--black); }
       <p class="pc-desc">Dip your toes in. Start earning from Amazon globally — no card needed.</p>
       <ul class="pc-feats">
         <li>5 products</li>
-        <li class="off">Brand redirects — SKIMS, Sephora, ASOS, Charlotte Tilbury + more</li>
         <li>All countries supported</li>
+        <li class="off">Brand redirects — SKIMS, Sephora, ASOS, Charlotte Tilbury + more</li>
         <li class="off">Click analytics</li>
         <li class="off">Custom storefront accent colour</li>
         <li class="off">Email support</li>
@@ -513,8 +513,8 @@ footer nav a:hover { color: var(--black); }
       <p class="pc-desc">Beyond Amazon. Every brand, every country — finally earning what you deserve.</p>
       <ul class="pc-feats">
         <li>20 products</li>
-        <li><strong>All brand redirects</strong> — SKIMS, Sephora, ASOS, Charlotte Tilbury + more</li>
         <li>All countries supported</li>
+        <li><span class="f-wrap"><span class="f-name">All brand redirects</span><span class="f-sub">SKIMS, Sephora, ASOS, Charlotte Tilbury + more</span></span></li>
         <li>Total click count per product</li>
         <li>Custom storefront accent colour</li>
         <li>Email support</li>
@@ -532,8 +532,8 @@ footer nav a:hover { color: var(--black); }
       <p class="pc-desc">The full picture. Unlimited products, full analytics, and it looks 100% yours.</p>
       <ul class="pc-feats">
         <li><span class="f-wrap"><span class="f-name">Unlimited products</span><span class="f-sub">No ceiling — add everything you love</span></span></li>
-        <li><span class="f-wrap"><span class="f-name">All brand redirects</span><span class="f-sub">SKIMS, Sephora, ASOS, Charlotte Tilbury + more</span></span></li>
         <li>All countries supported</li>
+        <li><span class="f-wrap"><span class="f-name">All brand redirects</span><span class="f-sub">SKIMS, Sephora, ASOS, Charlotte Tilbury + more</span></span></li>
         <li><span class="f-wrap"><span class="f-name">Full analytics dashboard</span><span class="f-sub">Countries · referrers · devices · browsers</span></span></li>
         <li>Custom storefront accent colour</li>
         <li>Priority support</li>
@@ -551,12 +551,12 @@ footer nav a:hover { color: var(--black); }
   <div class="sec-tag">Built for creators</div>
   <h2 class="sec-h2" style="margin-bottom:48px">Everything built<br>for creators.</h2>
   <div class="feat-grid">
-    <div class="feat"><div class="feat-icon">🌍</div><h3>Automatic geo-detection</h3><p>Detects each fan's country from their IP. Invisible to them, instant for you. No app, no extra step.</p></div>
-    <div class="feat"><div class="feat-icon">💰</div><h3>Per-country affiliate tags</h3><p>Amazon AU, US, UK, CA, DE, JP are separate programs. The right tag is applied per country, every time.</p></div>
-    <div class="feat"><div class="feat-icon">⚡</div><h3>Paste any URL, done</h3><p>Paste any product link and your geo-smart link is live. Charlotte Tilbury, SKIMS, ASOS — any brand.</p></div>
-    <div class="feat"><div class="feat-icon">🛍️</div><h3>Beautiful storefront</h3><p>Your own shoppable page at linkglobe.co/yourname. Fans browse your picks, click, and buy — globally.</p></div>
-    <div class="feat"><div class="feat-icon">📊</div><h3>Click analytics</h3><p>See which products get the most clicks, which countries your fans come from. Know what's working. Creator & Pro.</p></div>
-    <div class="feat"><div class="feat-icon">📦</div><h3>Collections</h3><p>Group products into "My Gym Bag" or "Morning Routine". Each collection gets its own shareable link.</p></div>
+    <a class="feat" href="storefront-preview.html" target="_blank"><div class="feat-icon">🌍</div><h3>Automatic geo-detection</h3><p>Detects each fan's country from their IP. Invisible to them, instant for you. No app, no extra step.</p></a>
+    <a class="feat" href="storefront-preview.html" target="_blank"><div class="feat-icon">💰</div><h3>Per-country affiliate tags</h3><p>Amazon AU, US, UK, CA, DE, JP are separate programs. The right tag is applied per country, every time.</p></a>
+    <a class="feat" href="storefront-preview.html" target="_blank"><div class="feat-icon">⚡</div><h3>Paste any URL, done</h3><p>Paste any product link and your geo-smart link is live. Charlotte Tilbury, SKIMS, ASOS — any brand.</p></a>
+    <a class="feat" href="storefront-preview.html" target="_blank"><div class="feat-icon">🛍️</div><h3>Beautiful storefront</h3><p>Your own shoppable page at linkglobe.co/yourname. Fans browse your picks, click, and buy — globally.</p></a>
+    <a class="feat" href="pro-dashboard-preview.html" target="_blank"><div class="feat-icon">📊</div><h3>Click analytics</h3><p>See which products get the most clicks, which countries your fans come from. Know what's working. Creator & Pro.</p></a>
+    <a class="feat" href="pro-dashboard-preview.html" target="_blank"><div class="feat-icon">📦</div><h3>Collections</h3><p>Group products into "My Gym Bag" or "Morning Routine". Each collection gets its own shareable link.</p></a>
   </div>
 </div>
 
