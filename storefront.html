@@ -245,9 +245,9 @@ function renderNotFound(h){
   document.getElementById('app').innerHTML = `
     <div class="sf-notfound">
       <div style="font-size:48px;margin-bottom:16px">🌏</div>
-      <h1>Store not found</h1>
-      <p>${h?`<strong>@${esc(h)}</strong> hasn't set up their store yet.`:'No store handle provided.'}</p>
-      <a href="/onboarding.html" style="display:inline-block;background:var(--black);color:white;padding:12px 28px;border-radius:50px;font-size:14px;font-weight:500;margin-top:16px">Create your store →</a>
+      <h1>${h?`@${esc(h)}`:'Store not found'}</h1>
+      <p>${h?`This store isn't available right now.`:'No store handle provided.'}</p>
+      <a href="https://linkglobe.co" style="display:inline-block;background:var(--black);color:white;padding:12px 28px;border-radius:50px;font-size:14px;font-weight:500;margin-top:16px">Go to LinkGlobe →</a>
     </div>
     <footer><a href="https://linkglobe.co">🌏 Powered by LinkGlobe</a></footer>`;
 }

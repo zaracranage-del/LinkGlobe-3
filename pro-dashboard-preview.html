@@ -20,7 +20,7 @@ a{text-decoration:none;color:inherit}
 
 /* ── EXACT NAV from dashboard.html ── */
 nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:600;color:var(--black)}
+.nav-logo{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:600;color:var(--black);text-decoration:none}
 .nav-logo-mark{width:28px;height:28px;background:white;border:1px solid rgba(0,0,0,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
 .nav-r{display:flex;align-items:center;gap:10px}
 .plan-badge{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gray);background:var(--warm2);border:1px solid var(--border2);padding:3px 10px;border-radius:50px}
@@ -143,10 +143,10 @@ nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;he
 
 <!-- ── EXACT SAME NAV AS DASHBOARD.HTML ── -->
 <nav>
-  <div class="nav-logo">
-    <div class="nav-logo-mark">🌏</div>
+  <a href="https://linkglobe.co" class="nav-logo">
+    <div class="nav-logo-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
     LinkGlobe
-  </div>
+  </a>
   <div class="nav-r">
     <span class="plan-badge pro">Pro</span>
     <a class="btn-view-store" href="#">View store →</a>
