@@ -344,7 +344,7 @@ a.nav-logo{text-decoration:none;cursor:pointer}
 <div class="toast" id="toast"></div>
 
 <nav>
-  <a href="https://linkglobe.co" class="nav-logo">
+  <a href="/" class="nav-logo">
     <div class="nav-logo-mark"><img src="/logo.png" alt="LinkGlobe" style="width:100%;height:100%;object-fit:contain;display:block;border-radius:6px"></div>
     LinkGlobe
   </a>
@@ -510,14 +510,14 @@ a.nav-logo{text-decoration:none;cursor:pointer}
         <div class="appear-section">
           <div class="appear-label">Theme</div>
 <div class="theme-swatches" id="themeSwatches">
-  <div class="theme-swatch active" data-theme="noir"     style="background:#0a0a0a"                                          onclick="selectTheme(this)" title="Noir"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="slate"    style="background:linear-gradient(160deg,#1e293b,#334155)"          onclick="selectTheme(this)" title="Slate"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="plum"     style="background:linear-gradient(160deg,#4a1f42,#6b2d5e)"          onclick="selectTheme(this)" title="Plum"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="blush"    style="background:linear-gradient(160deg,#9e485e,#c4637a)"          onclick="selectTheme(this)" title="Blush"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="terra"    style="background:linear-gradient(160deg,#7c3d1e,#a8532a)"          onclick="selectTheme(this)" title="Terra"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="caramel"  style="background:linear-gradient(160deg,#a06838,#c4894a)"          onclick="selectTheme(this)" title="Caramel"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="sage"     style="background:linear-gradient(160deg,#3d5a4a,#566f5c)"          onclick="selectTheme(this)" title="Sage"><span class="swatch-check">✓</span></div>
-  <div class="theme-swatch"        data-theme="ivory"    style="background:linear-gradient(160deg,#e8e0d4,#f0ebe2);border:1px solid #c5b89a" onclick="selectTheme(this)" title="Ivory"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
+  <div class="theme-swatch active" data-theme="noir"    style="background:#0a0a0a"                                            onclick="selectTheme(this)" title="Noir"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="slate"   style="background:linear-gradient(160deg,#0d1621,#1a2d47)"            onclick="selectTheme(this)" title="Midnight"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="plum"    style="background:linear-gradient(160deg,#1a0828,#32124e)"            onclick="selectTheme(this)" title="Plum"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="blush"   style="background:linear-gradient(160deg,#3d1428,#6b2540)"            onclick="selectTheme(this)" title="Rose"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="terra"   style="background:linear-gradient(160deg,#3a1a0a,#6b3218)"            onclick="selectTheme(this)" title="Cognac"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="caramel" style="background:linear-gradient(160deg,#2a1a0e,#5a3b20)"            onclick="selectTheme(this)" title="Mocha"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="sage"    style="background:linear-gradient(160deg,#0a1a10,#183020)"            onclick="selectTheme(this)" title="Forest"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="ivory"   style="background:linear-gradient(160deg,#f5ece0,#ede4d4);border:1px solid #c5b89a" onclick="selectTheme(this)" title="Cream"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
 </div>
         </div>
 
@@ -548,6 +548,18 @@ a.nav-logo{text-decoration:none;cursor:pointer}
             <button class="btn-style-opt"         data-btn="soft"     onclick="selectBtnStyle(this)">◼ Soft</button>
             <button class="btn-style-opt"         data-btn="sharp"    onclick="selectBtnStyle(this)">■ Sharp</button>
             <button class="btn-style-opt"         data-btn="outline"  onclick="selectBtnStyle(this)">○ Outline</button>
+          </div>
+        </div>
+
+        <!-- Text colour -->
+        <div class="appear-section">
+          <div class="appear-label">Text colour</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap" id="fontColorOpts">
+            <div class="theme-swatch active" data-fc="#ffffff"   style="background:#ffffff;border:1.5px solid #d4d2cd" onclick="selectFontColor(this)" title="White"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
+            <div class="theme-swatch"        data-fc="#f5ece0"   style="background:#f5ece0;border:1.5px solid #c5b89a" onclick="selectFontColor(this)" title="Cream"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
+            <div class="theme-swatch"        data-fc="#c9a96e"   style="background:#c9a96e"                            onclick="selectFontColor(this)" title="Gold"><span class="swatch-check">✓</span></div>
+            <div class="theme-swatch"        data-fc="#e8c4b8"   style="background:#e8c4b8;border:1.5px solid #c5b89a" onclick="selectFontColor(this)" title="Blush"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
+            <div class="theme-swatch"        data-fc="#1c1c1c"   style="background:#1c1c1c"                            onclick="selectFontColor(this)" title="Black"><span class="swatch-check">✓</span></div>
           </div>
         </div>
 
@@ -933,7 +945,8 @@ async function _loadDashboard(session) {
       handle:    dbProfile.handle    || '',
       email:     dbProfile.email,
       bio:       dbProfile.bio       || '',
-      sf_theme:     dbProfile.sf_theme     || 'noir',
+      sf_theme:      dbProfile.sf_theme      || 'noir',
+      sf_font_color: dbProfile.sf_font_color || '#ffffff',
       sf_font:      dbProfile.sf_font      || 'serif',
       sf_btn_style: dbProfile.sf_btn_style || 'rounded',
       sf_bg_image:  dbProfile.sf_bg_image  || '',
@@ -1985,10 +1998,24 @@ async function saveProfile(){
 // ── APPEARANCE ──────────────────────────────────────────────
 function loadAppearance(){
   // Theme
-  const theme = profile.sf_theme || 'purple';
+  const theme = profile.sf_theme || 'noir';
   document.querySelectorAll('.theme-swatch').forEach(s=>{
     s.classList.toggle('active', s.dataset.theme === theme);
   });
+  // Fallback: if stored theme no longer matches any swatch, select first
+  if(!document.querySelector('#themeSwatches .theme-swatch.active')){
+    const first = document.querySelector('#themeSwatches .theme-swatch');
+    if(first) first.classList.add('active');
+  }
+  // Font colour
+  const fc = profile.sf_font_color || '#ffffff';
+  document.querySelectorAll('#fontColorOpts .theme-swatch').forEach(s=>{
+    s.classList.toggle('active', s.dataset.fc === fc);
+  });
+  if(!document.querySelector('#fontColorOpts .theme-swatch.active')){
+    const first = document.querySelector('#fontColorOpts .theme-swatch');
+    if(first) first.classList.add('active');
+  }
   // Font
   const font = profile.sf_font || 'serif';
   document.querySelectorAll('.font-opt').forEach(s=>{
@@ -2022,7 +2049,12 @@ function loadAppearance(){
 }
 
 function selectTheme(el){
-  document.querySelectorAll('.theme-swatch').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('#themeSwatches .theme-swatch').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  updatePreview();
+}
+function selectFontColor(el){
+  document.querySelectorAll('#fontColorOpts .theme-swatch').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
   updatePreview();
 }
@@ -2099,20 +2131,21 @@ async function handleAvatarUpload(input){
 
 function updatePreview(){
   const themeMap = {
-    noir:     '#0a0a0a',
-    slate:    'linear-gradient(160deg,#1e293b,#334155)',
-    plum:     'linear-gradient(160deg,#4a1f42,#6b2d5e)',
-    blush:    'linear-gradient(160deg,#9e485e,#c4637a)',
-    terra:    'linear-gradient(160deg,#7c3d1e,#a8532a)',
-    caramel:  'linear-gradient(160deg,#a06838,#c4894a)',
-    sage:     'linear-gradient(160deg,#3d5a4a,#566f5c)',
-    ivory:    'linear-gradient(160deg,#e8e0d4,#f0ebe2)'
+    noir:    '#0a0a0a',
+    slate:   'linear-gradient(160deg,#0d1621,#1a2d47)',
+    plum:    'linear-gradient(160deg,#1a0828,#32124e)',
+    blush:   'linear-gradient(160deg,#3d1428,#6b2540)',
+    terra:   'linear-gradient(160deg,#3a1a0a,#6b3218)',
+    caramel: 'linear-gradient(160deg,#2a1a0e,#5a3b20)',
+    sage:    'linear-gradient(160deg,#0a1a10,#183020)',
+    ivory:   'linear-gradient(160deg,#f5ece0,#ede4d4)'
   };
   const btnRadiusMap = { rounded:'50px', soft:'10px', sharp:'4px', outline:'50px' };
 
-  const theme = document.querySelector('.theme-swatch.active')?.dataset.theme || 'noir';
-  const font  = document.querySelector('.font-opt.active')?.dataset.font  || 'serif';
-  const btn   = document.querySelector('.btn-style-opt.active')?.dataset.btn || 'rounded';
+  const theme   = document.querySelector('#themeSwatches .theme-swatch.active')?.dataset.theme || 'noir';
+  const font    = document.querySelector('.font-opt.active')?.dataset.font  || 'serif';
+  const btn     = document.querySelector('.btn-style-opt.active')?.dataset.btn || 'rounded';
+  const fontColor = document.querySelector('#fontColorOpts .theme-swatch.active')?.dataset.fc || '#ffffff';
   const isLight = theme === 'ivory';
 
   // Header bg
@@ -2126,8 +2159,8 @@ function updatePreview(){
   // Avatar text colour
   const pvAv = document.getElementById('pvAvatar');
   if(pvAv){
-    pvAv.style.color = isLight ? '#1c1c1c' : 'white';
-    pvAv.style.background = isLight ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.2)';
+    pvAv.style.color = fontColor;
+    pvAv.style.background = isLight ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.15)';
     // show avatar image if available
     if(profile?.avatar_url && !pvAv.querySelector('img')){
       pvAv.innerHTML = `<img src="${profile.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
@@ -2141,14 +2174,14 @@ function updatePreview(){
   if(pvName){
     const fontFamily = font==='sans'?"'DM Sans',sans-serif":font==='mono'?'monospace':"'Cormorant Garamond',serif";
     pvName.style.fontFamily = fontFamily;
-    pvName.style.color = isLight ? '#1c1c1c' : 'white';
+    pvName.style.color = fontColor;
     pvName.textContent = (profile?.name || 'Your Name').split(' ')[0];
   }
 
   // Bio
   const pvBio = document.getElementById('pvBio');
   if(pvBio){
-    pvBio.style.color = isLight ? 'rgba(0,0,0,.45)' : 'rgba(255,255,255,.55)';
+    pvBio.style.color = fontColor === '#1c1c1c' ? 'rgba(0,0,0,.45)' : 'rgba(255,255,255,.5)';
     const bioVal = document.getElementById('bioInput')?.value || '';
     pvBio.textContent = bioVal ? (bioVal.slice(0,50)+(bioVal.length>50?'…':'')) : '';
   }
@@ -2169,21 +2202,25 @@ function updatePreview(){
 }
 
 async function saveAppearance(){
-  const theme = document.querySelector('.theme-swatch.active')?.dataset.theme || 'purple';
-  const font  = document.querySelector('.font-opt.active')?.dataset.font  || 'serif';
-  const btn   = document.querySelector('.btn-style-opt.active')?.dataset.btn || 'rounded';
-  const bio   = document.getElementById('bioInput')?.value.trim() || '';
+  const theme     = document.querySelector('#themeSwatches .theme-swatch.active')?.dataset.theme || 'noir';
+  const font      = document.querySelector('.font-opt.active')?.dataset.font  || 'serif';
+  const btn       = document.querySelector('.btn-style-opt.active')?.dataset.btn || 'rounded';
+  const fontColor = document.querySelector('#fontColorOpts .theme-swatch.active')?.dataset.fc || '#ffffff';
+  const bio       = document.getElementById('bioInput')?.value.trim() || '';
 
-  profile.sf_theme     = theme;
-  profile.sf_font      = font;
-  profile.sf_btn_style = btn;
-  profile.bio          = bio;
+  profile.sf_theme      = theme;
+  profile.sf_font       = font;
+  profile.sf_btn_style  = btn;
+  profile.sf_font_color = fontColor;
+  profile.bio           = bio;
 
   const bgImg = document.getElementById('bgImageUrl')?.value?.trim() || '';
   profile.sf_bg_image = bgImg;
   const { error } = await sb.from('signups').update({
     sf_theme: theme, sf_font: font, sf_btn_style: btn, bio, sf_bg_image: bgImg
   }).eq('email', userEmail);
+  // sf_font_color saved separately — silently ignore if column not yet in DB
+  try { await sb.from('signups').update({ sf_font_color: fontColor }).eq('email', userEmail); } catch(e){}
 
   const conf = document.getElementById('appearSaveConfirm');
   if(conf){

@@ -21,15 +21,15 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--in
 a{text-decoration:none;color:inherit}
 
 /* ── HEADER ── */
-.sf-header{background:var(--accent);padding:48px 24px 0;text-align:center;position:relative;overflow:hidden}
-.sf-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(255,255,255,.08) 0%,transparent 70%);pointer-events:none}
+.sf-header{background:var(--accent);padding:56px 24px 0;text-align:center;position:relative;overflow:hidden}
+.sf-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(255,255,255,.06) 0%,transparent 70%);pointer-events:none}
 .sf-inner{max-width:600px;margin:0 auto;position:relative;z-index:1}
 
-.sf-avatar{width:80px;height:80px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--accent);background:white;box-shadow:0 0 0 3px rgba(255,255,255,.15),0 8px 24px rgba(0,0,0,.2)}
+.sf-avatar{width:88px;height:88px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--accent);background:white;box-shadow:0 0 0 3px rgba(255,255,255,.12),0 12px 32px rgba(0,0,0,.28)}
 .sf-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
 
-.sf-name{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:white;margin-bottom:6px;letter-spacing:-.4px;line-height:1}
-.sf-bio{font-size:13px;color:rgba(255,255,255,.5);line-height:1.65;max-width:320px;margin:0 auto 18px;font-weight:300}
+.sf-name{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;color:white;margin-bottom:8px;letter-spacing:-.3px;line-height:1;text-shadow:0 1px 12px rgba(0,0,0,.2)}
+.sf-bio{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;max-width:300px;margin:0 auto 20px;font-weight:300;letter-spacing:.1px}
 
 .sf-socials{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .sf-soc{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.65);padding:5px 13px;border-radius:50px;font-size:12px;transition:all .2s}
@@ -54,28 +54,28 @@ a{text-decoration:none;color:inherit}
 .sf-section-head p{font-size:13px;color:var(--muted);margin-top:2px}
 
 /* Product grid */
-.sf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:14px}
+.sf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:18px}
 
 /* Product card */
-.sf-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s;animation:cardIn .3s ease both}
-@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.sf-card:nth-child(1){animation-delay:.03s}.sf-card:nth-child(2){animation-delay:.06s}.sf-card:nth-child(3){animation-delay:.09s}.sf-card:nth-child(4){animation-delay:.12s}.sf-card:nth-child(5){animation-delay:.15s}.sf-card:nth-child(6){animation-delay:.18s}.sf-card:nth-child(7){animation-delay:.21s}.sf-card:nth-child(8){animation-delay:.24s}
-.sf-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.09)}
+.sf-card{background:var(--bg);border:1px solid var(--border);border-radius:20px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;animation:cardIn .35s ease both}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.sf-card:nth-child(1){animation-delay:.04s}.sf-card:nth-child(2){animation-delay:.08s}.sf-card:nth-child(3){animation-delay:.12s}.sf-card:nth-child(4){animation-delay:.16s}.sf-card:nth-child(5){animation-delay:.20s}.sf-card:nth-child(6){animation-delay:.24s}.sf-card:nth-child(7){animation-delay:.28s}.sf-card:nth-child(8){animation-delay:.32s}
+.sf-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.11)}
 
-.sf-card-img{width:100%;aspect-ratio:1/1;background:var(--warm2);display:flex;align-items:center;justify-content:center;font-size:48px;overflow:hidden;position:relative}
-.sf-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
-.sf-card:hover .sf-card-img img{transform:scale(1.03)}
+.sf-card-img{width:100%;aspect-ratio:4/5;background:var(--warm2);display:flex;align-items:center;justify-content:center;font-size:52px;overflow:hidden;position:relative}
+.sf-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.sf-card:hover .sf-card-img img{transform:scale(1.05)}
 
-.sf-card-body{padding:12px 14px 14px}
-.sf-card-store{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);margin-bottom:5px;opacity:.85}
-.sf-card-name{font-size:13px;font-weight:500;line-height:1.4;margin-bottom:10px;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sf-card-body{padding:14px 16px 16px}
+.sf-card-store{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:5px}
+.sf-card-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;line-height:1.35;margin-bottom:12px;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;letter-spacing:-.1px}
 
 .sf-social-proof{font-size:11px;color:#b45309;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:4px}
 
 .sf-card-actions{display:flex;gap:6px}
-.btn-shop{flex:1;display:block;background:var(--black);color:white;border:none;padding:8px 10px;border-radius:50px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;text-align:center;transition:opacity .15s;letter-spacing:.1px}
-.btn-shop:hover{opacity:.8}
-.btn-copy{background:none;border:1.5px solid var(--border);color:var(--muted);padding:8px 11px;border-radius:50px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-shop{flex:1;display:block;background:var(--black);color:white;border:none;padding:9px 10px;border-radius:50px;font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;text-align:center;transition:opacity .15s;letter-spacing:.3px;text-transform:uppercase}
+.btn-shop:hover{opacity:.75}
+.btn-copy{background:none;border:1.5px solid var(--border);color:var(--muted);padding:9px 12px;border-radius:50px;font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;white-space:nowrap}
 .btn-copy:hover{border-color:var(--black);color:var(--black)}
 
 /* Empty / loading / not found */
@@ -90,13 +90,13 @@ a{text-decoration:none;color:inherit}
 
 /* ── THEMES ── */
 [data-theme="noir"]    .sf-header{background:#0a0a0a}
-[data-theme="slate"]   .sf-header{background:linear-gradient(160deg,#1e293b,#334155)}
-[data-theme="plum"]    .sf-header{background:linear-gradient(160deg,#4a1f42,#6b2d5e)}
-[data-theme="blush"]   .sf-header{background:linear-gradient(160deg,#9e485e,#c4637a)}
-[data-theme="terra"]   .sf-header{background:linear-gradient(160deg,#7c3d1e,#a8532a)}
-[data-theme="caramel"] .sf-header{background:linear-gradient(160deg,#a06838,#c4894a)}
-[data-theme="sage"]    .sf-header{background:linear-gradient(160deg,#3d5a4a,#566f5c)}
-[data-theme="ivory"]   .sf-header{background:linear-gradient(160deg,#e8e0d4,#f0ebe2)}
+[data-theme="slate"]   .sf-header{background:linear-gradient(160deg,#0d1621,#1a2d47)}
+[data-theme="plum"]    .sf-header{background:linear-gradient(160deg,#1a0828,#32124e)}
+[data-theme="blush"]   .sf-header{background:linear-gradient(160deg,#3d1428,#6b2540)}
+[data-theme="terra"]   .sf-header{background:linear-gradient(160deg,#3a1a0a,#6b3218)}
+[data-theme="caramel"] .sf-header{background:linear-gradient(160deg,#2a1a0e,#5a3b20)}
+[data-theme="sage"]    .sf-header{background:linear-gradient(160deg,#0a1a10,#183020)}
+[data-theme="ivory"]   .sf-header{background:linear-gradient(160deg,#f5ece0,#ede4d4)}
 [data-theme="ivory"]   .sf-name{color:#1c1c1c}
 [data-theme="ivory"]   .sf-bio{color:rgba(0,0,0,.5)}
 [data-theme="ivory"]   .sf-avatar{color:#1c1c1c}
@@ -105,9 +105,10 @@ a{text-decoration:none;color:inherit}
 [data-theme="ivory"]   .sf-tab{color:rgba(0,0,0,.4)}
 [data-theme="ivory"]   .sf-tab.active{color:#1c1c1c;border-bottom-color:#1c1c1c}
 [data-theme="ivory"]   .sf-tabs{background:rgba(0,0,0,.06)}
-/* Background image support */
+/* Font colour */
+[data-font-color] .sf-name{color:var(--sf-font-color,white)}
+/* Background image — full bleed, no overlay */
 [data-bg-image="true"] .sf-header{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important}
-[data-bg-image="true"] .sf-header::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.35);pointer-events:none}
 [data-bg-image="true"] .sf-inner{position:relative;z-index:2}
 [data-bg-image="true"] .sf-tabs{position:relative;z-index:2}
 
@@ -202,9 +203,9 @@ function render(p, products, collection, clickCounts, allCollections, totalProdu
   const brandColor = p.brand_color || '#0a0a0a';
   document.documentElement.style.setProperty('--sf-accent', brandColor);
 
-  const theme = p.sf_theme || 'purple';
-  const font  = p.sf_font  || 'serif';
-  const btn   = p.sf_btn_style || 'rounded';
+  const theme     = p.sf_theme || 'noir';
+  const font      = p.sf_font  || 'serif';
+  const btn       = p.sf_btn_style || 'rounded';
   document.documentElement.dataset.theme = theme;
   document.documentElement.dataset.font  = font;
   document.documentElement.dataset.btn   = btn;
@@ -273,7 +274,7 @@ function render(p, products, collection, clickCounts, allCollections, totalProdu
 
   const footer = p.plan==='pro'
     ? `<footer></footer>`
-    : `<footer><a href="https://linkglobe.co" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);text-decoration:none;padding:4px 12px;border:1px solid var(--border);border-radius:50px;transition:all .2s" onmouseover="this.style.color='var(--black)';this.style.borderColor='var(--black)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Powered by LinkGlobe</a></footer>`;
+    : `<footer><a href="/" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);text-decoration:none;padding:4px 12px;border:1px solid var(--border);border-radius:50px;transition:all .2s" onmouseover="this.style.color='var(--black)';this.style.borderColor='var(--black)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Powered by LinkGlobe</a></footer>`;
 
   document.getElementById('app').innerHTML = `
     <header class="sf-header">
@@ -301,9 +302,9 @@ function renderNotFound(h){
       <div style="font-size:48px;margin-bottom:16px">🌏</div>
       <h1>${h?`@${esc(h)}`:'Store not found'}</h1>
       <p>${h?`This store isn't available right now.`:'No store handle provided.'}</p>
-      <a href="https://linkglobe.co" style="display:inline-block;background:var(--black);color:white;padding:12px 28px;border-radius:50px;font-size:14px;font-weight:500;margin-top:16px">Go to LinkGlobe →</a>
+      <a href="/" style="display:inline-block;background:var(--black);color:white;padding:12px 28px;border-radius:50px;font-size:14px;font-weight:500;margin-top:16px">Go to LinkGlobe →</a>
     </div>
-    <footer><a href="https://linkglobe.co" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);text-decoration:none;padding:4px 12px;border:1px solid var(--border);border-radius:50px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Powered by LinkGlobe</a></footer>`;
+    <footer><a href="/" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);text-decoration:none;padding:4px 12px;border:1px solid var(--border);border-radius:50px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Powered by LinkGlobe</a></footer>`;
 }
 
 function parseUA(){
