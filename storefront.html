@@ -89,22 +89,27 @@ a{text-decoration:none;color:inherit}
 .sf-notfound p{font-size:14px;color:var(--muted);margin-bottom:24px}
 
 /* ── THEMES ── */
-[data-theme="purple"]  .sf-header{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%)}
-[data-theme="rose"]    .sf-header{background:linear-gradient(135deg,#be185d 0%,#db2777 100%)}
-[data-theme="sunset"]  .sf-header{background:linear-gradient(135deg,#ea580c 0%,#be185d 100%)}
-[data-theme="ocean"]   .sf-header{background:linear-gradient(135deg,#0369a1 0%,#0891b2 100%)}
-[data-theme="forest"]  .sf-header{background:linear-gradient(135deg,#15803d 0%,#065f46 100%)}
-[data-theme="black"]   .sf-header{background:#0a0a0a}
-[data-theme="midnight"].sf-header{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 100%)}
-[data-theme="sand"]    .sf-header{background:linear-gradient(135deg,#e8dcc8 0%,#d4c9b0 100%)}
-[data-theme="sand"]    .sf-name{color:#1c1c1c}
-[data-theme="sand"]    .sf-bio{color:rgba(0,0,0,.5)}
-[data-theme="sand"]    .sf-avatar{color:#1c1c1c}
-[data-theme="sand"]    .sf-soc{background:rgba(0,0,0,.07);border-color:rgba(0,0,0,.12);color:rgba(0,0,0,.6)}
-[data-theme="sand"]    .sf-share-btn{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.1);color:rgba(0,0,0,.5)}
-[data-theme="sand"]    .sf-tab{color:rgba(0,0,0,.4)}
-[data-theme="sand"]    .sf-tab.active{color:#1c1c1c;border-bottom-color:#1c1c1c}
-[data-theme="sand"]    .sf-tabs{background:rgba(0,0,0,.06)}
+[data-theme="noir"]    .sf-header{background:#0a0a0a}
+[data-theme="slate"]   .sf-header{background:linear-gradient(160deg,#1e293b,#334155)}
+[data-theme="plum"]    .sf-header{background:linear-gradient(160deg,#4a1f42,#6b2d5e)}
+[data-theme="blush"]   .sf-header{background:linear-gradient(160deg,#9e485e,#c4637a)}
+[data-theme="terra"]   .sf-header{background:linear-gradient(160deg,#7c3d1e,#a8532a)}
+[data-theme="caramel"] .sf-header{background:linear-gradient(160deg,#a06838,#c4894a)}
+[data-theme="sage"]    .sf-header{background:linear-gradient(160deg,#3d5a4a,#566f5c)}
+[data-theme="ivory"]   .sf-header{background:linear-gradient(160deg,#e8e0d4,#f0ebe2)}
+[data-theme="ivory"]   .sf-name{color:#1c1c1c}
+[data-theme="ivory"]   .sf-bio{color:rgba(0,0,0,.5)}
+[data-theme="ivory"]   .sf-avatar{color:#1c1c1c}
+[data-theme="ivory"]   .sf-soc{background:rgba(0,0,0,.07);border-color:rgba(0,0,0,.12);color:rgba(0,0,0,.6)}
+[data-theme="ivory"]   .sf-share-btn{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.1);color:rgba(0,0,0,.5)}
+[data-theme="ivory"]   .sf-tab{color:rgba(0,0,0,.4)}
+[data-theme="ivory"]   .sf-tab.active{color:#1c1c1c;border-bottom-color:#1c1c1c}
+[data-theme="ivory"]   .sf-tabs{background:rgba(0,0,0,.06)}
+/* Background image support */
+[data-bg-image="true"] .sf-header{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important}
+[data-bg-image="true"] .sf-header::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.35);pointer-events:none}
+[data-bg-image="true"] .sf-inner{position:relative;z-index:2}
+[data-bg-image="true"] .sf-tabs{position:relative;z-index:2}
 
 /* ── FONTS ── */
 [data-font="sans"]  .sf-name{font-family:'DM Sans',sans-serif;letter-spacing:-.5px}
@@ -163,7 +168,7 @@ function proxyImg(el, emoji){
     {data:clickRows},
     {data:allCollections}
   ] = await Promise.all([
-    sb.from('signups').select('name,bio,instagram,tiktok,handle,plan,brand_color,custom_domain,avatar_url,sf_theme,sf_font,sf_btn_style').eq('handle',handle).single(),
+    sb.from('signups').select('name,bio,instagram,tiktok,handle,plan,brand_color,custom_domain,avatar_url,sf_theme,sf_font,sf_btn_style,sf_bg_image').eq('handle',handle).single(),
     sb.from('products').select('*').eq('handle',handle).order('created_at',{ascending:false}),
     sb.from('clicks').select('product_id').eq('handle',handle),
     sb.from('collections').select('*,collection_products(product_id)').eq('handle',handle).order('created_at',{ascending:true})
@@ -203,6 +208,14 @@ function render(p, products, collection, clickCounts, allCollections, totalProdu
   document.documentElement.dataset.theme = theme;
   document.documentElement.dataset.font  = font;
   document.documentElement.dataset.btn   = btn;
+  const bgImage = p.sf_bg_image || '';
+  if(bgImage){
+    document.documentElement.dataset.bgImage = 'true';
+    const header = document.querySelector('.sf-header');
+    if(header) header.style.backgroundImage = `url(${bgImage})`;
+  } else {
+    document.documentElement.dataset.bgImage = 'false';
+  }
 
   document.getElementById('pageTitle').textContent = (p.name||'Creator')+"'s Picks – LinkGlobe";
   document.getElementById('ogTitle').setAttribute('content',(p.name||'Creator')+"'s Picks");

@@ -13,7 +13,7 @@ a{text-decoration:none;color:inherit}
 /* NAV */
 nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .nav-logo{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:600;color:var(--black)}
-.nav-logo-mark{width:28px;height:28px;background:white;border:1px solid rgba(0,0,0,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:14px}
+.nav-logo-mark{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .nav-r{display:flex;align-items:center;gap:10px}
 .plan-badge{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gray);background:var(--warm2);border:1px solid var(--border2);padding:3px 10px;border-radius:50px}
 .btn-view-store{background:var(--black);color:white;font-size:12px;font-weight:500;padding:7px 16px;border-radius:50px;transition:opacity .15s}
@@ -298,11 +298,11 @@ a.nav-logo{text-decoration:none;cursor:pointer}
 .appear-preview-col{position:sticky;top:20px}
 .appear-preview-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.9px;color:var(--muted);text-align:center;margin-bottom:12px}
 /* Phone frame */
-.phone-frame{width:160px;margin:0 auto;border-radius:26px;overflow:hidden;border:5px solid #1c1c1c;box-shadow:0 16px 40px rgba(0,0,0,.28)}
-.phone-notch{width:50px;height:10px;background:#1c1c1c;border-radius:0 0 7px 7px;margin:0 auto}
+.phone-frame{width:160px;margin:0 auto;border-radius:26px;overflow:hidden;border:5px solid #1c1c1c;box-shadow:0 16px 40px rgba(0,0,0,.28);background:#0a0a0a}
+.phone-notch{width:40px;height:8px;background:rgba(0,0,0,.35);border-radius:0 0 6px 6px;margin:0 auto 10px}
 .phone-screen{background:#f7f6f3;border-radius:0 0 21px 21px;overflow:hidden}
 /* Preview header */
-.pv-header{padding:16px 10px 10px;text-align:center;transition:background .25s}
+.pv-header{padding:0 10px 10px;text-align:center;transition:background .25s}
 .pv-avatar-wrap{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;font-weight:600;overflow:hidden;flex-shrink:0}
 .pv-avatar-wrap img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .pv-name{font-size:11px;font-weight:600;color:white;margin-bottom:2px;transition:font-family .2s}
@@ -345,7 +345,7 @@ a.nav-logo{text-decoration:none;cursor:pointer}
 
 <nav>
   <a href="https://linkglobe.co" class="nav-logo">
-    <div class="nav-logo-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+    <div class="nav-logo-mark"><img src="/logo.png" alt="LinkGlobe" style="width:100%;height:100%;object-fit:contain;display:block;border-radius:6px"></div>
     LinkGlobe
   </a>
   <div class="nav-r">
@@ -509,16 +509,16 @@ a.nav-logo{text-decoration:none;cursor:pointer}
         <!-- Theme -->
         <div class="appear-section">
           <div class="appear-label">Theme</div>
-          <div class="theme-swatches" id="themeSwatches">
-            <div class="theme-swatch active" data-theme="purple"   style="background:linear-gradient(135deg,#4f46e5,#7c3aed)"        onclick="selectTheme(this)" title="Purple"><span class="swatch-check">✓</span></div>
-            <div class="theme-swatch"        data-theme="rose"     style="background:linear-gradient(135deg,#be185d,#db2777)"        onclick="selectTheme(this)" title="Rose"><span class="swatch-check">✓</span></div>
-            <div class="theme-swatch"        data-theme="sunset"   style="background:linear-gradient(135deg,#ea580c,#be185d)"        onclick="selectTheme(this)" title="Sunset"><span class="swatch-check">✓</span></div>
-            <div class="theme-swatch"        data-theme="ocean"    style="background:linear-gradient(135deg,#0369a1,#0891b2)"        onclick="selectTheme(this)" title="Ocean"><span class="swatch-check">✓</span></div>
-            <div class="theme-swatch"        data-theme="forest"   style="background:linear-gradient(135deg,#15803d,#065f46)"        onclick="selectTheme(this)" title="Forest"><span class="swatch-check">✓</span></div>
-            <div class="theme-swatch"        data-theme="black"    style="background:#0a0a0a"                                         onclick="selectTheme(this)" title="Black"><span class="swatch-check">✓</span></div>
-            <div class="theme-swatch"        data-theme="midnight" style="background:linear-gradient(135deg,#1e1b4b,#312e81)"        onclick="selectTheme(this)" title="Midnight"><span class="swatch-check">✓</span></div>
-            <div class="theme-swatch"        data-theme="sand"     style="background:linear-gradient(135deg,#e8dcc8,#d4c9b0);border:1px solid #c5b89a" onclick="selectTheme(this)" title="Sand"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
-          </div>
+<div class="theme-swatches" id="themeSwatches">
+  <div class="theme-swatch active" data-theme="noir"     style="background:#0a0a0a"                                          onclick="selectTheme(this)" title="Noir"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="slate"    style="background:linear-gradient(160deg,#1e293b,#334155)"          onclick="selectTheme(this)" title="Slate"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="plum"     style="background:linear-gradient(160deg,#4a1f42,#6b2d5e)"          onclick="selectTheme(this)" title="Plum"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="blush"    style="background:linear-gradient(160deg,#9e485e,#c4637a)"          onclick="selectTheme(this)" title="Blush"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="terra"    style="background:linear-gradient(160deg,#7c3d1e,#a8532a)"          onclick="selectTheme(this)" title="Terra"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="caramel"  style="background:linear-gradient(160deg,#a06838,#c4894a)"          onclick="selectTheme(this)" title="Caramel"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="sage"     style="background:linear-gradient(160deg,#3d5a4a,#566f5c)"          onclick="selectTheme(this)" title="Sage"><span class="swatch-check">✓</span></div>
+  <div class="theme-swatch"        data-theme="ivory"    style="background:linear-gradient(160deg,#e8e0d4,#f0ebe2);border:1px solid #c5b89a" onclick="selectTheme(this)" title="Ivory"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
+</div>
         </div>
 
         <!-- Font -->
@@ -551,6 +551,25 @@ a.nav-logo{text-decoration:none;cursor:pointer}
           </div>
         </div>
 
+        <!-- Background image -->
+        <div class="appear-section">
+          <div class="appear-label">Background image <span style="font-size:10px;color:var(--muted);font-weight:400">— overrides theme colour</span></div>
+          <div class="avatar-row" style="margin-bottom:8px">
+            <div style="width:56px;height:40px;border-radius:8px;overflow:hidden;border:1px solid var(--border);flex-shrink:0;background:var(--warm2);display:flex;align-items:center;justify-content:center" id="bgThumb">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a0a0a8" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            <div>
+              <input type="file" id="bgImageFile" accept="image/*" style="display:none" onchange="handleBgImageUpload(this)">
+              <button class="btn-upload-avatar" onclick="document.getElementById('bgImageFile').click()">Upload image</button>
+              <p style="font-size:11px;color:var(--muted);margin-top:4px">Landscape · JPG or PNG · covers header</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <input type="text" id="bgImageUrl" placeholder="Or paste image URL…" style="flex:1;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'DM Sans',sans-serif;color:var(--black)" oninput="previewBgImage(this.value)">
+            <button style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;background:white;color:var(--muted);cursor:pointer" onclick="clearBgImage()" title="Remove image">✕</button>
+          </div>
+        </div>
+
         <button class="btn-save-tags" onclick="saveAppearance()" style="margin-top:8px">Save appearance</button>
         <span class="save-confirm" id="appearSaveConfirm" style="display:none;margin-left:10px;font-size:12px;color:var(--green);font-weight:600">✓ Saved</span>
       </div>
@@ -559,9 +578,9 @@ a.nav-logo{text-decoration:none;cursor:pointer}
       <div class="appear-preview-col">
         <div class="appear-preview-label">Live preview</div>
         <div class="phone-frame">
-          <div class="phone-notch"></div>
           <div class="phone-screen">
-            <div class="pv-header" id="pvHeader" style="background:linear-gradient(135deg,#4f46e5,#7c3aed)">
+            <div class="pv-header" id="pvHeader" style="background:#0a0a0a">
+              <div class="phone-notch"></div>
               <div class="pv-avatar-wrap" id="pvAvatar">S</div>
               <div class="pv-name" id="pvName">Your Name</div>
               <div class="pv-bio-text" id="pvBio"></div>
@@ -914,9 +933,10 @@ async function _loadDashboard(session) {
       handle:    dbProfile.handle    || '',
       email:     dbProfile.email,
       bio:       dbProfile.bio       || '',
-      sf_theme:     dbProfile.sf_theme     || 'purple',
+      sf_theme:     dbProfile.sf_theme     || 'noir',
       sf_font:      dbProfile.sf_font      || 'serif',
       sf_btn_style: dbProfile.sf_btn_style || 'rounded',
+      sf_bg_image:  dbProfile.sf_bg_image  || '',
       avatar_url:   dbProfile.avatar_url   || '',
       instagram: dbProfile.instagram || '',
       tiktok:    dbProfile.tiktok    || '',
@@ -1995,6 +2015,9 @@ function loadAppearance(){
     const cnt = document.getElementById('bioCount');
     if(cnt) cnt.textContent = bioEl.value.length;
   }
+  // Background image
+  const bgUrlEl = document.getElementById('bgImageUrl');
+  if(bgUrlEl && profile.sf_bg_image){ bgUrlEl.value = profile.sf_bg_image; previewBgImage(profile.sf_bg_image); }
   updatePreview();
 }
 
@@ -2012,6 +2035,43 @@ function selectBtnStyle(el){
   document.querySelectorAll('.btn-style-opt').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
   updatePreview();
+}
+
+function previewBgImage(url){
+  const thumb = document.getElementById('bgThumb');
+  if(thumb && url){
+    thumb.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:7px">`;
+  } else if(thumb){
+    thumb.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a0a0a8" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>`;
+  }
+  updatePreview();
+}
+function clearBgImage(){
+  const urlEl = document.getElementById('bgImageUrl');
+  if(urlEl) urlEl.value = '';
+  profile.sf_bg_image = '';
+  previewBgImage('');
+}
+async function handleBgImageUpload(input){
+  const file = input.files[0];
+  if(!file) return;
+  if(file.size > 5*1024*1024){ alert('Please use an image under 5MB'); return; }
+  const ext = file.name.split('.').pop().toLowerCase();
+  const path = `${profile.handle}/bg.${ext}`;
+  const { data, error } = await sb.storage.from('avatars').upload(path, file, { upsert:true, contentType:file.type });
+  if(error){
+    const url = URL.createObjectURL(file);
+    const urlEl = document.getElementById('bgImageUrl');
+    if(urlEl) urlEl.value = url;
+    previewBgImage(url);
+    return;
+  }
+  const { data:pub } = sb.storage.from('avatars').getPublicUrl(path);
+  const bgUrl = pub.publicUrl;
+  profile.sf_bg_image = bgUrl;
+  const urlEl = document.getElementById('bgImageUrl');
+  if(urlEl) urlEl.value = bgUrl;
+  previewBgImage(bgUrl);
 }
 
 async function handleAvatarUpload(input){
@@ -2039,31 +2099,35 @@ async function handleAvatarUpload(input){
 
 function updatePreview(){
   const themeMap = {
-    purple:   'linear-gradient(135deg,#4f46e5,#7c3aed)',
-    rose:     'linear-gradient(135deg,#be185d,#db2777)',
-    sunset:   'linear-gradient(135deg,#ea580c,#be185d)',
-    ocean:    'linear-gradient(135deg,#0369a1,#0891b2)',
-    forest:   'linear-gradient(135deg,#15803d,#065f46)',
-    black:    '#0a0a0a',
-    midnight: 'linear-gradient(135deg,#1e1b4b,#312e81)',
-    sand:     'linear-gradient(135deg,#e8dcc8,#d4c9b0)'
+    noir:     '#0a0a0a',
+    slate:    'linear-gradient(160deg,#1e293b,#334155)',
+    plum:     'linear-gradient(160deg,#4a1f42,#6b2d5e)',
+    blush:    'linear-gradient(160deg,#9e485e,#c4637a)',
+    terra:    'linear-gradient(160deg,#7c3d1e,#a8532a)',
+    caramel:  'linear-gradient(160deg,#a06838,#c4894a)',
+    sage:     'linear-gradient(160deg,#3d5a4a,#566f5c)',
+    ivory:    'linear-gradient(160deg,#e8e0d4,#f0ebe2)'
   };
   const btnRadiusMap = { rounded:'50px', soft:'10px', sharp:'4px', outline:'50px' };
 
-  const theme = document.querySelector('.theme-swatch.active')?.dataset.theme || 'purple';
+  const theme = document.querySelector('.theme-swatch.active')?.dataset.theme || 'noir';
   const font  = document.querySelector('.font-opt.active')?.dataset.font  || 'serif';
   const btn   = document.querySelector('.btn-style-opt.active')?.dataset.btn || 'rounded';
-  const isSand = theme === 'sand';
+  const isLight = theme === 'ivory';
 
   // Header bg
   const pvHeader = document.getElementById('pvHeader');
-  if(pvHeader) pvHeader.style.background = themeMap[theme] || themeMap.purple;
+  const bgImg = document.getElementById('bgImageUrl')?.value?.trim() || profile?.sf_bg_image || '';
+  if(pvHeader){
+    if(bgImg){ pvHeader.style.background = `url(${bgImg}) center/cover no-repeat`; pvHeader.style.backgroundBlendMode=''; }
+    else { pvHeader.style.background = themeMap[theme] || themeMap.noir; pvHeader.style.backgroundImage=''; }
+  }
 
   // Avatar text colour
   const pvAv = document.getElementById('pvAvatar');
   if(pvAv){
-    pvAv.style.color = isSand ? '#1c1c1c' : 'white';
-    pvAv.style.background = isSand ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.2)';
+    pvAv.style.color = isLight ? '#1c1c1c' : 'white';
+    pvAv.style.background = isLight ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.2)';
     // show avatar image if available
     if(profile?.avatar_url && !pvAv.querySelector('img')){
       pvAv.innerHTML = `<img src="${profile.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
@@ -2077,21 +2141,21 @@ function updatePreview(){
   if(pvName){
     const fontFamily = font==='sans'?"'DM Sans',sans-serif":font==='mono'?'monospace':"'Cormorant Garamond',serif";
     pvName.style.fontFamily = fontFamily;
-    pvName.style.color = isSand ? '#1c1c1c' : 'white';
+    pvName.style.color = isLight ? '#1c1c1c' : 'white';
     pvName.textContent = (profile?.name || 'Your Name').split(' ')[0];
   }
 
   // Bio
   const pvBio = document.getElementById('pvBio');
   if(pvBio){
-    pvBio.style.color = isSand ? 'rgba(0,0,0,.45)' : 'rgba(255,255,255,.55)';
+    pvBio.style.color = isLight ? 'rgba(0,0,0,.45)' : 'rgba(255,255,255,.55)';
     const bioVal = document.getElementById('bioInput')?.value || '';
     pvBio.textContent = bioVal ? (bioVal.slice(0,50)+(bioVal.length>50?'…':'')) : '';
   }
 
   // Tabs bg
   const pvTabs = document.getElementById('pvTabs');
-  if(pvTabs) pvTabs.style.background = isSand ? 'rgba(0,0,0,.07)' : 'rgba(0,0,0,.18)';
+  if(pvTabs) pvTabs.style.background = isLight ? 'rgba(0,0,0,.07)' : 'rgba(0,0,0,.18)';
 
   // Buttons
   const radius = btnRadiusMap[btn] || '50px';
@@ -2115,8 +2179,10 @@ async function saveAppearance(){
   profile.sf_btn_style = btn;
   profile.bio          = bio;
 
+  const bgImg = document.getElementById('bgImageUrl')?.value?.trim() || '';
+  profile.sf_bg_image = bgImg;
   const { error } = await sb.from('signups').update({
-    sf_theme: theme, sf_font: font, sf_btn_style: btn, bio
+    sf_theme: theme, sf_font: font, sf_btn_style: btn, bio, sf_bg_image: bgImg
   }).eq('email', userEmail);
 
   const conf = document.getElementById('appearSaveConfirm');
