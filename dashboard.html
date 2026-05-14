@@ -566,29 +566,23 @@ function showPreview() {
     }
   }
 
-  // Set image
-  const img = document.getElementById('imgPreview');
-  if (asin) {
-    // Amazon image from ASIN
-    img.style.display = 'block';
-    document.getElementById('imgEmoji').style.display = 'none';
-    img.src = `https://images-na.ssl-images-amazon.com/images/P/${asin}.01._SCLZZZZZZZ_.jpg`;
-    img.onerror = () => {
-      img.style.display = 'none';
-      const e = document.getElementById('imgEmoji');
-      e.style.display = 'flex';
-      e.textContent = info.emoji;
-    };
-    document.getElementById('imgPreviewName').textContent = 'Amazon · ASIN ' + asin;
-  } else {
-    img.style.display = 'none';
-    const e = document.getElementById('imgEmoji');
-    e.style.display = 'flex';
-    e.textContent = info.emoji;
-    document.getElementById('imgPreviewName').textContent = info.label + ' product';
-  }
-
+  // Show emoji immediately, then async-fetch the real image
+  const imgEl = document.getElementById('imgPreview');
+  const emojiEl = document.getElementById('imgEmoji');
+  imgEl.style.display = 'none';
+  emojiEl.style.display = 'flex';
+  emojiEl.textContent = info.emoji;
+  document.getElementById('imgPreviewName').textContent = asin ? ('Amazon · ASIN ' + asin) : (info.label + ' product');
   wrap.style.display = 'flex';
+
+  const previewUrl = raw;
+  fetchOgImage(previewUrl).then(src => {
+    if (document.getElementById('prodUrl').value.trim() !== previewUrl) return;
+    if (!src) return;
+    imgEl.onload  = () => { emojiEl.style.display = 'none'; imgEl.style.display = 'block'; };
+    imgEl.onerror = () => { imgEl.style.display = 'none'; emojiEl.style.display = 'flex'; };
+    imgEl.src = src;
+  });
 }
 
 // ── COLOUR PICKER ─────────────────────────────────────────────
@@ -897,42 +891,82 @@ function _cleanUrl(url) {
 
 async function fetchOgImage(rawUrl) {
   const url = _cleanUrl(rawUrl);
+  console.log('[fetchOgImage] fetching image for', url);
 
-  // Run our serverless function and microlink in parallel — take the first valid image
+  function attempt(promise) {
+    return promise.then(img => {
+      if (img && img.startsWith('http')) { console.log('[fetchOgImage] got', img); return img; }
+      return Promise.reject('empty');
+    });
+  }
+
   function tryApi() {
-    return fetch('/api/og?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(10000) })
-      .then(function(r) { return r.ok ? r.json() : {}; })
-      .then(function(d) { return (d.image && d.image.startsWith('http')) ? d.image : Promise.reject(''); })
-      .catch(function() { return Promise.reject(''); });
+    return attempt(
+      fetch('/api/og?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(12000) })
+        .then(r => r.ok ? r.json() : {}).then(d => d.image || '').catch(() => '')
+    );
   }
   function tryMicrolink() {
-    return fetch('https://api.microlink.io/?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(12000) })
-      .then(function(r) { return r.ok ? r.json() : {}; })
-      .then(function(d) { var img = d && d.data && d.data.image && d.data.image.url; return img ? img : Promise.reject(''); })
-      .catch(function() { return Promise.reject(''); });
+    return attempt(
+      fetch('https://api.microlink.io/?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(12000) })
+        .then(r => r.ok ? r.json() : {}).then(d => (d && d.data && d.data.image && d.data.image.url) || '').catch(() => '')
+    );
+  }
+  function tryJsonLink() {
+    return attempt(
+      fetch('https://jsonlink.io/api/extract?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(10000) })
+        .then(r => r.ok ? r.json() : {}).then(d => (d && d.images && d.images[0]) || '').catch(() => '')
+    );
+  }
+  function tryOpengraph() {
+    const ogUrl = 'https://opengraph.io/api/1.1/site/' + encodeURIComponent(url) + '?accept_lang=auto';
+    return attempt(
+      fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(ogUrl), { signal: AbortSignal.timeout(10000) })
+        .then(r => r.ok ? r.json() : {})
+        .then(d => { try { const j = JSON.parse(d.contents); return (j && j.openGraph && j.openGraph.image && j.openGraph.image.url) || ''; } catch { return ''; } })
+        .catch(() => '')
+    );
   }
 
   try {
-    return await Promise.any([tryApi(), tryMicrolink()]);
-  } catch { return ''; }
+    return await Promise.any([tryApi(), tryMicrolink(), tryJsonLink(), tryOpengraph()]);
+  } catch {
+    console.warn('[fetchOgImage] all sources failed for', url);
+    return '';
+  }
 }
 
 // ── REFRESH MISSING IMAGES ────────────────────────────────────
-// Runs in background on load — fixes existing products saved without images
 async function refreshMissingImages() {
   const missing = products.filter(p => !p.image && p.original_url);
+  console.log('[refreshMissingImages] products missing images:', missing.length);
   if (!missing.length) return;
-  let anyUpdated = false;
-  for (const p of missing) {
+
+  await Promise.allSettled(missing.map(async p => {
     try {
-      let img = await fetchOgImage(p.original_url);
-      if (!img) continue;
+      const img = await fetchOgImage(p.original_url);
+      if (!img) { console.warn('[refreshMissingImages] no image for', p.original_url); return; }
+      console.log('[refreshMissingImages] updating', p.id, img);
       p.image = img;
-      await sb.from('products').update({ image: img }).eq('id', p.id);
-      anyUpdated = true;
-    } catch(e) { /* skip — don't block anything */ }
-  }
-  if (anyUpdated) renderProducts();
+      _updateCardImage(p.id, img, p.emoji);
+      sb.from('products').update({ image: img }).eq('id', p.id).then(({ error }) => {
+        if (error) console.error('[refreshMissingImages] supabase error', error.message);
+      });
+    } catch(e) { console.error('[refreshMissingImages] error for', p.original_url, e); }
+  }));
+}
+
+function _updateCardImage(productId, imgSrc, fallbackEmoji) {
+  const card = document.querySelector('.prod-card[data-id="' + productId + '"]');
+  if (!card) { renderProducts(); return; }
+  const slot = card.querySelector('.prod-img');
+  if (!slot) return;
+  const imgEl = document.createElement('img');
+  imgEl.alt = '';
+  imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover';
+  imgEl.onerror = () => { slot.innerHTML = '<span style="font-size:36px">' + (fallbackEmoji || '🛍️') + '</span>'; };
+  imgEl.onload  = () => { slot.innerHTML = ''; slot.appendChild(imgEl); };
+  imgEl.src = imgSrc;
 }
 
 // ── ADD PRODUCT ────────────────────────────────────────────────
@@ -1016,12 +1050,15 @@ async function addProduct() {
   renderProducts();
   showToast('✓ Product added — fetching photo…');
 
-  // Fetch image in background, update card when found
   fetchOgImage(raw).then(function(img) {
+    console.log('[addProduct] background image result:', img || '(none)');
     if (!img) return;
     data.image = img;
-    sb.from('products').update({ image: img }).eq('id', data.id);
-    renderProducts();
+    _updateCardImage(data.id, img, data.emoji);
+    sb.from('products').update({ image: img }).eq('id', data.id).then(function(res) {
+      if (res.error) console.error('[addProduct] failed to save image:', res.error.message);
+      else console.log('[addProduct] image saved for id', data.id);
+    });
   });
 }
 
@@ -1061,10 +1098,10 @@ function renderProducts() {
   }
 
   grid.innerHTML = list.map(p => `
-    <div class="prod-card${brokenIds.has(p.id) ? ' broken' : ''}">
+    <div class="prod-card${brokenIds.has(p.id) ? ' broken' : ''}" data-id="${p.id}">
       <div class="prod-img">
         ${p.image
-          ? `<img src="${esc(p.image)}" alt="" onerror="this.parentElement.innerHTML='<span style=font-size:36px>${p.emoji}</span>'">`
+          ? `<img src="${esc(p.image)}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span style=font-size:36px>${p.emoji || '🛍️'}</span>'">`
           : `<span>${p.emoji || '🛍️'}</span>`}
       </div>
       <div class="prod-body">
