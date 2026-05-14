@@ -830,42 +830,60 @@ async function saveTags() {
 }
 
 // ── FETCH OG IMAGE ─────────────────────────────────────────────
+function _parseImageFromHtml(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  // All common OG / Twitter image meta tags
+  const og = doc.querySelector(
+    'meta[property="og:image"], meta[property="og:image:url"], ' +
+    'meta[name="twitter:image"], meta[name="twitter:image:src"]'
+  );
+  if (og) {
+    const src = og.getAttribute('content');
+    if (src && src.startsWith('http')) return src;
+  }
+  // JSON-LD structured data (Shopify, Charlotte Tilbury, SKIMS, etc.)
+  for (const s of doc.querySelectorAll('script[type="application/ld+json"]')) {
+    try {
+      const j = JSON.parse(s.textContent);
+      const nodes = Array.isArray(j['@graph']) ? j['@graph'] : [j];
+      for (const n of nodes) {
+        const img = n.image;
+        if (!img) continue;
+        const src = Array.isArray(img) ? img[0] : (typeof img === 'string' ? img : img.url);
+        if (src && src.startsWith('http')) return src;
+      }
+    } catch {}
+  }
+  return '';
+}
+
 async function fetchOgImage(url) {
+  // Proxy 1: allorigins (returns JSON wrapper)
   try {
-    const proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
-    const res = await fetch(proxy, { signal: AbortSignal.timeout(9000) });
-    if (!res.ok) return '';
-    const data = await res.json();
-    const html = data.contents;
-    if (!html) return '';
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-
-    // Try all common OG/Twitter image meta tags
-    const og = doc.querySelector(
-      'meta[property="og:image"], meta[property="og:image:url"], ' +
-      'meta[name="twitter:image"], meta[name="twitter:image:src"]'
-    );
-    if (og) {
-      const src = og.getAttribute('content');
-      if (src && src.startsWith('http')) return src;
+    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url),
+      { signal: AbortSignal.timeout(9000) });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.contents) {
+        const img = _parseImageFromHtml(data.contents);
+        if (img) return img;
+      }
     }
+  } catch {}
 
-    // Try JSON-LD structured data (used by Shopify, Charlotte Tilbury, etc.)
-    for (const s of doc.querySelectorAll('script[type="application/ld+json"]')) {
-      try {
-        const j = JSON.parse(s.textContent);
-        const nodes = Array.isArray(j['@graph']) ? j['@graph'] : [j];
-        for (const n of nodes) {
-          const img = n.image;
-          if (!img) continue;
-          const src = Array.isArray(img) ? img[0] : (typeof img === 'string' ? img : img.url);
-          if (src && src.startsWith('http')) return src;
-        }
-      } catch {}
+  // Proxy 2: corsproxy.io (returns raw HTML)
+  try {
+    const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url),
+      { signal: AbortSignal.timeout(9000) });
+    if (res.ok) {
+      const html = await res.text();
+      const img = _parseImageFromHtml(html);
+      if (img) return img;
     }
-    return '';
-  } catch { return ''; }
+  } catch {}
+
+  return '';
 }
 
 // ── REFRESH MISSING IMAGES ────────────────────────────────────
