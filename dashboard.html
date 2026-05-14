@@ -159,6 +159,18 @@ nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;he
 .section-divider .line{flex:1;height:1px;background:var(--border)}
 .plan-gate{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:var(--warm2);border:1px solid var(--border2);padding:3px 10px;border-radius:50px;white-space:nowrap}
 
+/* Profile settings card */
+.profile-card{background:white;border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px}
+.profile-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.profile-field label{display:block;font-size:11px;font-weight:600;color:var(--ink);margin-bottom:6px;letter-spacing:.2px}
+.profile-field input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--black);transition:border-color .15s;background:white}
+.profile-field input:focus{outline:none;border-color:var(--black)}
+.handle-preview{font-size:12px;color:var(--muted);margin-top:5px}
+.handle-preview strong{color:var(--black)}
+.handle-error{font-size:11px;color:#dc2626;margin-top:4px;display:none}
+.handle-ok{font-size:11px;color:var(--green);margin-top:4px;display:none}
+@media(max-width:600px){.profile-fields{grid-template-columns:1fr}}
+
 /* Storefront Preview */
 .sf-preview{background:var(--black);border-radius:14px;padding:20px 24px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:20px}
 .sf-preview-l p{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px}
@@ -423,6 +435,31 @@ a.nav-logo{text-decoration:none;cursor:pointer}
   </div>
 
   <!-- ── STOREFRONT PREVIEW ──────────────────────────── -->
+  <!-- ── PROFILE SETTINGS ──────────────────────────────── -->
+  <div class="section-divider">
+    <h3>Profile settings</h3>
+    <div class="line"></div>
+  </div>
+  <div class="profile-card">
+    <div class="profile-fields">
+      <div class="profile-field">
+        <label>Display name</label>
+        <input type="text" id="profileName" placeholder="Your name" maxlength="60">
+      </div>
+      <div class="profile-field">
+        <label>Your handle <span style="font-size:10px;color:var(--muted);font-weight:400">(your store URL)</span></label>
+        <input type="text" id="profileHandle" placeholder="zarasai" maxlength="30"
+          oninput="validateHandle(this.value)">
+        <div class="handle-preview">linkglobe.co/<strong id="handlePreview">—</strong></div>
+        <div class="handle-error" id="handleError"></div>
+        <div class="handle-ok" id="handleOk">✓ Available</div>
+      </div>
+    </div>
+    <button class="btn-save-tags" onclick="saveProfile()">Save profile</button>
+    <span class="save-confirm" id="profileSaveConfirm" style="display:none;margin-left:10px;font-size:12px;color:var(--green);font-weight:600">✓ Saved</span>
+  </div>
+
+  <!-- ── YOUR STOREFRONT ─────────────────────────────── -->
   <div class="section-divider">
     <h3>Your storefront</h3>
     <div class="line"></div>
@@ -903,6 +940,7 @@ async function _loadDashboard(session) {
     clearTimeout(timeoutId);
     renderAll();
     loadClickCount();
+    loadProfileFields();
     loadAppearance();
     document.getElementById('loadingOverlay').classList.add('hidden');
     setTimeout(() => refreshMissingImages(), 150);
@@ -1836,6 +1874,92 @@ async function deleteProgram(id) {
   programs = programs.filter(function(p) { return p.id !== id; });
   renderPrograms();
   showToast('Program removed');
+}
+
+// ── PROFILE SETTINGS ────────────────────────────────────────
+function loadProfileFields(){
+  const nameEl   = document.getElementById('profileName');
+  const handleEl = document.getElementById('profileHandle');
+  if(nameEl)   nameEl.value   = profile.name   || '';
+  if(handleEl) handleEl.value = profile.handle || '';
+  updateHandlePreview(profile.handle || '');
+}
+
+function updateHandlePreview(val){
+  const clean = val.toLowerCase().replace(/[^a-z0-9_-]/g,'');
+  const prev  = document.getElementById('handlePreview');
+  if(prev) prev.textContent = clean || '—';
+}
+
+let _handleCheckTimer = null;
+function validateHandle(raw){
+  const val = raw.toLowerCase().replace(/[^a-z0-9_-]/g,'');
+  updateHandlePreview(val);
+  const errEl = document.getElementById('handleError');
+  const okEl  = document.getElementById('handleOk');
+  if(errEl) errEl.style.display = 'none';
+  if(okEl)  okEl.style.display  = 'none';
+  if(!val || val === profile.handle) return;
+  if(val.length < 3){ if(errEl){ errEl.textContent='Handle must be at least 3 characters'; errEl.style.display='block'; } return; }
+  clearTimeout(_handleCheckTimer);
+  _handleCheckTimer = setTimeout(async ()=>{
+    const {data} = await sb.from('signups').select('handle').eq('handle',val).neq('email',userEmail).single();
+    if(data){ if(errEl){ errEl.textContent='That handle is already taken'; errEl.style.display='block'; } }
+    else     { if(okEl)  okEl.style.display='block'; }
+  }, 500);
+}
+
+async function saveProfile(){
+  const nameEl   = document.getElementById('profileName');
+  const handleEl = document.getElementById('profileHandle');
+  const errEl    = document.getElementById('handleError');
+  const newName   = (nameEl?.value || '').trim();
+  const newHandle = (handleEl?.value || '').toLowerCase().replace(/[^a-z0-9_-]/g,'');
+
+  if(!newHandle || newHandle.length < 3){
+    if(errEl){ errEl.textContent='Handle must be at least 3 characters'; errEl.style.display='block'; } return;
+  }
+  if(errEl && errEl.style.display==='block') return; // availability check failed
+
+  // If handle is changing, update all dependent rows too
+  const oldHandle = profile.handle;
+  const handleChanged = newHandle !== oldHandle;
+
+  const updates = { name: newName };
+  if(handleChanged || !oldHandle) updates.handle = newHandle;
+
+  const {error} = await sb.from('signups').update(updates).eq('email', userEmail);
+  if(error){ alert('Save failed: ' + error.message); return; }
+
+  if(handleChanged && oldHandle){
+    // Update products and collections to new handle
+    await Promise.all([
+      sb.from('products').update({handle:newHandle}).eq('handle',oldHandle),
+      sb.from('collections').update({handle:newHandle}).eq('handle',oldHandle)
+    ]);
+  }
+
+  profile.name   = newName;
+  profile.handle = newHandle;
+
+  // Refresh UI
+  const storeUrl = 'https://linkglobe.co/' + newHandle;
+  const navStore = document.getElementById('navStore');
+  if(navStore) navStore.href = storeUrl;
+  const sfUrl = document.getElementById('sfPreviewUrl');
+  if(sfUrl) sfUrl.textContent = 'linkglobe.co/' + newHandle;
+  const storePill = document.getElementById('storePill');
+  if(storePill) storePill.textContent = window.location.hostname + '/' + newHandle;
+  const navAv = document.getElementById('navAv');
+  if(navAv) navAv.textContent = (newName||'C').charAt(0).toUpperCase();
+  const welcomeEl = document.getElementById('welcomeName');
+  if(welcomeEl) welcomeEl.textContent = 'Welcome back, ' + (newName||'Creator').split(' ')[0];
+  updateHandlePreview(newHandle);
+  const okEl = document.getElementById('handleOk');
+  if(okEl) okEl.style.display='none';
+
+  const conf = document.getElementById('profileSaveConfirm');
+  if(conf){ conf.style.display='inline'; setTimeout(()=>conf.style.display='none', 2500); }
 }
 
 // ── APPEARANCE ──────────────────────────────────────────────
