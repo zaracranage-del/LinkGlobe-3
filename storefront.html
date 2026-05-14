@@ -7,6 +7,7 @@
 <meta property="og:title" id="ogTitle" content="LinkGlobe Shop">
 <meta property="og:description" id="ogDesc" content="Shop my favourite picks">
 <meta property="og:type" content="website">
+<meta property="og:url" id="ogUrl" content="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
@@ -122,8 +123,8 @@ a{text-decoration:none;color:inherit}
 [data-btn="soft"]    .btn-copy{border-radius:12px}
 [data-btn="sharp"]   .btn-shop{border-radius:4px}
 [data-btn="sharp"]   .btn-copy{border-radius:4px}
-[data-btn="outline"] .btn-shop{background:transparent;color:var(--black);border:1.5px solid var(--black)}
-[data-btn="outline"] .btn-shop:hover{opacity:1;background:var(--black);color:white}
+[data-btn="outline"] .btn-shop{background:transparent!important;color:var(--sf-btn-color,var(--black));border:1.5px solid var(--sf-btn-color,var(--black))}
+[data-btn="outline"] .btn-shop:hover{opacity:1;background:var(--sf-btn-color,var(--black))!important;color:white}
 
 footer{text-align:center;padding:20px;border-top:1px solid var(--border)}
 footer a{font-size:12px;color:var(--muted);transition:color .2s}
@@ -180,8 +181,8 @@ function proxyImg(el, emoji){
 
   // Optional extra columns (silently ignored if not yet in DB)
   try {
-    const {data:extra} = await sb.from('signups').select('sf_btn_color,sf_font_color').eq('handle',handle).single();
-    if(extra){ profile.sf_btn_color = extra.sf_btn_color; profile.sf_font_color = extra.sf_font_color; }
+    const {data:extra} = await sb.from('signups').select('sf_btn_color,sf_font_color,sf_bg_color').eq('handle',handle).single();
+    if(extra){ profile.sf_btn_color = extra.sf_btn_color; profile.sf_font_color = extra.sf_font_color; profile.sf_bg_color = extra.sf_bg_color; }
   } catch(e){}
 
   const clickCounts = {};
@@ -221,6 +222,13 @@ function render(p, products, collection, clickCounts, allCollections, totalProdu
   const fontColor = p.sf_font_color || (theme === 'ivory' ? '#1c1c1c' : '#ffffff');
   document.documentElement.style.setProperty('--sf-btn-color',  btnColor);
   document.documentElement.style.setProperty('--sf-font-color', fontColor);
+  // Custom solid background colour overrides theme
+  const bgColor = p.sf_bg_color || '';
+  if(bgColor){
+    const header = document.querySelector('.sf-header');
+    if(header) header.style.background = bgColor;
+  }
+  // Background image overrides everything
   const bgImage = p.sf_bg_image || '';
   if(bgImage){
     document.documentElement.dataset.bgImage = 'true';
@@ -229,6 +237,9 @@ function render(p, products, collection, clickCounts, allCollections, totalProdu
   } else {
     document.documentElement.dataset.bgImage = 'false';
   }
+  // og:url
+  const ogUrl = document.querySelector('meta[property="og:url"]');
+  if(ogUrl) ogUrl.setAttribute('content', window.location.href);
 
   document.getElementById('pageTitle').textContent = (p.name||'Creator')+"'s Picks – LinkGlobe";
   document.getElementById('ogTitle').setAttribute('content',(p.name||'Creator')+"'s Picks");
