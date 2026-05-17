@@ -1,5 +1,8 @@
 {
   "rewrites": [
-    { "source": "/:handle((?!api|_next|favicon)[^/]+)", "destination": "/storefront.html" }
+    {
+      "source": "/:handle((?!api|_next|favicon|dashboard|login|onboarding|privacy|terms|reset-password|404|debug|supabasesetup|pro-dashboard-preview|storefront-preview|reel|social-posts|logo)[^/]+)",
+      "destination": "/storefront.html"
+    }
   ]
 }

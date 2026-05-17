@@ -286,7 +286,7 @@ textarea{resize:vertical;min-height:70px}
   <div class="success-wrap" id="successWrap">
     <div class="success-icon">🌏</div>
     <h2 id="successTitle">Your store is live!</h2>
-    <p id="successMsg">We've emailed you a magic link — click it to open your dashboard and start adding products.</p>
+    <p id="successMsg">Your account is ready — head to the dashboard to add your first products.</p>
     <div class="live-link-box">
       <div class="live-link-label">Your storefront URL</div>
       <span id="liveLink">linkglobe.co/yourname</span>
@@ -343,11 +343,27 @@ function updatePreview() {
   document.getElementById('handleAvail').style.display = 'none';
 }
 
+const RESERVED_HANDLES = new Set([
+  'api','dashboard','login','onboarding','privacy','terms',
+  'reset-password','404','debug','supabasesetup',
+  'pro-dashboard-preview','storefront-preview','reel','social-posts','logo',
+  'admin','support','help','about','contact','blog','www','app','linkglobe',
+]);
+
 async function checkHandle() {
   const h     = document.getElementById('fhandle').value.trim().toLowerCase();
   const email = document.getElementById('femail').value.trim().toLowerCase();
   if (!h) return;
   const avail = document.getElementById('handleAvail');
+
+  if (RESERVED_HANDLES.has(h)) {
+    handleIsAvailable = false;
+    avail.className = 'handle-avail taken';
+    avail.textContent = '✕ @'+h+' is reserved — please choose another';
+    avail.style.display = 'block';
+    return;
+  }
+
   avail.className = 'handle-avail checking';
   avail.textContent = 'Checking availability…';
   avail.style.display = 'block';

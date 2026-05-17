@@ -111,7 +111,8 @@ nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;he
 .empty-icon{font-size:36px;margin-bottom:10px}
 .empty h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:5px}
 .empty p{color:var(--muted);font-size:13px;max-width:300px;margin:0 auto;line-height:1.6}
-@media(max-width:680px){nav{padding:0 16px}.container{padding:24px 16px 60px}.stats{grid-template-columns:1fr 1fr}.welcome-card{flex-direction:column;align-items:flex-start}.tags-grid{grid-template-columns:1fr 1fr}.add-row{flex-direction:column}.btn-add{width:100%}}
+@media(max-width:680px){nav{padding:0 16px}.container{padding:24px 16px 60px}.stats{grid-template-columns:1fr 1fr}.welcome-card{flex-direction:column;align-items:flex-start}.tags-grid{grid-template-columns:1fr 1fr}.add-row{flex-direction:column}.btn-add{width:100%}.plan-badge{display:none}}
+@media(max-width:420px){.btn-view-store{font-size:11px;padding:6px 10px}}
 
 /* ── ANALYTICS TABS ──────────────────────────────────────────── */
 .an-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;background:var(--warm);border:1px solid var(--border);border-radius:50px;padding:4px}
@@ -967,12 +968,12 @@ async function _loadDashboard(session) {
     _setLoadMsg('Checking session…');
     userEmail = session.user.email;
 
+    /* Payment confirmation — do NOT update plan here; the Stripe webhook does it.
+       We just show a toast if the user landed from a successful checkout. */
     const params = new URLSearchParams(window.location.search);
-    const upgradedPlan = params.get('upgraded');
-    if (upgradedPlan && ['creator', 'pro'].includes(upgradedPlan)) {
-      await sb.from('signups').update({ plan: upgradedPlan }).eq('email', userEmail);
+    if (params.get('checkout') === 'success') {
       window.history.replaceState({}, '', '/dashboard.html');
-      showToast('🎉 Upgraded to ' + upgradedPlan.charAt(0).toUpperCase() + upgradedPlan.slice(1) + ' successfully!');
+      showToast('Payment received! Your plan will upgrade within 30 seconds.');
     }
 
     _setLoadMsg('Loading your profile…');

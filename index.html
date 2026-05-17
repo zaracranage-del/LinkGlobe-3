@@ -254,10 +254,62 @@ footer nav a { font-size: 12px; color: var(--muted); transition: color .2s; }
 footer nav a:hover { color: var(--black); }
 
 /* ──────────────────────── MOBILE ──────────────────────── */
+/* ── HAMBURGER MENU ── */
+.lg-nav__hamburger {
+  display: none; flex-direction: column; justify-content: center;
+  gap: 5px; width: 36px; height: 36px; cursor: pointer;
+  background: none; border: none; padding: 4px; border-radius: 8px;
+  transition: background .15s;
+}
+.lg-nav__hamburger:hover { background: rgba(0,0,0,.05); }
+.lg-nav__hamburger span {
+  display: block; height: 1.5px; background: var(--black);
+  border-radius: 2px; transition: all .25s ease;
+}
+.lg-nav__hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.lg-nav__hamburger.open span:nth-child(2) { opacity: 0; }
+.lg-nav__hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile drawer */
+.lg-nav__drawer {
+  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,.97); backdrop-filter: blur(20px);
+  z-index: 199; flex-direction: column; align-items: center;
+  justify-content: center; gap: 8px; padding: 80px 32px 40px;
+}
+.lg-nav__drawer.open { display: flex; }
+.lg-nav__drawer a {
+  font-size: 28px; font-family: 'Cormorant Garamond', serif;
+  font-weight: 600; color: var(--black); letter-spacing: -.3px;
+  padding: 12px 24px; border-radius: 12px;
+  transition: background .15s; text-align: center; width: 100%;
+}
+.lg-nav__drawer a:hover { background: rgba(0,0,0,.04); }
+.lg-nav__drawer .drawer-divider { height: 1px; background: var(--border); width: 100%; margin: 8px 0; }
+.lg-nav__drawer .drawer-cta {
+  background: var(--black); color: #fff; font-size: 16px;
+  font-family: 'DM Sans', sans-serif; font-weight: 600;
+  padding: 14px 40px; border-radius: 50px; margin-top: 8px;
+  font-weight: 600; letter-spacing: -.2px;
+}
+.lg-nav__drawer .drawer-signin {
+  font-size: 15px; font-family: 'DM Sans', sans-serif;
+  font-weight: 500; color: var(--gray);
+  background: rgba(0,0,0,.05);
+}
+.lg-nav__drawer-close {
+  position: absolute; top: 20px; right: 24px;
+  background: none; border: none; font-size: 22px;
+  color: var(--gray); cursor: pointer; padding: 8px;
+  line-height: 1;
+}
+
 @media (max-width: 860px) {
-  .lg-nav { top: 10px; width: calc(100% - 24px); height: 56px; padding: 0 10px 0 14px; }
-  .lg-nav__links a { padding: 7px 10px; font-size: 13px; }
+  .lg-nav { top: 10px; width: calc(100% - 24px); height: 54px; padding: 0 10px 0 14px; }
+  .lg-nav__links { display: none; }
   .lg-nav__signin { display: none; }
+  .lg-nav__cta { display: none; }
+  .lg-nav__hamburger { display: flex; }
   .lg-nav__wordmark { font-size: 15px; }
   .hero { padding: 100px 20px 64px; }
   .hero-inner { max-width: 100%; }
@@ -280,19 +332,6 @@ footer nav a:hover { color: var(--black); }
 }
 @media (max-width: 520px) {
   .calc-bottom { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 540px) {
-  .lg-nav__links a[href="#analytics"],
-  .lg-nav__links a[href="#testimonials"] { display: none; }
-  .lg-nav__links a { padding: 6px 8px; font-size: 12px; }
-  .lg-nav__cta { padding: 8px 14px; font-size: 13px; }
-  .lg-nav__logo { width: 24px; height: 24px; }
-}
-@media (max-width: 400px) {
-  .lg-nav__links { display: none; }
-  .lg-nav__cta { padding: 7px 12px; font-size: 12px; white-space: nowrap; }
-  .lg-nav { padding: 0 12px; }
 }
 </style>
 
@@ -326,22 +365,38 @@ footer nav a:hover { color: var(--black); }
   <div class="lg-nav__right">
     <a href="/dashboard.html" class="lg-nav__signin">Sign in</a>
     <a href="/onboarding.html" class="lg-nav__cta">Start free →</a>
+    <button class="lg-nav__hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- ── MOBILE DRAWER ── -->
+<div class="lg-nav__drawer" id="navDrawer">
+  <button class="lg-nav__drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+  <a href="#analytics">Why it works</a>
+  <a href="#how-it-works">How it works</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#features">Features</a>
+  <a href="#testimonials">Creators</a>
+  <div class="drawer-divider"></div>
+  <a href="/dashboard.html" class="drawer-signin">Sign in</a>
+  <a href="/onboarding.html" class="drawer-cta">Start free →</a>
+</div>
 <!-- ── HERO ─────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow"><span class="eyebrow-dot"></span>For creators with global audiences</div>
-    <h1>Your fans worldwide.<br><em>Finally buying.</em></h1>
-    <p class="hero-sub">Right now, <strong>60% of your fans can't buy from your affiliate links.</strong> They click, land on the wrong store, and leave. You earn nothing. LinkGlobe fixes this — in 2 minutes, for free.</p>
+    <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Geo-smart affiliate links for creators</div>
+    <h1>One link.<br><em>Every country pays.</em></h1>
+    <p class="hero-sub">Most creators lose <strong>40–60% of affiliate earnings</strong> because fans abroad land on the wrong store. LinkGlobe detects every visitor's country and sends them — with your tag — to the right one. Automatically.</p>
     <div class="hero-form">
       <input type="email" class="hero-input" id="heroEmail" placeholder="Your email address" autocomplete="email">
-      <button class="hero-btn" onclick="go('heroEmail')">Start for free →</button>
+      <button class="hero-btn" onclick="go('heroEmail')">Claim your free link →</button>
     </div>
     <div class="hero-meta">
-      <span>Free plan available</span>
-      <span>No card for free plan</span>
-      <span>Live in 2 minutes</span>
+      <span>Free forever plan</span>
+      <span>No credit card needed</span>
+      <span>Your storefront live in 2 min</span>
     </div>
   </div>
 </section>
@@ -671,6 +726,39 @@ function go(inputId) {
   if (!e || !e.includes('@')) { el.style.borderColor = 'rgba(220,38,38,0.6)'; return; }
   window.location.href = '/onboarding.html?email=' + encodeURIComponent(e);
 }
+
+// ── MOBILE HAMBURGER MENU ──────────────────────────────────────
+(function(){
+  const btn    = document.getElementById('hamburgerBtn');
+  const drawer = document.getElementById('navDrawer');
+  const close  = document.getElementById('drawerClose');
+
+  function openDrawer(){
+    drawer.classList.add('open');
+    btn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    btn.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', function(){
+    drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+  close.addEventListener('click', closeDrawer);
+
+  // Close drawer when a nav link is tapped
+  drawer.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', closeDrawer);
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeDrawer();
+  });
+})();
 </script>
 </body>
 </html>
