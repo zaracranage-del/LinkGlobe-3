@@ -160,61 +160,54 @@ function proxyImg(el, emoji){
   else { el.parentElement.innerHTML='<span style="font-size:48px">'+(emoji||'🛍️')+'</span>'; }
 }
 
+// Global store — loaded once, tab switches are instant (no reload)
+let _profile, _allProducts=[], _clickCounts={}, _allCollections=[];
+
 (async function load(){
   if(!handle){ renderNotFound(''); return; }
 
-  const collectionSlug = new URLSearchParams(window.location.search).get('c');
-
-  // Fetch profile with select('*') so it works regardless of which columns exist
-  const {data:profile, error:profileErr} = await sb.from('signups').select('*').eq('handle',handle).single();
-
-  if(profileErr || !profile){
-    console.error('LinkGlobe storefront: profile lookup failed', {handle, profileErr});
-    // Temporarily show error detail so we can diagnose
-    document.getElementById('app').innerHTML = `<div style="font-family:monospace;padding:32px;max-width:600px;margin:0 auto">
-      <h2>Debug: profile not found for @${handle}</h2>
-      <p><b>Error code:</b> ${profileErr?.code || 'none'}</p>
-      <p><b>Error message:</b> ${profileErr?.message || 'no error but profile is null'}</p>
-      <p><b>Error details:</b> ${profileErr?.details || '-'}</p>
-      <p><b>Error hint:</b> ${profileErr?.hint || '-'}</p>
-    </div>`;
-    return;
-  }
-
-  // Fetch other data in parallel (errors are soft — missing tables won't crash the storefront)
-  const [{data:allProducts}, {data:clickRows}, {data:allCollections}] = await Promise.all([
+  const [
+    {data:profile, error:profileErr},
+    {data:allProducts},
+    {data:clickRows},
+    {data:allCollections}
+  ] = await Promise.all([
+    sb.from('signups').select('*').eq('handle',handle).single(),
     sb.from('products').select('*').eq('handle',handle).order('created_at',{ascending:false}),
     sb.from('clicks').select('product_id').eq('handle',handle),
     sb.from('collections').select('*').eq('handle',handle).order('created_at',{ascending:true})
-      .then(async r => {
-        if(!r.data) return r;
-        // Attach product IDs for each collection
-        const withProds = await Promise.all(r.data.map(async c => {
-          const {data:cp} = await sb.from('collection_products').select('product_id').eq('collection_id',c.id);
-          return {...c, collection_products: cp||[]};
-        }));
-        return {data: withProds};
-      }).catch(()=>({data:[]}))
   ]);
 
-  const clickCounts = {};
-  (clickRows||[]).forEach(r=>{ if(r.product_id) clickCounts[r.product_id]=(clickCounts[r.product_id]||0)+1; });
+  if(profileErr || !profile){ renderNotFound(handle); return; }
 
-  let products = allProducts || [];
-  let activeCollection = null;
-  if(collectionSlug){
-    const {data:coll} = await sb.from('collections')
-      .select('*,collection_products(product_id)')
-      .eq('handle',handle).eq('slug',collectionSlug).single();
-    if(coll){
-      activeCollection = coll;
-      const ids = coll.collection_products.map(cp=>cp.product_id);
-      products = products.filter(p=>ids.includes(p.id));
-    }
-  }
+  // Build click counts
+  (clickRows||[]).forEach(r=>{ if(r.product_id) _clickCounts[r.product_id]=(_clickCounts[r.product_id]||0)+1; });
 
-  render(profile, products, activeCollection, clickCounts, allCollections||[], (allProducts||[]).length);
+  // Attach collection product IDs (one extra query per collection, done once)
+  const collectionsWithProds = await Promise.all((allCollections||[]).map(async c => {
+    const {data:cp} = await sb.from('collection_products').select('product_id').eq('collection_id',c.id);
+    return {...c, collection_products: cp||[]};
+  }));
+
+  _profile       = profile;
+  _allProducts   = allProducts || [];
+  _allCollections= collectionsWithProds;
+
+  // Render the initial view (uses URL ?c= param if present)
+  const initSlug = new URLSearchParams(window.location.search).get('c') || null;
+  const initColl = _allCollections.find(c=>c.slug===initSlug) || null;
+  render(_profile, initColl ? _allProducts.filter(p=>initColl.collection_products.some(cp=>cp.product_id===p.id)) : _allProducts, initColl, _clickCounts, _allCollections, _allProducts.length);
 })();
+
+// Tab click — instant, no page reload
+function switchTab(slug){
+  const coll = slug ? _allCollections.find(c=>c.slug===slug)||null : null;
+  const products = coll ? _allProducts.filter(p=>coll.collection_products.some(cp=>cp.product_id===p.id)) : _allProducts;
+  // Update URL without reload so share links still work
+  const base = window.location.href.split('?')[0];
+  window.history.replaceState(null,'', slug ? `${base}?c=${encodeURIComponent(slug)}` : base);
+  render(_profile, products, coll, _clickCounts, _allCollections, _allProducts.length);
+}
 
 function render(p, products, collection, clickCounts, allCollections, totalProducts){
   clickCounts = clickCounts||{};
@@ -271,11 +264,11 @@ function render(p, products, collection, clickCounts, allCollections, totalProdu
 
   const tabs = `
     <div class="sf-tabs">
-      <div class="sf-tab ${!collection?'active':''}" onclick="navTo('${storeUrl}')">All (${totalProducts})</div>
+      <div class="sf-tab ${!collection?'active':''}" onclick="switchTab(null)">All (${totalProducts})</div>
       ${allCollections.map(c=>{
         const cnt = c.collection_products ? c.collection_products.length : 0;
         const active = collection && collection.id===c.id;
-        return `<div class="sf-tab ${active?'active':''}" onclick="navTo('${storeUrl}?c=${esc(c.slug)}')">${esc(c.name)} (${cnt})</div>`;
+        return `<div class="sf-tab ${active?'active':''}" onclick="switchTab('${esc(c.slug)}')">${esc(c.name)} (${cnt})</div>`;
       }).join('')}
     </div>`;
 

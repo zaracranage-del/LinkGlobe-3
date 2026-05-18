@@ -2131,9 +2131,15 @@ function loadAppearance(){
     const first = document.querySelector('#themeSwatches .theme-swatch');
     if(first) first.classList.add('active');
   }
-  // Apply the saved/active background to the phone preview immediately
+  // Apply saved background immediately on load
   const activeBgEl = document.querySelector('#themeSwatches .theme-swatch.active');
-  if(activeBgEl) applyBgToPreview(activeBgEl.dataset.bg || '#0a0a0a');
+  const initBg = activeBgEl?.dataset.bg || '#0a0a0a';
+  const pvH = document.getElementById('pvHeader');
+  const pvS = document.querySelector('.phone-screen');
+  const pvF = document.querySelector('.phone-frame');
+  if(pvH) pvH.style.background = initBg;
+  if(pvS) pvS.style.background = initBg;
+  if(pvF) pvF.style.background = initBg;
   // Button colour
   const bc = profile.sf_btn_color || '#0a0a0a';
   const bcWheel = document.getElementById('btnColorWheel');
@@ -2213,9 +2219,12 @@ function onBgColorWheel(val){
 }
 function applyBgToPreview(bg){
   const pvHeader = document.getElementById('pvHeader');
-  const pvScreen = pvHeader ? pvHeader.closest('.phone-screen') : null;
+  const pvScreen = document.querySelector('.phone-screen');
+  const pvFrame  = document.querySelector('.phone-frame');
   if(pvHeader){ pvHeader.style.background = bg; }
   if(pvScreen){ pvScreen.style.background = bg; }
+  // Also paint the top of the phone frame so the notch area matches
+  if(pvFrame){ pvFrame.style.background = bg; }
   updatePreview();
 }
 function selectFontColor(el){
@@ -2347,9 +2356,10 @@ function updatePreview(){
   const fontColor   = customFc || document.querySelector('#fontColorOpts .theme-swatch.active')?.dataset.fc || '#ffffff';
   const isLight = theme === 'ivory' || (customBg && isLightColor(customBg));
 
-  // Background — read data-bg directly from the active swatch (same as how btn colour reads data-bc)
+  // Background — read data-bg directly from the active swatch
   const pvHeader = document.getElementById('pvHeader');
-  const pvScreen = pvHeader ? pvHeader.closest('.phone-screen') : null;
+  const pvScreen = document.querySelector('.phone-screen');
+  const pvFrame  = document.querySelector('.phone-frame');
   const bgImg = document.getElementById('bgImageUrl')?.value?.trim() || profile?.sf_bg_image || '';
   const activeBgSwatch = document.querySelector('#themeSwatches .theme-swatch.active');
   const swatchBg = activeBgSwatch ? activeBgSwatch.dataset.bg : '#0a0a0a';
@@ -2357,6 +2367,7 @@ function updatePreview(){
 
   if(pvHeader){ pvHeader.style.background = resolvedBg; }
   if(pvScreen){ pvScreen.style.background = resolvedBg; }
+  if(pvFrame) { pvFrame.style.background  = resolvedBg; }
 
   // Avatar text colour
   const pvAv = document.getElementById('pvAvatar');
