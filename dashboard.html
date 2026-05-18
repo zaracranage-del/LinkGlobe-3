@@ -644,6 +644,7 @@ a.nav-logo{text-decoration:none;cursor:pointer}
       <!-- ── RIGHT: Live preview ── -->
       <div class="appear-preview-col">
         <div class="appear-preview-label">Live preview</div>
+        <div id="pvBackdrop" style="border-radius:20px;padding:18px 0 0;transition:background .25s;margin-bottom:0">
         <div class="phone-frame">
           <div class="phone-screen">
             <div class="pv-header" id="pvHeader" style="background:#0a0a0a">
@@ -696,6 +697,7 @@ a.nav-logo{text-decoration:none;cursor:pointer}
             <div class="pv-footer">🌏 Powered by LinkGlobe</div>
           </div>
         </div>
+        </div><!-- /pvBackdrop -->
       </div>
 
     </div>
@@ -2137,9 +2139,11 @@ function loadAppearance(){
   const pvH = document.getElementById('pvHeader');
   const pvS = document.querySelector('.phone-screen');
   const pvF = document.querySelector('.phone-frame');
-  if(pvH) pvH.style.background = initBg;
-  if(pvS) pvS.style.background = initBg;
-  if(pvF) pvF.style.background = initBg;
+  const pvBd = document.getElementById('pvBackdrop');
+  if(pvH)  pvH.style.background  = initBg;
+  if(pvS)  pvS.style.background  = initBg;
+  if(pvF)  pvF.style.background  = initBg;
+  if(pvBd) pvBd.style.background = initBg;
   // Button colour
   const bc = profile.sf_btn_color || '#0a0a0a';
   const bcWheel = document.getElementById('btnColorWheel');
@@ -2218,13 +2222,14 @@ function onBgColorWheel(val){
   applyBgToPreview(val);
 }
 function applyBgToPreview(bg){
-  const pvHeader = document.getElementById('pvHeader');
-  const pvScreen = document.querySelector('.phone-screen');
-  const pvFrame  = document.querySelector('.phone-frame');
-  if(pvHeader){ pvHeader.style.background = bg; }
-  if(pvScreen){ pvScreen.style.background = bg; }
-  // Also paint the top of the phone frame so the notch area matches
-  if(pvFrame){ pvFrame.style.background = bg; }
+  const pvHeader  = document.getElementById('pvHeader');
+  const pvScreen  = document.querySelector('.phone-screen');
+  const pvFrame   = document.querySelector('.phone-frame');
+  const pvBackdrop= document.getElementById('pvBackdrop');
+  if(pvHeader)   pvHeader.style.background   = bg;
+  if(pvScreen)   pvScreen.style.background   = bg;
+  if(pvFrame)    pvFrame.style.background    = bg;
+  if(pvBackdrop) pvBackdrop.style.background = bg;
   updatePreview();
 }
 function selectFontColor(el){
@@ -2365,9 +2370,11 @@ function updatePreview(){
   const swatchBg = activeBgSwatch ? activeBgSwatch.dataset.bg : '#0a0a0a';
   const resolvedBg = bgImg ? `url(${bgImg}) center/cover no-repeat` : (customBg || swatchBg);
 
-  if(pvHeader){ pvHeader.style.background = resolvedBg; }
-  if(pvScreen){ pvScreen.style.background = resolvedBg; }
-  if(pvFrame) { pvFrame.style.background  = resolvedBg; }
+  const pvBackdropEl = document.getElementById('pvBackdrop');
+  if(pvHeader)     pvHeader.style.background     = resolvedBg;
+  if(pvScreen)     pvScreen.style.background     = resolvedBg;
+  if(pvFrame)      pvFrame.style.background      = resolvedBg;
+  if(pvBackdropEl) pvBackdropEl.style.background = resolvedBg;
 
   // Avatar text colour
   const pvAv = document.getElementById('pvAvatar');
