@@ -826,14 +826,23 @@ a.nav-logo{text-decoration:none;cursor:pointer}
       <h3>Your own domain. Your own brand.</h3>
       <ul>
         <li>Unlimited products</li>
-        <li>Custom domain</li>
+        <li>Full analytics dashboard</li>
         <li>Remove LinkGlobe branding</li>
-        <li>Email capture from fans</li>
-        <li>Broken link alerts</li>
         <li>Priority support</li>
+        <li style="color:var(--muted)">Custom domain <span style="font-size:10px;background:rgba(0,0,0,.07);padding:2px 6px;border-radius:20px;font-weight:600;letter-spacing:.3px">COMING SOON</span></li>
+        <li style="color:var(--muted)">Email capture <span style="font-size:10px;background:rgba(0,0,0,.07);padding:2px 6px;border-radius:20px;font-weight:600;letter-spacing:.3px">COMING SOON</span></li>
       </ul>
     </div>
     <button class="btn-pro" id="proStripBtn">Upgrade to Pro &mdash; $29/mo &rarr;</button>
+  </div>
+
+  <!-- ── DANGER ZONE ──────────────────────────────────────── -->
+  <div class="card" style="margin-top:24px;border-color:rgba(220,38,38,.2)">
+    <div class="card-header" style="margin-bottom:12px">
+      <h3 style="color:var(--red)">Danger zone</h3>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Permanently delete your LinkGlobe account and all associated data — your profile, products, and analytics. This cannot be undone.</p>
+    <button onclick="deleteAccount()" style="background:none;border:1.5px solid var(--red);color:var(--red);padding:9px 20px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s" onmouseover="this.style.background='rgba(220,38,38,.07)'" onmouseout="this.style.background='none'">Delete my account</button>
   </div>
 </div>
 
@@ -1533,6 +1542,30 @@ async function checkBrokenLinks() {
 async function logout() {
   await sb.auth.signOut();
   window.location.href = '/login.html';
+}
+
+async function deleteAccount() {
+  const confirmed = window.confirm(
+    'Are you sure you want to delete your account?\n\nThis will permanently remove your profile, all products, collections and analytics. This cannot be undone.'
+  );
+  if (!confirmed) return;
+
+  const double = window.confirm('Last chance — delete everything permanently?');
+  if (!double) return;
+
+  try {
+    // Delete all user data (cascade handles products, collections etc.)
+    await sb.from('affiliate_programs').delete().eq('user_email', userEmail);
+    await sb.from('clicks').delete().eq('handle', profile.handle);
+    await sb.from('link_clicks').delete().eq('handle', profile.handle);
+    await sb.from('products').delete().eq('handle', profile.handle);
+    await sb.from('collections').delete().eq('handle', profile.handle);
+    await sb.from('signups').delete().eq('email', userEmail);
+    await sb.auth.signOut();
+    window.location.href = '/?deleted=1';
+  } catch (e) {
+    showToast('❌ Could not delete account: ' + e.message);
+  }
 }
 
 // ── HELPERS ────────────────────────────────────────────────────
