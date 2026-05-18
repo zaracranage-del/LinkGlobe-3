@@ -535,14 +535,14 @@ a.nav-logo{text-decoration:none;cursor:pointer}
             <div class="colour-block">
               <div class="colour-block-title">Background</div>
               <div class="theme-swatches" id="themeSwatches" style="gap:6px">
-                <div class="theme-swatch active" data-theme="noir"    data-bg="#0a0a0a"                                 style="background:#0a0a0a"                                 onclick="selectTheme(this)" title="Noir"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="slate"   data-bg="linear-gradient(160deg,#0a0015,#160029)" style="background:linear-gradient(160deg,#0a0015,#160029)" onclick="selectTheme(this)" title="Midnight"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="plum"    data-bg="linear-gradient(160deg,#3d0f20,#773344)" style="background:linear-gradient(160deg,#3d0f20,#773344)" onclick="selectTheme(this)" title="Wine Plum"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="blush"   data-bg="linear-gradient(160deg,#5c1030,#8D2645)" style="background:linear-gradient(160deg,#5c1030,#8D2645)" onclick="selectTheme(this)" title="Orchid"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="terra"   data-bg="linear-gradient(160deg,#250f08,#513229)" style="background:linear-gradient(160deg,#250f08,#513229)" onclick="selectTheme(this)" title="Rawhide"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="caramel" data-bg="linear-gradient(160deg,#1c1012,#554345)" style="background:linear-gradient(160deg,#1c1012,#554345)" onclick="selectTheme(this)" title="Coffee"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="sage"    data-bg="linear-gradient(160deg,#0e2828,#1a4545)" style="background:linear-gradient(160deg,#0e2828,#1a4545)" onclick="selectTheme(this)" title="Deep Teal"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="ivory"   data-bg="#F4F1E2"                                 style="background:#F4F1E2;border:1px solid #c5b89a"        onclick="selectTheme(this)" title="Cream"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
+                <div class="theme-swatch active" data-theme="noir"    data-bg="#0a0a0a"                                 data-preview="#1a1a1a" style="background:#0a0a0a"                                 onclick="selectTheme(this)" title="Noir"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="slate"   data-bg="linear-gradient(160deg,#0a0015,#160029)" data-preview="#2d0050" style="background:linear-gradient(160deg,#0a0015,#160029)" onclick="selectTheme(this)" title="Midnight"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="plum"    data-bg="linear-gradient(160deg,#3d0f20,#773344)" data-preview="#773344" style="background:linear-gradient(160deg,#3d0f20,#773344)" onclick="selectTheme(this)" title="Wine Plum"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="blush"   data-bg="linear-gradient(160deg,#5c1030,#8D2645)" data-preview="#8D2645" style="background:linear-gradient(160deg,#5c1030,#8D2645)" onclick="selectTheme(this)" title="Orchid"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="terra"   data-bg="linear-gradient(160deg,#250f08,#513229)" data-preview="#6b3a26" style="background:linear-gradient(160deg,#250f08,#513229)" onclick="selectTheme(this)" title="Rawhide"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="caramel" data-bg="linear-gradient(160deg,#1c1012,#554345)" data-preview="#554345" style="background:linear-gradient(160deg,#1c1012,#554345)" onclick="selectTheme(this)" title="Coffee"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="sage"    data-bg="linear-gradient(160deg,#0e2828,#1a4545)" data-preview="#1c5c5c" style="background:linear-gradient(160deg,#0e2828,#1a4545)" onclick="selectTheme(this)" title="Deep Teal"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="ivory"   data-bg="#F4F1E2"                                 data-preview="#F4F1E2" style="background:#F4F1E2;border:1px solid #c5b89a"        onclick="selectTheme(this)" title="Cream"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
               </div>
               <div class="colour-wheel-row">
                 <label><input type="color" id="bgColorWheel" value="#0a0a0a" oninput="onBgColorWheel(this.value)"> Custom</label>
@@ -644,7 +644,7 @@ a.nav-logo{text-decoration:none;cursor:pointer}
       <!-- ── RIGHT: Live preview ── -->
       <div class="appear-preview-col">
         <div class="appear-preview-label">Live preview</div>
-        <div id="pvBackdrop" style="border-radius:20px;padding:18px 0 0;transition:background .25s;margin-bottom:0">
+        <div id="pvBackdrop" style="border-radius:20px;padding:20px 20px 0;transition:background .3s;background:#1a1a1a">
         <div class="phone-frame">
           <div class="phone-screen">
             <div class="pv-header" id="pvHeader" style="background:#0a0a0a">
@@ -2212,8 +2212,9 @@ function selectTheme(el){
   document.querySelectorAll('#themeSwatches .theme-swatch').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
   const bgW = document.getElementById('bgColorWheel');
-  if(bgW){ bgW.dataset.custom = ''; bgW.value = el.dataset.bg && !el.dataset.bg.includes('gradient') ? el.dataset.bg : '#0a0a0a'; }
-  applyBgToPreview(el.dataset.bg || '#0a0a0a');
+  if(bgW){ bgW.dataset.custom = ''; bgW.value = el.dataset.preview || '#0a0a0a'; }
+  // Use data-preview (clear solid colour) for the preview, data-bg (gradient) saved to DB
+  applyBgToPreview(el.dataset.preview || el.dataset.bg || '#0a0a0a');
 }
 function onBgColorWheel(val){
   document.querySelectorAll('#themeSwatches .theme-swatch').forEach(s=>s.classList.remove('active'));
@@ -2367,7 +2368,8 @@ function updatePreview(){
   const pvFrame  = document.querySelector('.phone-frame');
   const bgImg = document.getElementById('bgImageUrl')?.value?.trim() || profile?.sf_bg_image || '';
   const activeBgSwatch = document.querySelector('#themeSwatches .theme-swatch.active');
-  const swatchBg = activeBgSwatch ? activeBgSwatch.dataset.bg : '#0a0a0a';
+  // Use data-preview (solid colour) for the preview widget; data-bg is the gradient saved to DB
+  const swatchBg = activeBgSwatch ? (activeBgSwatch.dataset.preview || activeBgSwatch.dataset.bg) : '#0a0a0a';
   const resolvedBg = bgImg ? `url(${bgImg}) center/cover no-repeat` : (customBg || swatchBg);
 
   const pvBackdropEl = document.getElementById('pvBackdrop');
