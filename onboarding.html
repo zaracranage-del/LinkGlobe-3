@@ -486,17 +486,11 @@ async function proceedFromPlan() {
     plan,
   };
 
-  let insertErr;
-  if (paidHandleOwned) {
-    const { error } = await sb.from('signups').update(profileData).eq('email', email);
-    insertErr = error;
-  } else {
-    const { error } = await sb.from('signups').insert(profileData);
-    insertErr = error;
-  }
-  if (insertErr) {
+  const { error: upsertErr } = await sb.from('signups')
+    .upsert(profileData, { onConflict: 'email' });
+  if (upsertErr) {
     btn.disabled = false; btn.textContent = 'Continue →';
-    errBox.textContent = 'Error saving profile: ' + insertErr.message;
+    errBox.textContent = 'Error saving profile: ' + upsertErr.message;
     errBox.style.display = 'block';
     return;
   }
@@ -576,17 +570,14 @@ async function finish() {
       plan,
     };
 
-    let insertErr;
-    if (handleOwnedBySameEmail) {
-      const { error } = await sb.from('signups').update(profileData).eq('email', email);
-      insertErr = error;
-    } else {
-      const { error } = await sb.from('signups').insert(profileData);
-      insertErr = error;
-    }
-    if (insertErr) {
-      errBanner.textContent = 'Error saving profile: ' + insertErr.message;
+    // Upsert — works whether this is a fresh signup, a retry, or a plan switch
+    const { error: upsertErr } = await sb.from('signups')
+      .upsert(profileData, { onConflict: 'email' });
+    if (upsertErr) {
+      errBanner.textContent = 'Error saving profile: ' + upsertErr.message;
       errBanner.style.display = 'block';
+      step3Btn.disabled = false;
+      step3Btn.textContent = 'Continue →';
       return;
     }
 
