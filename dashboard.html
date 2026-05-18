@@ -313,20 +313,20 @@ a.nav-logo{text-decoration:none;cursor:pointer}
 /* Phone frame */
 .phone-frame{width:160px;margin:0 auto;border-radius:26px;overflow:hidden;border:5px solid #1c1c1c;box-shadow:0 16px 40px rgba(0,0,0,.28);background:#0a0a0a}
 .phone-notch{width:40px;height:8px;background:rgba(0,0,0,.35);border-radius:0 0 6px 6px;margin:0 auto 10px}
-.phone-screen{background:#f7f6f3;border-radius:0 0 21px 21px;overflow:hidden}
+.phone-screen{border-radius:0 0 21px 21px;overflow:hidden;transition:background .25s}
 /* Preview header */
 .pv-header{padding:0 10px 10px;text-align:center;transition:background .25s}
 .pv-avatar-wrap{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;font-weight:600;overflow:hidden;flex-shrink:0}
 .pv-avatar-wrap img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .pv-name{font-size:11px;font-weight:600;color:white;margin-bottom:2px;transition:font-family .2s}
 .pv-bio-text{font-size:8px;color:rgba(255,255,255,.55);margin-bottom:10px;line-height:1.4;max-width:120px;margin-left:auto;margin-right:auto}
-.pv-tabs{background:rgba(0,0,0,.18);border-top:1px solid rgba(255,255,255,.07);display:flex;padding:0 8px;gap:10px;height:24px;align-items:center}
+.pv-tabs{background:rgba(0,0,0,.25);border-top:1px solid rgba(255,255,255,.1);display:flex;padding:0 8px;gap:10px;height:24px;align-items:center}
 .pv-tab{font-size:8px;color:rgba(255,255,255,.4);font-weight:500;white-space:nowrap;flex-shrink:0;height:100%;display:flex;align-items:center;border-bottom:1.5px solid transparent}
 .pv-tab.pv-active{color:white;border-bottom-color:white}
 /* Preview body */
-.pv-body{padding:8px}
+.pv-body{padding:8px;background:transparent}
 .pv-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-.pv-card{background:white;border-radius:8px;overflow:hidden;border:1px solid #e8e6e1}
+.pv-card{background:rgba(255,255,255,.93);border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.2)}
 .pv-card-img{height:40px;background:#f0ede6;display:flex;align-items:center;justify-content:center;font-size:18px}
 .pv-card-body{padding:5px 6px 6px}
 .pv-card-store{font-size:6px;font-weight:700;text-transform:uppercase;color:#4f46e5;margin-bottom:2px;letter-spacing:.3px}
@@ -2338,28 +2338,31 @@ function updatePreview(){
   const fontColor   = customFc || document.querySelector('#fontColorOpts .theme-swatch.active')?.dataset.fc || '#ffffff';
   const isLight = theme === 'ivory' || (customBg && isLightColor(customBg));
 
-  // Header + phone screen bg (make the whole preview reflect the theme)
+  // Paint the WHOLE phone screen with the selected background so it's instantly visible
   const pvHeader = document.getElementById('pvHeader');
   const pvScreen = pvHeader?.closest('.phone-screen');
   const bgImg = document.getElementById('bgImageUrl')?.value?.trim() || profile?.sf_bg_image || '';
+
+  // Resolved background for the header section
   const resolvedBg = bgImg
     ? `url(${bgImg}) center/cover no-repeat`
-    : customBg
-      ? customBg
-      : themeMap[theme] || themeMap.noir;
+    : customBg || themeMap[theme] || themeMap.noir;
+
   if(pvHeader){
     pvHeader.style.background = resolvedBg;
-    pvHeader.style.backgroundImage = bgImg ? `url(${bgImg})` : '';
-    if(bgImg) pvHeader.style.backgroundSize = 'cover';
+    if(bgImg){ pvHeader.style.backgroundSize='cover'; pvHeader.style.backgroundPosition='center'; }
   }
-  // Tint the whole phone-screen so the colour is unmistakably visible
+
+  // Phone-screen background: use the same theme so the whole phone reflects the colour
   if(pvScreen){
-    if(isLight){
-      pvScreen.style.background = '#F4F1E2';
+    if(bgImg){
+      pvScreen.style.background = `url(${bgImg}) center/cover no-repeat`;
+    } else if(customBg){
+      pvScreen.style.background = customBg;
     } else {
-      // Extract the dark "end" colour for the body so cards float on a deep tint
-      const bodyTint = customBg || (themeMap[theme]||'').replace(/.*,([^)]+)\)/,'$1').trim() || '#0a0a0a';
-      pvScreen.style.background = `linear-gradient(to bottom, transparent 0%, ${bodyTint}22 100%)`;
+      // For gradients extract end colour; for solid use it directly
+      const raw = themeMap[theme] || '#0a0a0a';
+      pvScreen.style.background = raw;
     }
   }
 

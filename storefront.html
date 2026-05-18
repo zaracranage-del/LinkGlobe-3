@@ -165,35 +165,29 @@ function proxyImg(el, emoji){
 
   const collectionSlug = new URLSearchParams(window.location.search).get('c');
 
-  const [
-    {data:profile,error:profileErr},
-    {data:allProducts},
-    {data:clickRows},
-    {data:allCollections}
-  ] = await Promise.all([
-    sb.from('signups').select('name,bio,instagram,tiktok,handle,plan,brand_color,custom_domain,avatar_url').eq('handle',handle).single(),
+  // Fetch profile with select('*') so it works regardless of which columns exist
+  const {data:profile, error:profileErr} = await sb.from('signups').select('*').eq('handle',handle).single();
+
+  if(profileErr || !profile){
+    console.error('LinkGlobe storefront: profile lookup failed', {handle, profileErr});
+    renderNotFound(handle); return;
+  }
+
+  // Fetch other data in parallel (errors are soft — missing tables won't crash the storefront)
+  const [{data:allProducts}, {data:clickRows}, {data:allCollections}] = await Promise.all([
     sb.from('products').select('*').eq('handle',handle).order('created_at',{ascending:false}),
     sb.from('clicks').select('product_id').eq('handle',handle),
-    sb.from('collections').select('*,collection_products(product_id)').eq('handle',handle).order('created_at',{ascending:true})
+    sb.from('collections').select('*').eq('handle',handle).order('created_at',{ascending:true})
+      .then(async r => {
+        if(!r.data) return r;
+        // Attach product IDs for each collection
+        const withProds = await Promise.all(r.data.map(async c => {
+          const {data:cp} = await sb.from('collection_products').select('product_id').eq('collection_id',c.id);
+          return {...c, collection_products: cp||[]};
+        }));
+        return {data: withProds};
+      }).catch(()=>({data:[]}))
   ]);
-
-  if(profileErr || !profile){ renderNotFound(handle); return; }
-
-  // Appearance columns added later — fetch separately so a missing column never breaks the storefront
-  try {
-    const {data:extra} = await sb.from('signups')
-      .select('sf_theme,sf_font,sf_btn_style,sf_btn_color,sf_font_color,sf_bg_color,sf_bg_image')
-      .eq('handle',handle).single();
-    if(extra){
-      profile.sf_theme     = extra.sf_theme;
-      profile.sf_font      = extra.sf_font;
-      profile.sf_btn_style = extra.sf_btn_style;
-      profile.sf_btn_color = extra.sf_btn_color;
-      profile.sf_font_color= extra.sf_font_color;
-      profile.sf_bg_color  = extra.sf_bg_color;
-      profile.sf_bg_image  = extra.sf_bg_image;
-    }
-  } catch(e){}
 
   const clickCounts = {};
   (clickRows||[]).forEach(r=>{ if(r.product_id) clickCounts[r.product_id]=(clickCounts[r.product_id]||0)+1; });
