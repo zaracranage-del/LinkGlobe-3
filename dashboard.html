@@ -918,6 +918,14 @@ function showPreview() {
 function updateColorPreview(val) {
   document.getElementById('brandColorHex').value = val;
   document.getElementById('brandColor').value    = val;
+  // Live-update the storefront phone preview header colour
+  const pvHeader = document.getElementById('pvHeader');
+  if (pvHeader && !document.getElementById('bgImageUrl')?.value?.trim()) {
+    pvHeader.style.background = val;
+  }
+  // Also update the preview avatar ring colour
+  const pvAv = document.getElementById('pvAvatar');
+  if (pvAv) pvAv.style.borderColor = val;
 }
 
 // ── CLICK ANALYTICS (simple total count) ─────────────────────
