@@ -2,7 +2,6 @@
   "name": "linkredirect",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +10,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "express": "^5.2.1",
-    "geoip-lite": "^2.0.0"
+    "stripe": "^17.7.0",
+    "@supabase/supabase-js": "^2.49.4"
   }
 }
