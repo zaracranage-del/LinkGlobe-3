@@ -57,6 +57,20 @@ module.exports = async (req, res) => {
       }
     }
 
+    if (event.type === 'customer.subscription.updated') {
+      const sub = event.data.object;
+      const customer = await stripe.customers.retrieve(sub.customer);
+      const email = customer.email;
+      if (email && sub.items?.data?.[0]?.price?.id) {
+        const priceId = sub.items.data[0].price.id;
+        const plan = PLAN_MAP[priceId];
+        if (plan) {
+          await supabase.from('signups').update({ plan }).eq('email', email);
+          console.log(`Plan updated for ${email} → ${plan}`);
+        }
+      }
+    }
+
     if (event.type === 'customer.subscription.deleted') {
       const sub = event.data.object;
       const customer = await stripe.customers.retrieve(sub.customer);

@@ -25,6 +25,13 @@ const TAG_PARAM = {
   CA: 'ca_tag',
   DE: 'de_tag',
   JP: 'jp_tag',
+  FR: 'fr_tag',
+  IT: 'it_tag',
+  ES: 'es_tag',
+  NL: 'nl_tag',
+  SG: 'sg_tag',
+  MX: 'mx_tag',
+  IN: 'in_tag',
 };
 
 module.exports = (req, res) => {

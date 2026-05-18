@@ -291,7 +291,7 @@ textarea{resize:vertical;min-height:70px}
       <div class="live-link-label">Your storefront URL</div>
       <span id="liveLink">linkglobe.co/yourname</span>
     </div>
-    <button class="btn-next" id="dashBtn" style="margin-bottom:8px" onclick="window.location.href='/login.html'">Go to dashboard →</button>
+    <button class="btn-next" id="dashBtn" style="margin-bottom:8px" onclick="window.location.href='/dashboard.html'">Go to dashboard →</button>
     <button class="btn-back" onclick="copyLink()">Copy my storefront link</button>
   </div>
 </div>
@@ -303,8 +303,8 @@ textarea{resize:vertical;min-height:70px}
 // FIXED: URL no longer includes /rest/v1/ — that was causing a double-path bug
 const SUPABASE_URL      = 'https://lyknsmgvqrxuhxwryzws.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5a25zbWd2cXJ4dWh4d3J5endzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzA4ODksImV4cCI6MjA5Mzc0Njg4OX0.o1DVN9fEb7qfIi0Kw7zGFUpPuluaUvllGIXEY3wHTW4';
-const STRIPE_CREATOR    = 'https://buy.stripe.com/dRm14pfhpd3y0Ku9DAcbC04';
-const STRIPE_PRO        = 'https://buy.stripe.com/00w14pb19gfK1OydTQcbC02';
+const STRIPE_CREATOR    = 'https://buy.stripe.com/dRm14pfhpd3y0Ku9DAcbC04?success_url=https%3A%2F%2Flinkglobe.co%2Fdashboard.html%3Fcheckout%3Dsuccess&cancel_url=https%3A%2F%2Flinkglobe.co%2Fonboarding.html';
+const STRIPE_PRO        = 'https://buy.stripe.com/00w14pb19gfK1OydTQcbC02?success_url=https%3A%2F%2Flinkglobe.co%2Fdashboard.html%3Fcheckout%3Dsuccess&cancel_url=https%3A%2F%2Flinkglobe.co%2Fonboarding.html';
 // ─────────────────────────────────────────────────────────────
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
