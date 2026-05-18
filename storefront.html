@@ -170,7 +170,15 @@ function proxyImg(el, emoji){
 
   if(profileErr || !profile){
     console.error('LinkGlobe storefront: profile lookup failed', {handle, profileErr});
-    renderNotFound(handle); return;
+    // Temporarily show error detail so we can diagnose
+    document.getElementById('app').innerHTML = `<div style="font-family:monospace;padding:32px;max-width:600px;margin:0 auto">
+      <h2>Debug: profile not found for @${handle}</h2>
+      <p><b>Error code:</b> ${profileErr?.code || 'none'}</p>
+      <p><b>Error message:</b> ${profileErr?.message || 'no error but profile is null'}</p>
+      <p><b>Error details:</b> ${profileErr?.details || '-'}</p>
+      <p><b>Error hint:</b> ${profileErr?.hint || '-'}</p>
+    </div>`;
+    return;
   }
 
   // Fetch other data in parallel (errors are soft — missing tables won't crash the storefront)

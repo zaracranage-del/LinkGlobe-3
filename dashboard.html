@@ -535,14 +535,14 @@ a.nav-logo{text-decoration:none;cursor:pointer}
             <div class="colour-block">
               <div class="colour-block-title">Background</div>
               <div class="theme-swatches" id="themeSwatches" style="gap:6px">
-                <div class="theme-swatch active" data-theme="noir"    style="background:#0a0a0a"                                 onclick="selectTheme(this)" title="Noir"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="slate"   style="background:linear-gradient(160deg,#0a0015,#160029)" onclick="selectTheme(this)" title="Midnight"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="plum"    style="background:linear-gradient(160deg,#3d0f20,#773344)" onclick="selectTheme(this)" title="Wine Plum"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="blush"   style="background:linear-gradient(160deg,#5c1030,#8D2645)" onclick="selectTheme(this)" title="Orchid"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="terra"   style="background:linear-gradient(160deg,#250f08,#513229)" onclick="selectTheme(this)" title="Rawhide"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="caramel" style="background:linear-gradient(160deg,#1c1012,#554345)" onclick="selectTheme(this)" title="Coffee"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="sage"    style="background:linear-gradient(160deg,#0e2828,#1a4545)" onclick="selectTheme(this)" title="Deep Teal"><span class="swatch-check">✓</span></div>
-                <div class="theme-swatch"        data-theme="ivory"   style="background:#F4F1E2;border:1px solid #c5b89a"        onclick="selectTheme(this)" title="Cream"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
+                <div class="theme-swatch active" data-theme="noir"    data-bg="#0a0a0a"                                 style="background:#0a0a0a"                                 onclick="selectTheme(this)" title="Noir"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="slate"   data-bg="linear-gradient(160deg,#0a0015,#160029)" style="background:linear-gradient(160deg,#0a0015,#160029)" onclick="selectTheme(this)" title="Midnight"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="plum"    data-bg="linear-gradient(160deg,#3d0f20,#773344)" style="background:linear-gradient(160deg,#3d0f20,#773344)" onclick="selectTheme(this)" title="Wine Plum"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="blush"   data-bg="linear-gradient(160deg,#5c1030,#8D2645)" style="background:linear-gradient(160deg,#5c1030,#8D2645)" onclick="selectTheme(this)" title="Orchid"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="terra"   data-bg="linear-gradient(160deg,#250f08,#513229)" style="background:linear-gradient(160deg,#250f08,#513229)" onclick="selectTheme(this)" title="Rawhide"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="caramel" data-bg="linear-gradient(160deg,#1c1012,#554345)" style="background:linear-gradient(160deg,#1c1012,#554345)" onclick="selectTheme(this)" title="Coffee"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="sage"    data-bg="linear-gradient(160deg,#0e2828,#1a4545)" style="background:linear-gradient(160deg,#0e2828,#1a4545)" onclick="selectTheme(this)" title="Deep Teal"><span class="swatch-check">✓</span></div>
+                <div class="theme-swatch"        data-theme="ivory"   data-bg="#F4F1E2"                                 style="background:#F4F1E2;border:1px solid #c5b89a"        onclick="selectTheme(this)" title="Cream"><span class="swatch-check" style="color:#1c1c1c">✓</span></div>
               </div>
               <div class="colour-wheel-row">
                 <label><input type="color" id="bgColorWheel" value="#0a0a0a" oninput="onBgColorWheel(this.value)"> Custom</label>
@@ -2131,6 +2131,9 @@ function loadAppearance(){
     const first = document.querySelector('#themeSwatches .theme-swatch');
     if(first) first.classList.add('active');
   }
+  // Apply the saved/active background to the phone preview immediately
+  const activeBgEl = document.querySelector('#themeSwatches .theme-swatch.active');
+  if(activeBgEl) applyBgToPreview(activeBgEl.dataset.bg || '#0a0a0a');
   // Button colour
   const bc = profile.sf_btn_color || '#0a0a0a';
   const bcWheel = document.getElementById('btnColorWheel');
@@ -2198,15 +2201,21 @@ function loadAppearance(){
 function selectTheme(el){
   document.querySelectorAll('#themeSwatches .theme-swatch').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
-  // Clear custom bg so preset takes over
   const bgW = document.getElementById('bgColorWheel');
-  if(bgW) bgW.dataset.custom = '';
-  updatePreview();
+  if(bgW){ bgW.dataset.custom = ''; bgW.value = el.dataset.bg && !el.dataset.bg.includes('gradient') ? el.dataset.bg : '#0a0a0a'; }
+  applyBgToPreview(el.dataset.bg || '#0a0a0a');
 }
 function onBgColorWheel(val){
   document.querySelectorAll('#themeSwatches .theme-swatch').forEach(s=>s.classList.remove('active'));
   const bgW = document.getElementById('bgColorWheel');
   if(bgW) bgW.dataset.custom = val;
+  applyBgToPreview(val);
+}
+function applyBgToPreview(bg){
+  const pvHeader = document.getElementById('pvHeader');
+  const pvScreen = pvHeader ? pvHeader.closest('.phone-screen') : null;
+  if(pvHeader){ pvHeader.style.background = bg; }
+  if(pvScreen){ pvScreen.style.background = bg; }
   updatePreview();
 }
 function selectFontColor(el){
@@ -2338,33 +2347,16 @@ function updatePreview(){
   const fontColor   = customFc || document.querySelector('#fontColorOpts .theme-swatch.active')?.dataset.fc || '#ffffff';
   const isLight = theme === 'ivory' || (customBg && isLightColor(customBg));
 
-  // Paint the WHOLE phone screen with the selected background so it's instantly visible
+  // Background — read data-bg directly from the active swatch (same as how btn colour reads data-bc)
   const pvHeader = document.getElementById('pvHeader');
-  const pvScreen = pvHeader?.closest('.phone-screen');
+  const pvScreen = pvHeader ? pvHeader.closest('.phone-screen') : null;
   const bgImg = document.getElementById('bgImageUrl')?.value?.trim() || profile?.sf_bg_image || '';
+  const activeBgSwatch = document.querySelector('#themeSwatches .theme-swatch.active');
+  const swatchBg = activeBgSwatch ? activeBgSwatch.dataset.bg : '#0a0a0a';
+  const resolvedBg = bgImg ? `url(${bgImg}) center/cover no-repeat` : (customBg || swatchBg);
 
-  // Resolved background for the header section
-  const resolvedBg = bgImg
-    ? `url(${bgImg}) center/cover no-repeat`
-    : customBg || themeMap[theme] || themeMap.noir;
-
-  if(pvHeader){
-    pvHeader.style.background = resolvedBg;
-    if(bgImg){ pvHeader.style.backgroundSize='cover'; pvHeader.style.backgroundPosition='center'; }
-  }
-
-  // Phone-screen background: use the same theme so the whole phone reflects the colour
-  if(pvScreen){
-    if(bgImg){
-      pvScreen.style.background = `url(${bgImg}) center/cover no-repeat`;
-    } else if(customBg){
-      pvScreen.style.background = customBg;
-    } else {
-      // For gradients extract end colour; for solid use it directly
-      const raw = themeMap[theme] || '#0a0a0a';
-      pvScreen.style.background = raw;
-    }
-  }
+  if(pvHeader){ pvHeader.style.background = resolvedBg; }
+  if(pvScreen){ pvScreen.style.background = resolvedBg; }
 
   // Avatar text colour
   const pvAv = document.getElementById('pvAvatar');
