@@ -171,7 +171,7 @@ function proxyImg(el, emoji){
     {data:clickRows},
     {data:allCollections}
   ] = await Promise.all([
-    sb.from('signups').select('name,bio,instagram,tiktok,handle,plan,brand_color,custom_domain,avatar_url,sf_theme,sf_font,sf_btn_style,sf_bg_image').eq('handle',handle).single(),
+    sb.from('signups').select('name,bio,instagram,tiktok,handle,plan,brand_color,custom_domain,avatar_url').eq('handle',handle).single(),
     sb.from('products').select('*').eq('handle',handle).order('created_at',{ascending:false}),
     sb.from('clicks').select('product_id').eq('handle',handle),
     sb.from('collections').select('*,collection_products(product_id)').eq('handle',handle).order('created_at',{ascending:true})
@@ -179,10 +179,20 @@ function proxyImg(el, emoji){
 
   if(profileErr || !profile){ renderNotFound(handle); return; }
 
-  // Optional extra columns (silently ignored if not yet in DB)
+  // Appearance columns added later — fetch separately so a missing column never breaks the storefront
   try {
-    const {data:extra} = await sb.from('signups').select('sf_btn_color,sf_font_color,sf_bg_color').eq('handle',handle).single();
-    if(extra){ profile.sf_btn_color = extra.sf_btn_color; profile.sf_font_color = extra.sf_font_color; profile.sf_bg_color = extra.sf_bg_color; }
+    const {data:extra} = await sb.from('signups')
+      .select('sf_theme,sf_font,sf_btn_style,sf_btn_color,sf_font_color,sf_bg_color,sf_bg_image')
+      .eq('handle',handle).single();
+    if(extra){
+      profile.sf_theme     = extra.sf_theme;
+      profile.sf_font      = extra.sf_font;
+      profile.sf_btn_style = extra.sf_btn_style;
+      profile.sf_btn_color = extra.sf_btn_color;
+      profile.sf_font_color= extra.sf_font_color;
+      profile.sf_bg_color  = extra.sf_bg_color;
+      profile.sf_bg_image  = extra.sf_bg_image;
+    }
   } catch(e){}
 
   const clickCounts = {};

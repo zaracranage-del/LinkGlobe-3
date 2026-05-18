@@ -927,12 +927,11 @@ function showPreview() {
 function updateColorPreview(val) {
   document.getElementById('brandColorHex').value = val;
   document.getElementById('brandColor').value    = val;
-  // Live-update the storefront phone preview header colour
-  const pvHeader = document.getElementById('pvHeader');
-  if (pvHeader && !document.getElementById('bgImageUrl')?.value?.trim()) {
-    pvHeader.style.background = val;
-  }
-  // Also update the preview avatar ring colour
+  // Update store-label text colour (brand accent) in the phone preview
+  document.querySelectorAll('.pv-card-store').forEach(el => { el.style.color = val; });
+  // Update active tab underline
+  document.querySelectorAll('.pv-tab.pv-active').forEach(el => { el.style.borderBottomColor = val; });
+  // Update the preview avatar ring colour
   const pvAv = document.getElementById('pvAvatar');
   if (pvAv) pvAv.style.borderColor = val;
 }
@@ -1113,6 +1112,7 @@ function renderAll() {
   const colorHex    = document.getElementById('brandColorHex');
   if (colorPicker) colorPicker.value = savedColor;
   if (colorHex)    colorHex.value    = savedColor;
+  updateColorPreview(savedColor);
 
   if (isFree || profile.plan === 'creator') {
     document.getElementById('upgradeBanner').classList.add('show');
@@ -2338,13 +2338,29 @@ function updatePreview(){
   const fontColor   = customFc || document.querySelector('#fontColorOpts .theme-swatch.active')?.dataset.fc || '#ffffff';
   const isLight = theme === 'ivory' || (customBg && isLightColor(customBg));
 
-  // Header bg
+  // Header + phone screen bg (make the whole preview reflect the theme)
   const pvHeader = document.getElementById('pvHeader');
+  const pvScreen = pvHeader?.closest('.phone-screen');
   const bgImg = document.getElementById('bgImageUrl')?.value?.trim() || profile?.sf_bg_image || '';
+  const resolvedBg = bgImg
+    ? `url(${bgImg}) center/cover no-repeat`
+    : customBg
+      ? customBg
+      : themeMap[theme] || themeMap.noir;
   if(pvHeader){
-    if(bgImg){ pvHeader.style.background = `url(${bgImg}) center/cover no-repeat`; pvHeader.style.backgroundImage=''; pvHeader.style.backgroundImage=`url(${bgImg})`; pvHeader.style.backgroundSize='cover'; }
-    else if(customBg){ pvHeader.style.background = customBg; pvHeader.style.backgroundImage=''; }
-    else { pvHeader.style.background = themeMap[theme] || themeMap.noir; pvHeader.style.backgroundImage=''; }
+    pvHeader.style.background = resolvedBg;
+    pvHeader.style.backgroundImage = bgImg ? `url(${bgImg})` : '';
+    if(bgImg) pvHeader.style.backgroundSize = 'cover';
+  }
+  // Tint the whole phone-screen so the colour is unmistakably visible
+  if(pvScreen){
+    if(isLight){
+      pvScreen.style.background = '#F4F1E2';
+    } else {
+      // Extract the dark "end" colour for the body so cards float on a deep tint
+      const bodyTint = customBg || (themeMap[theme]||'').replace(/.*,([^)]+)\)/,'$1').trim() || '#0a0a0a';
+      pvScreen.style.background = `linear-gradient(to bottom, transparent 0%, ${bodyTint}22 100%)`;
+    }
   }
 
   // Avatar text colour
