@@ -1,0 +1,12 @@
+{
+  "name": "linkglobe",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "stripe": "^14.18.0"
+  }
+}
