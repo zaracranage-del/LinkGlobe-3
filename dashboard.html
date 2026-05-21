@@ -185,7 +185,86 @@ nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;he
 .btn-sf.primary:hover{background:var(--warm);color:var(--black)}
 
 /* Collections */
-.coll-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:4px}
+/* ── COLLECTIONS ── */
+.coll-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:12px}
+.coll-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s;position:relative}
+.coll-card:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,0,.09)}
+.coll-mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;height:160px;background:var(--warm2);gap:2px}
+.coll-mosaic-1{grid-column:1/-1;grid-row:1/-1}
+.coll-mosaic .cm-cell{overflow:hidden;background:var(--warm2);display:flex;align-items:center;justify-content:center;font-size:28px}
+.coll-mosaic .cm-cell img{width:100%;height:100%;object-fit:cover}
+.coll-mosaic .cm-cell:first-child{border-radius:0}
+.coll-info{padding:14px 16px 12px}
+.coll-name-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
+.coll-name{font-size:14px;font-weight:600;color:var(--black);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.coll-count-pill{font-size:10px;font-weight:600;padding:2px 8px;background:var(--warm2);border:1px solid var(--border);border-radius:50px;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.coll-link-row{font-size:11px;color:var(--muted);font-family:monospace;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.coll-actions{display:flex;gap:6px}
+.coll-btn{flex:1;padding:8px 0;border-radius:8px;border:1px solid var(--border);background:var(--warm);font-size:12px;font-weight:500;color:var(--black);cursor:pointer;font-family:inherit;transition:all .15s;text-align:center}
+.coll-btn:hover{border-color:var(--black);background:var(--bg)}
+.coll-btn.primary{background:var(--black);color:white;border-color:var(--black)}
+.coll-btn.primary:hover{background:#222}
+.coll-btn.danger{color:#dc2626;border-color:#fca5a5}
+.coll-btn.danger:hover{background:#fff5f5;border-color:#dc2626}
+.coll-new-form{display:flex;gap:8px;align-items:center;margin-bottom:4px}
+.coll-new-form input{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;background:var(--bg);color:var(--black)}
+.coll-new-form input:focus{outline:none;border-color:var(--indigo2)}
+.btn-coll-create{padding:10px 20px;background:var(--black);color:white;border:none;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s}
+.btn-coll-create:hover{background:#222}
+/* ── MANAGE PANEL REWRITE ── */
+.manage-panel{position:fixed;inset:0;background:var(--bg);z-index:800;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1)}
+.manage-panel.open{transform:translateX(0)}
+.manage-header{padding:20px 24px;border-bottom:1px solid var(--border);background:var(--bg);flex-shrink:0}
+.manage-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.manage-back{font-size:12px;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:4px;background:none;border:none;font-family:inherit;padding:0;transition:color .15s}
+.manage-back:hover{color:var(--black)}
+.manage-close-btn{background:none;border:1.5px solid var(--border);width:32px;height:32px;border-radius:50%;font-size:12px;cursor:pointer;color:var(--gray);display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:inherit}
+.manage-close-btn:hover{border-color:var(--black);color:var(--black)}
+.manage-title-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.manage-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--black);line-height:1.2;flex:1}
+.manage-rename-btn{font-size:11px;color:var(--indigo2);background:none;border:none;cursor:pointer;font-family:inherit;padding:2px 8px;border:1px solid var(--indigo2);border-radius:50px;transition:all .15s}
+.manage-rename-btn:hover{background:var(--indigo2);color:white}
+.manage-search{width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;background:var(--warm);color:var(--black);box-sizing:border-box}
+.manage-search:focus{outline:none;border-color:var(--indigo2);background:var(--bg)}
+.manage-toolbar{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.manage-count{font-size:12px;color:var(--muted)}
+.manage-view-btns{display:flex;gap:4px}
+.manage-view-btn{width:28px;height:28px;border:1px solid var(--border);border-radius:6px;background:var(--warm);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .15s;color:var(--muted)}
+.manage-view-btn.active{background:var(--black);border-color:var(--black);color:white}
+.manage-body{flex:1;overflow-y:auto;padding:12px 0}
+/* List view */
+.manage-prod-row{display:flex;align-items:center;gap:12px;padding:12px 24px;border-bottom:1px solid var(--border);transition:background .1s;cursor:grab}
+.manage-prod-row:hover{background:var(--warm)}
+.manage-prod-row.dragging{opacity:.4;background:var(--warm2)}
+.manage-prod-row.drag-over{border-top:2px solid var(--indigo2)}
+.manage-drag-handle{color:var(--border2);font-size:16px;cursor:grab;padding:0 4px;flex-shrink:0;user-select:none}
+.manage-prod-thumb{width:48px;height:48px;border-radius:10px;background:var(--warm2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:20px}
+.manage-prod-thumb img{width:100%;height:100%;object-fit:cover}
+.manage-prod-info{flex:1;min-width:0}
+.manage-prod-store{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.manage-prod-name{font-size:13px;font-weight:500;color:var(--black);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.manage-prod-clicks{font-size:11px;color:var(--muted);margin-top:2px}
+.manage-toggle{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border2);background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-size:14px;color:var(--muted)}
+.manage-toggle:hover{border-color:var(--indigo2);color:var(--indigo2)}
+.manage-toggle.in-coll{border-color:var(--indigo2);background:var(--indigo2);color:white}
+/* Grid view */
+.manage-body.grid-view{padding:12px 20px}
+.manage-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.manage-grid-card{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .15s;position:relative;background:var(--bg)}
+.manage-grid-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.manage-grid-card.in-coll{border-color:var(--indigo2);box-shadow:0 0 0 2px rgba(79,70,229,.15)}
+.manage-grid-card .gc-img{height:100px;background:var(--warm2);display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden}
+.manage-grid-card .gc-img img{width:100%;height:100%;object-fit:cover}
+.manage-grid-card .gc-name{font-size:11px;font-weight:500;color:var(--black);padding:8px 8px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.manage-grid-card .gc-store{font-size:10px;color:var(--muted);padding:0 8px 8px}
+.manage-grid-card .gc-check{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:var(--indigo2);color:white;font-size:12px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s}
+.manage-grid-card.in-coll .gc-check{opacity:1}
+.manage-empty{text-align:center;padding:60px 24px;color:var(--muted);font-size:13px}
+.manage-footer{padding:14px 24px;border-top:1px solid var(--border);background:var(--bg);flex-shrink:0;display:flex;gap:8px}
+.manage-save-btn{flex:1;padding:12px;background:var(--black);color:white;border:none;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .15s}
+.manage-save-btn:hover{background:#222}
+.manage-copy-btn{padding:12px 18px;background:var(--warm);color:var(--black);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s}
+.manage-copy-btn:hover{border-color:var(--black)}
 .coll-card{background:var(--bg);border:1px solid var(--border);border-radius:13px;padding:18px 20px;position:relative;transition:border-color .2s}
 .coll-card:hover{border-color:var(--border2)}
 .coll-cover{display:flex;gap:6px;margin-bottom:14px}
@@ -214,6 +293,13 @@ nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;he
 .cbar-fill{height:100%;border-radius:50px;background:var(--black)}
 .cbar-val{font-size:12px;font-weight:600;color:var(--black);width:36px;text-align:right;flex-shrink:0}
 .chart-line-wrap{height:80px;position:relative;margin:8px 0}
+
+/* Appearance section creator gate */
+.appear-gate-overlay{display:none;position:absolute;inset:0;z-index:10;background:rgba(247,246,243,.88);backdrop-filter:blur(3px);border-radius:13px;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:32px 24px;gap:10px}
+.appear-gate-overlay.show{display:flex}
+.appear-gate-icon{font-size:28px}
+.appear-gate-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--black);letter-spacing:-.3px}
+.appear-gate-desc{font-size:13px;color:var(--gray);line-height:1.6;max-width:300px}
 
 /* Pro locked gate */
 .pro-gate{background:var(--warm2);border:1px dashed var(--border2);border-radius:13px;padding:24px;text-align:center;position:relative;overflow:hidden}
@@ -263,6 +349,58 @@ nav{background:var(--bg);border-bottom:1px solid var(--border);padding:0 40px;he
 .btn-pro{background:white;color:var(--black);border:none;padding:10px 22px;border-radius:50px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.15s;flex-shrink:0}
 .btn-pro:hover{background:var(--warm)}
 
+/* ── Multiple Storefronts ── */
+.sf-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.sf-row{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sf-row-info{flex:1;min-width:0}
+.sf-row-name{font-size:14px;font-weight:500;color:var(--black);margin-bottom:2px}
+.sf-row-url{font-size:11px;color:var(--muted);font-family:monospace}
+.sf-row-badge{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;background:var(--indigo-pale);color:var(--indigo2);border:1px solid var(--indigo-mid);padding:2px 7px;border-radius:20px;white-space:nowrap}
+.sf-row-actions{display:flex;gap:6px;flex-shrink:0}
+.btn-sf-del{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 10px;border-radius:50px;font-size:11px;cursor:pointer;font-family:inherit;transition:.15s}
+.btn-sf-del:hover{border-color:var(--red);color:var(--red)}
+.sf-add-form{background:var(--bg);border:1.5px dashed var(--border2);border-radius:12px;padding:16px 18px;display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.sf-add-field{flex:1;min-width:180px}
+.sf-add-field label{display:block;font-size:11px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.sf-add-field input{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--black);box-sizing:border-box}
+.sf-add-field input:focus{outline:none;border-color:var(--black)}
+.btn-sf-create{background:var(--black);color:white;border:none;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .15s}
+.btn-sf-create:hover{opacity:.8}
+
+/* ── Custom Domain ── */
+.domain-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px 22px}
+.domain-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:14px}
+.domain-status.pending{background:#fef9c3;color:#854d0e;border:1px solid #fde047}
+.domain-status.active{background:var(--green-bg);color:var(--green);border:1px solid #86efac}
+.domain-status.none{display:none}
+.domain-input-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.domain-input-row input{flex:1;min-width:200px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--black)}
+.domain-input-row input:focus{outline:none;border-color:var(--black)}
+.btn-save-domain{background:var(--black);color:white;border:none;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.btn-save-domain:hover{opacity:.8}
+.dns-instructions{background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:12px;display:none}
+.dns-instructions.show{display:block}
+.dns-table{width:100%;border-collapse:collapse;margin-top:8px}
+.dns-table th{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);text-align:left;padding:4px 8px 6px;border-bottom:1px solid var(--border2)}
+.dns-table td{font-size:12px;color:var(--ink);padding:6px 8px;border-bottom:1px solid var(--border);font-family:monospace}
+.dns-table tr:last-child td{border-bottom:none}
+
+/* ── Trend chart ── */
+.trend-chart{display:flex;align-items:flex-end;gap:3px;height:80px;padding:4px 0 0}
+.trend-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.trend-bar{width:100%;background:var(--indigo2);border-radius:3px 3px 0 0;min-height:2px;transition:height .2s}
+.trend-bar-label{font-size:8px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center}
+.trend-empty{text-align:center;padding:24px;color:var(--muted);font-size:13px}
+
+/* ── Pro features showcase (shown to Pro users) ── */
+.pro-features-card{background:linear-gradient(135deg,#0f0c29,#1a1a2e);border-radius:14px;padding:22px 26px;margin-bottom:8px}
+.pro-features-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px}
+.pro-features-heading{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:white;margin-bottom:14px;letter-spacing:-.3px}
+.pro-features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.pro-feature-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px}
+.pro-feature-pill-icon{font-size:16px;flex-shrink:0}
+.pro-feature-pill-text{font-size:12px;color:rgba(255,255,255,.8);font-weight:500}
+
 /* ── APPEARANCE EDITOR ── */
 .appear-card{background:white;border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px}
 .appear-section{margin-bottom:22px}
@@ -311,11 +449,16 @@ a.nav-logo{text-decoration:none;cursor:pointer}
 .appear-preview-col{position:sticky;top:20px}
 .appear-preview-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.9px;color:var(--muted);text-align:center;margin-bottom:12px}
 /* Phone frame */
-.phone-frame{width:160px;margin:0 auto;border-radius:26px;overflow:hidden;border:5px solid #1c1c1c;box-shadow:0 16px 40px rgba(0,0,0,.28);background:#0a0a0a}
+.phone-frame{width:160px;margin:0 auto;border-radius:26px;overflow:hidden;border:5px solid #1c1c1c;box-shadow:0 16px 40px rgba(0,0,0,.28)}
 .phone-notch{width:40px;height:8px;background:rgba(0,0,0,.35);border-radius:0 0 6px 6px;margin:0 auto 10px}
-.phone-screen{border-radius:0 0 21px 21px;overflow:hidden;transition:background .25s}
+.phone-screen{border-radius:0 0 21px 21px;overflow:hidden}
 /* Preview header */
-.pv-header{padding:0 10px 10px;text-align:center;transition:background .25s}
+.pv-header{padding:0 10px 10px;text-align:center}
+/* ── Background colour driven by a single CSS variable on inner phone elements ── */
+#pvBackdrop                { background: var(--warm) !important; }
+#pvBackdrop .phone-frame   { background: var(--pv-bg, #1a1a1a) !important; transition: background .25s; }
+#pvBackdrop .phone-screen  { background: var(--pv-bg, #1a1a1a) !important; transition: background .25s; }
+#pvBackdrop #pvHeader      { background: var(--pv-bg, #1a1a1a) !important; transition: background .25s; }
 .pv-avatar-wrap{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;font-weight:600;overflow:hidden;flex-shrink:0}
 .pv-avatar-wrap img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .pv-name{font-size:11px;font-weight:600;color:white;margin-bottom:2px;transition:font-family .2s}
@@ -371,8 +514,8 @@ a.nav-logo{text-decoration:none;cursor:pointer}
 
 <div class="container">
   <div class="upgrade-banner" id="upgradeBanner">
-    <p id="upgradeBannerText"><strong>You're on Free</strong> — Amazon only, 5 products max. Upgrade to Creator for all brand redirects, 20 products, click analytics, and your own storefront colour.</p>
-    <a href="#" class="btn-upgrade" id="upgradeBtn">Upgrade to Creator — $16/mo →</a>
+    <p id="upgradeBannerText"><strong>You're on Free</strong> — Amazon only, 10 products max. Upgrade to Creator for all brand redirects, 50 products, smart geo-redirects, click analytics, earnings estimates, and custom storefront design.</p>
+    <a href="#" class="btn-upgrade" id="upgradeBtn">Upgrade to Creator — $15/mo →</a>
   </div>
   <div class="welcome-card">
     <div>
@@ -439,7 +582,7 @@ a.nav-logo{text-decoration:none;cursor:pointer}
       </div>
     </div>
     <p class="add-hint" id="addHint">Amazon (all regions), Charlotte Tilbury, SKIMS, Sephora, ASOS, The Iconic, Chemist Warehouse, and any brand with a product URL.</p>
-    <p class="add-limit" id="addLimit">You've reached the 5-product limit on Free. <a href="#" id="addLimitLink" style="color:var(--indigo2);font-weight:500">Upgrade to Creator</a> for unlimited products.</p>
+    <p class="add-limit" id="addLimit">You've reached the 10-product limit on Free. <a href="#" id="addLimitLink" style="color:var(--indigo2);font-weight:500">Upgrade to Creator</a> for 50 products and all brand redirects.</p>
     <div class="processing" id="processing"><div class="spin"></div><span class="proc-txt" id="procTxt">Building your geo-smart link…</span></div>
   </div>
   <div>
@@ -496,12 +639,92 @@ a.nav-logo{text-decoration:none;cursor:pointer}
     </div>
   </div>
 
+  <!-- ── LINKS (Creator+) ─────────────────────────────── -->
+  <div class="section-divider">
+    <h3>Links</h3>
+    <div class="line"></div>
+    <span class="plan-gate" id="linksGate">Creator+</span>
+  </div>
+  <div id="linksSection">
+    <div id="linksCreatorView" style="display:none">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.55">Add links to your YouTube, Instagram, newsletter, or anywhere else. They appear above your products on your storefront.</div>
+      <div id="linksList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap" id="addLinkForm">
+        <input type="text" id="newLinkTitle" placeholder="Label (e.g. My YouTube)" style="flex:1;min-width:140px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--black)">
+        <input type="url" id="newLinkUrl" placeholder="https://…" style="flex:2;min-width:180px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--black)">
+        <button onclick="addLink()" style="padding:9px 18px;background:var(--black);color:white;border:none;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">+ Add</button>
+      </div>
+    </div>
+    <div class="pro-gate" id="linksGateView">
+      <div class="pro-gate-inner">
+        <div class="pro-gate-icon">🔗</div>
+        <div class="pro-gate-title">Add a link-in-bio section</div>
+        <div class="pro-gate-desc">Put your YouTube, newsletter, socials, and more above your products. One link that goes everywhere.</div>
+        <button class="btn-unlock" onclick="upgradeToCreator()">Unlock with Creator &mdash; $15/mo &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QR CODE ───────────────────────────────────────────────────── -->
+  <div class="section-divider">
+    <h3>QR code</h3>
+    <div class="line"></div>
+  </div>
+  <div class="card" style="padding:20px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap" id="qrCard">
+    <div id="qrCanvas" style="width:100px;height:100px;flex-shrink:0;background:var(--warm2);border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center">
+      <span style="font-size:10px;color:var(--muted)">Loading…</span>
+    </div>
+    <div>
+      <div style="font-size:14px;font-weight:500;color:var(--black);margin-bottom:4px">Your storefront QR code</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5">Share at events, in YouTube videos, or on merch. Scans straight to your storefront.</div>
+      <button onclick="downloadQR()" style="padding:8px 16px;background:var(--black);color:white;border:none;border-radius:50px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">↓ Download PNG</button>
+    </div>
+  </div>
+
+  <!-- ── EMAIL SUBSCRIBERS (Pro) ──────────────────────── -->
+  <div class="section-divider" id="subscribersDivider">
+    <h3>Email subscribers</h3>
+    <div class="line"></div>
+    <span class="plan-gate" id="subsGate">Pro</span>
+  </div>
+  <div id="subscribersSection">
+    <div id="subsProView" style="display:none">
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)">
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--black)" id="subsCount">0 subscribers</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">People who subscribed from your storefront</div>
+          </div>
+          <button onclick="downloadSubscribers()" style="padding:7px 16px;background:var(--warm);border:1px solid var(--border);border-radius:50px;font-size:12px;color:var(--gray);cursor:pointer;font-family:inherit">↓ Export CSV</button>
+        </div>
+        <div id="subsList" style="max-height:280px;overflow-y:auto">
+          <div style="padding:24px;text-align:center;color:var(--muted);font-size:13px">Loading subscribers…</div>
+        </div>
+      </div>
+    </div>
+    <div class="pro-gate" id="subsGateView">
+      <div class="pro-gate-inner">
+        <div class="pro-gate-icon">✉️</div>
+        <div class="pro-gate-title">Capture email subscribers</div>
+        <div class="pro-gate-desc">A subscribe form appears on your storefront. Your fans sign up — you own the list. LTK can't do this.</div>
+        <button class="btn-unlock" onclick="upgradeToPro()">Unlock with Pro &mdash; $29/mo &rarr;</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ── APPEARANCE ─────────────────────────────────── -->
   <div class="section-divider">
     <h3>Appearance</h3>
     <div class="line"></div>
   </div>
-  <div class="appear-card">
+  <div class="appear-card" style="position:relative">
+    <!-- Gate overlay — shown for free users -->
+    <div class="appear-gate-overlay" id="appearGate">
+      <div class="appear-gate-icon">🎨</div>
+      <div class="appear-gate-title">Custom storefront design</div>
+      <div class="appear-gate-desc">Choose your background, accent colour, font, button style and header image. Creator plan only.</div>
+      <button class="btn-unlock" onclick="upgradeToCreator()">Unlock with Creator — $15/mo →</button>
+    </div>
 
     <div class="appear-layout">
       <!-- ── LEFT: Controls ── -->
@@ -643,11 +866,11 @@ a.nav-logo{text-decoration:none;cursor:pointer}
 
       <!-- ── RIGHT: Live preview ── -->
       <div class="appear-preview-col">
-        <div class="appear-preview-label">Live preview</div>
-        <div id="pvBackdrop" style="border-radius:20px;padding:20px 20px 0;transition:background .3s;background:#1a1a1a">
+        <div class="appear-preview-label">Live preview &nbsp;<span id="bgDebugDot" style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#1a1a1a;border:1.5px solid #ccc;vertical-align:middle"></span></div>
+        <div id="pvBackdrop" style="border-radius:20px;padding:20px 20px 0;--pv-bg:#1a1a1a">
         <div class="phone-frame">
           <div class="phone-screen">
-            <div class="pv-header" id="pvHeader" style="background:#0a0a0a">
+            <div class="pv-header" id="pvHeader">
               <div class="phone-notch"></div>
               <div class="pv-avatar-wrap" id="pvAvatar">S</div>
               <div class="pv-name" id="pvName">Your Name</div>
@@ -723,7 +946,7 @@ a.nav-logo{text-decoration:none;cursor:pointer}
         <div class="pro-gate-icon">&#128194;</div>
         <div class="pro-gate-title">Group your picks into Collections</div>
         <div class="pro-gate-desc">Create themed sets &mdash; Morning Routine, Gym Bag, Travel Picks. Each gets its own shareable link.</div>
-        <button class="btn-unlock" onclick="upgradeToCreator()">Unlock with Creator &mdash; $16/mo &rarr;</button>
+        <button class="btn-unlock" onclick="upgradeToCreator()">Unlock with Creator &mdash; $15/mo &rarr;</button>
       </div>
     </div>
   </div>
@@ -795,6 +1018,7 @@ a.nav-logo{text-decoration:none;cursor:pointer}
         <button class="an-tab" onclick="setAnTab('devices',this)">Devices</button>
         <button class="an-tab" onclick="setAnTab('os',this)">OS</button>
         <button class="an-tab" onclick="setAnTab('browsers',this)">Browsers</button>
+        <button class="an-tab" onclick="setAnTab('trends',this)">Trends ✦ Pro</button>
       </div>
 
       <div class="analytics-card" style="margin-bottom:12px">
@@ -805,10 +1029,12 @@ a.nav-logo{text-decoration:none;cursor:pointer}
         <div id="an-devices"   class="an-panel"><div id="deviceBars"  class="an-empty">Loading…</div></div>
         <div id="an-os"        class="an-panel"><div id="osBars"      class="an-empty">Loading…</div></div>
         <div id="an-browsers"  class="an-panel"><div id="browserBars" class="an-empty">Loading…</div></div>
+        <div id="an-trends" class="an-panel"><div id="trendChart" class="trend-empty">No data yet.</div></div>
       </div>
 
-      <div style="display:flex;justify-content:flex-end">
-        <button onclick="exportCSV()" style="font-size:12px;color:var(--gray);background:var(--warm);border:1px solid var(--border);padding:7px 16px;border-radius:50px;cursor:pointer;font-family:inherit">↓ Export CSV</button>
+      <div style="display:flex;justify-content:flex-end;gap:8px;align-items:center">
+        <span id="csvProLabel" style="display:none;font-size:11px;color:var(--muted)">CSV export · Pro only</span>
+        <button id="csvExportBtn" onclick="exportCSV()" style="font-size:12px;color:var(--gray);background:var(--warm);border:1px solid var(--border);padding:7px 16px;border-radius:50px;cursor:pointer;font-family:inherit">↓ Export CSV</button>
       </div>
     </div>
     <div class="pro-gate" id="analyticsGateView">
@@ -816,26 +1042,180 @@ a.nav-logo{text-decoration:none;cursor:pointer}
         <div class="pro-gate-icon">&#128202;</div>
         <div class="pro-gate-title">See where your fans are clicking from</div>
         <div class="pro-gate-desc">Country breakdown, clicks over time, top products. Know exactly which audience is buying.</div>
-        <button class="btn-unlock" onclick="upgradeToCreator()">Unlock with Creator &mdash; $16/mo &rarr;</button>
+        <button class="btn-unlock" onclick="upgradeToCreator()">Unlock with Creator &mdash; $15/mo &rarr;</button>
       </div>
     </div>
   </div>
 
-  <!-- ── PRO UPGRADE STRIP ────────────────────────────── -->
+  <!-- ── PARTNER PROGRAM ──────────────────────────────── -->
+  <div class="section-divider">
+    <h3>Partner Program 💸</h3>
+    <div class="line"></div>
+    <span class="plan-gate">Pro</span>
+  </div>
+  <div id="partnerSection">
+    <div class="card" style="background:linear-gradient(135deg,#0f0f1a 0%,#1a1a3a 100%);border:none;padding:28px;border-radius:16px;margin-bottom:16px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#8888dd;letter-spacing:.5px;margin-bottom:6px">YOUR REFERRAL EARNINGS</div>
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <div style="font-size:48px;font-weight:700;color:#fff;font-family:'Cormorant Garamond',serif" id="partnerEarnings">$0</div>
+            <div style="font-size:14px;color:#5555aa">/mo estimated</div>
+          </div>
+          <div style="font-size:13px;color:#5555aa;margin-top:4px"><span id="partnerReferralCount">0</span> referred creators · <span id="partnerPaidCount">0</span> on paid plans</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:#5555aa;margin-bottom:4px">You earn</div>
+          <div style="font-size:22px;font-weight:700;color:#7c7cff">25%</div>
+          <div style="font-size:11px;color:#5555aa">recurring, forever</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:20px;margin-bottom:16px">
+      <div style="font-size:13px;font-weight:600;color:var(--black);margin-bottom:12px">Your referral link</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;font-family:monospace;color:var(--ink);word-break:break-all" id="partnerRefLink">linkglobe.co?ref=...</div>
+        <button onclick="copyPartnerLink()" style="flex-shrink:0;background:var(--black);color:white;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">Copy</button>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--muted)">When another creator signs up through your link, you earn <strong>25% of their subscription every month</strong> — forever. Creator = $4 AUD/mo. Pro = $7.25 AUD/mo per referral.</div>
+    </div>
+
+    <div class="card" style="padding:20px;margin-bottom:16px">
+      <div style="font-size:13px;font-weight:600;color:var(--black);margin-bottom:14px">Earnings calculator</div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1;min-width:140px">
+          <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px">Creator referrals</label>
+          <input type="number" id="calcCreator" value="10" min="0" oninput="calcPartnerEarnings()" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit;background:var(--warm)">
+        </div>
+        <div style="flex:1;min-width:140px">
+          <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px">Pro referrals</label>
+          <input type="number" id="calcPro" value="3" min="0" oninput="calcPartnerEarnings()" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit;background:var(--warm)">
+        </div>
+        <div style="text-align:center;padding:10px 20px;background:var(--warm);border:1px solid var(--border);border-radius:8px;min-width:140px">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:2px">Monthly earnings</div>
+          <div style="font-size:28px;font-weight:700;color:var(--black);font-family:'Cormorant Garamond',serif" id="calcResult">$61.75</div>
+          <div style="font-size:11px;color:var(--muted)">AUD/mo</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:12px;background:#f0fff0;border:1px solid #c3e6c3;border-radius:8px">
+        <div style="font-size:12px;font-weight:600;color:#2a7a2a;margin-bottom:4px">📈 The math for a creator with 10k followers</div>
+        <div style="font-size:12px;color:#3a8a3a;line-height:1.6">Post once about LinkGlobe → 1% convert = 100 signups → 25 go paid → <strong>~$130 AUD/mo passive</strong> for one post</div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:20px">
+      <div style="font-size:13px;font-weight:600;color:var(--black);margin-bottom:14px">Your referred creators</div>
+      <div id="partnerReferralsList">
+        <div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">No referrals yet. Share your link to start earning.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MULTIPLE STOREFRONTS (Pro) ──────────────────── -->
+  <div class="section-divider" id="storefrontsDivider">
+    <h3>Your storefronts</h3>
+    <div class="line"></div>
+    <span class="plan-gate" id="storefrontsGate">Pro</span>
+  </div>
+  <div id="storefrontsSection">
+    <!-- Pro view -->
+    <div id="storefrontsProView" style="display:none">
+      <div class="sf-list" id="sfList"><!-- populated by JS --></div>
+      <div class="sf-add-form" id="sfAddForm">
+        <div class="sf-add-field">
+          <label>Storefront name</label>
+          <input type="text" id="sfNewName" placeholder="e.g. Beauty Picks">
+        </div>
+        <div class="sf-add-field">
+          <label>Handle (URL)</label>
+          <input type="text" id="sfNewHandle" placeholder="e.g. zarasai-beauty" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9-]/g,'')">
+        </div>
+        <button class="btn-sf-create" onclick="createStorefront()">+ Create storefront</button>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">Up to 3 extra storefronts. Each gets its own URL and product list.</p>
+    </div>
+    <!-- Gate for non-Pro -->
+    <div class="pro-gate" id="storefrontsGateView">
+      <div class="pro-gate-inner">
+        <div class="pro-gate-icon">🏪</div>
+        <div class="pro-gate-title">Run multiple storefronts</div>
+        <div class="pro-gate-desc">Create separate storefronts for Beauty, Fashion, Home — each with its own URL and curated product list.</div>
+        <button class="btn-unlock" onclick="upgradeToPro()">Unlock with Pro &mdash; $29/mo &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CUSTOM DOMAIN (Pro) ───────────────────────────── -->
+  <div class="section-divider" id="domainDivider" style="margin-top:24px">
+    <h3>Custom domain</h3>
+    <div class="line"></div>
+    <span class="plan-gate" id="domainGate">Pro</span>
+  </div>
+  <div id="domainSection">
+    <!-- Pro view -->
+    <div id="domainProView" style="display:none">
+      <div class="domain-card">
+        <div class="domain-status none" id="domainStatus">● Pending DNS verification</div>
+        <p style="font-size:13px;color:var(--gray);margin-bottom:14px;line-height:1.6">Point your own domain to your LinkGlobe storefront. Fans visit <strong>yourname.com</strong> instead of linkglobe.co/yourhandle.</p>
+        <div class="domain-input-row">
+          <input type="text" id="customDomainInput" placeholder="e.g. picks.yourname.com" oninput="onDomainInput()">
+          <button class="btn-save-domain" onclick="saveDomain()">Save</button>
+        </div>
+        <div class="dns-instructions" id="dnsInstructions">
+          <strong style="font-size:12px;color:var(--black)">Add this DNS record with your domain provider</strong>
+          <table class="dns-table">
+            <thead><tr><th>Type</th><th>Name</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td>CNAME</td><td id="dnsName">picks</td><td>cname.linkglobe.co</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:10px;color:var(--gray);font-size:11px">DNS changes can take up to 48 hours to propagate. Contact support once you've added the record.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Gate for non-Pro -->
+    <div class="pro-gate" id="domainGateView">
+      <div class="pro-gate-inner">
+        <div class="pro-gate-icon">🌐</div>
+        <div class="pro-gate-title">Use your own domain</div>
+        <div class="pro-gate-desc">Send fans to <em>picks.yourname.com</em> instead of linkglobe.co. Your brand, your link.</div>
+        <button class="btn-unlock" onclick="upgradeToPro()">Unlock with Pro &mdash; $29/mo &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRO UPGRADE STRIP (shown for free + creator) ────── -->
   <div class="pro-strip" id="proStrip" style="display:none">
     <div class="pro-strip-l">
       <p>Upgrade to Pro</p>
-      <h3>Your own domain. Your own brand.</h3>
+      <h3>Unlimited. Unbranded. All yours.</h3>
       <ul>
         <li>Unlimited products</li>
-        <li>Full analytics dashboard</li>
+        <li>Multiple storefronts</li>
         <li>Remove LinkGlobe branding</li>
+        <li>Custom domain</li>
+        <li>Advanced analytics + CSV export</li>
         <li>Priority support</li>
-        <li style="color:var(--muted)">Custom domain <span style="font-size:10px;background:rgba(0,0,0,.07);padding:2px 6px;border-radius:20px;font-weight:600;letter-spacing:.3px">COMING SOON</span></li>
-        <li style="color:var(--muted)">Email capture <span style="font-size:10px;background:rgba(0,0,0,.07);padding:2px 6px;border-radius:20px;font-weight:600;letter-spacing:.3px">COMING SOON</span></li>
       </ul>
     </div>
     <button class="btn-pro" id="proStripBtn">Upgrade to Pro &mdash; $29/mo &rarr;</button>
+  </div>
+
+  <!-- ── PRO FEATURES CARD (shown for Pro users only) ────── -->
+  <div id="proFeaturesCard" style="display:none">
+    <div class="pro-features-card">
+      <div class="pro-features-title">Pro plan · Active</div>
+      <div class="pro-features-heading">Everything unlocked ✦</div>
+      <div class="pro-features-grid">
+        <div class="pro-feature-pill"><span class="pro-feature-pill-icon">∞</span><span class="pro-feature-pill-text">Unlimited products</span></div>
+        <div class="pro-feature-pill"><span class="pro-feature-pill-icon">🏪</span><span class="pro-feature-pill-text">Multiple storefronts</span></div>
+        <div class="pro-feature-pill"><span class="pro-feature-pill-icon">🌐</span><span class="pro-feature-pill-text">Custom domain</span></div>
+        <div class="pro-feature-pill"><span class="pro-feature-pill-icon">📊</span><span class="pro-feature-pill-text">Full analytics + CSV</span></div>
+        <div class="pro-feature-pill"><span class="pro-feature-pill-icon">✦</span><span class="pro-feature-pill-text">No LinkGlobe branding</span></div>
+        <div class="pro-feature-pill"><span class="pro-feature-pill-icon">⚡</span><span class="pro-feature-pill-text">Priority support</span></div>
+      </div>
+    </div>
   </div>
 
   <!-- ── DANGER ZONE ──────────────────────────────────────── -->
@@ -855,8 +1235,8 @@ const SUPABASE_URL      = 'https://lyknsmgvqrxuhxwryzws.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5a25zbWd2cXJ4dWh4d3J5endzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzA4ODksImV4cCI6MjA5Mzc0Njg4OX0.o1DVN9fEb7qfIi0Kw7zGFUpPuluaUvllGIXEY3wHTW4';
 const STRIPE_CREATOR    = 'https://buy.stripe.com/dRm14pfhpd3y0Ku9DAcbC04?success_url=https%3A%2F%2Flinkglobe.co%2Fdashboard.html%3Fcheckout%3Dsuccess&cancel_url=https%3A%2F%2Flinkglobe.co%2Fdashboard.html';
 const STRIPE_PRO        = 'https://buy.stripe.com/00w14pb19gfK1OydTQcbC02?success_url=https%3A%2F%2Flinkglobe.co%2Fdashboard.html%3Fcheckout%3Dsuccess&cancel_url=https%3A%2F%2Flinkglobe.co%2Fdashboard.html';
-const FREE_LIMIT        = 5;
-const CREATOR_LIMIT     = 20;
+const FREE_LIMIT        = 10;
+const CREATOR_LIMIT     = 50;
 // ───────────────────────────────────────────────────────────────
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -987,12 +1367,34 @@ async function _loadDashboard(session) {
     _setLoadMsg('Checking session…');
     userEmail = session.user.email;
 
-    /* Payment confirmation — do NOT update plan here; the Stripe webhook does it.
-       We just show a toast if the user landed from a successful checkout. */
+    /* Payment confirmation — poll DB until webhook updates the plan */
     const params = new URLSearchParams(window.location.search);
     if (params.get('checkout') === 'success') {
       window.history.replaceState({}, '', '/dashboard.html');
-      showToast('Payment received! Your plan will upgrade within 30 seconds.');
+      // Show upgrading banner immediately
+      const upgradingBanner = document.createElement('div');
+      upgradingBanner.id = 'upgradingBanner';
+      upgradingBanner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#0f0c29,#302b63);color:white;text-align:center;padding:14px 20px;font-size:14px;font-weight:500;font-family:\'DM Sans\',sans-serif';
+      upgradingBanner.innerHTML = '<span style="margin-right:10px">⏳</span> Activating your plan — please wait a moment…';
+      document.body.prepend(upgradingBanner);
+      // Poll DB every 3s for up to 60s until plan changes from free
+      let polls = 0;
+      const pollPlan = setInterval(async () => {
+        polls++;
+        try {
+          const { data: fresh } = await sb.from('signups').select('plan').eq('email', userEmail).single();
+          if (fresh && fresh.plan && fresh.plan !== 'free') {
+            clearInterval(pollPlan);
+            upgradingBanner.style.background = 'linear-gradient(135deg,#15803d,#166534)';
+            upgradingBanner.innerHTML = '<span style="margin-right:8px">✓</span> You\'re on ' + fresh.plan.charAt(0).toUpperCase() + fresh.plan.slice(1) + '! Reloading your dashboard…';
+            setTimeout(() => window.location.reload(), 1500);
+          } else if (polls >= 20) {
+            clearInterval(pollPlan);
+            upgradingBanner.style.background = '#dc2626';
+            upgradingBanner.innerHTML = 'Plan update taking longer than expected. <button onclick="window.location.reload()" style="background:white;color:#dc2626;border:none;padding:4px 12px;border-radius:20px;font-weight:600;cursor:pointer;margin-left:8px;font-family:inherit">Refresh now</button>';
+          }
+        } catch(e) {}
+      }, 3000);
     }
 
     _setLoadMsg('Loading your profile…');
@@ -1123,15 +1525,15 @@ function renderAll() {
       if (el) el.style.display = 'block';
     });
     if (isFree) {
-      document.getElementById('upgradeBtn').textContent = 'Upgrade to Creator — $16/mo →';
+      document.getElementById('upgradeBtn').textContent = 'Upgrade to Creator — $15/mo →';
       document.getElementById('upgradeBtn').href =
-        STRIPE_CREATOR + '?prefilled_email=' + encodeURIComponent(userEmail);
+        STRIPE_CREATOR + '&prefilled_email=' + encodeURIComponent(userEmail);
     } else {
       document.getElementById('upgradeBannerText').innerHTML =
-        "<strong>You're on Creator</strong> — 20 products max. Upgrade to Pro for unlimited products, full analytics, and your own domain.";
+        "<strong>You're on Creator</strong> — 50 products max. Upgrade to Pro for unlimited products, email capture, multiple storefronts, no branding, and priority support.";
       document.getElementById('upgradeBtn').textContent = 'Upgrade to Pro — $29/mo →';
       document.getElementById('upgradeBtn').href =
-        STRIPE_PRO + '?prefilled_email=' + encodeURIComponent(userEmail);
+        STRIPE_PRO + '&prefilled_email=' + encodeURIComponent(userEmail);
     }
   }
 
@@ -1147,6 +1549,9 @@ function renderAll() {
   renderCreatorFeatures();
   // Check for broken links silently in the background
   setTimeout(() => checkBrokenLinks(), 800);
+  // Show geo-redirect welcome banner on first visit
+  showGeoWelcome();
+  generateQR();
 }
 
 function renderPlanFeatures() {
@@ -1358,12 +1763,12 @@ function checkLimit() {
     const next    = isFree ? 'Creator' : 'Pro';
     const price   = isFree ? '$16' : '$29';
     const benefit = isFree
-      ? 'all brand redirects and 20 products'
-      : 'unlimited products and full analytics';
+      ? 'all brand redirects, smart geo-redirects, 50 products, and custom storefront design'
+      : 'unlimited products, multiple storefronts, and full analytics';
     const stripe  = isFree ? STRIPE_CREATOR : STRIPE_PRO;
     document.getElementById('addLimit').innerHTML =
       "You've reached the " + limit + "-product limit on the " + (isFree ? 'Free' : 'Creator') + " plan. "
-      + '<a href="' + stripe + '?prefilled_email=' + encodeURIComponent(userEmail)
+      + '<a href="' + stripe + '&prefilled_email=' + encodeURIComponent(userEmail)
       + '" id="addLimitLink" style="color:var(--indigo2);font-weight:500">'
       + 'Upgrade to ' + next + ' (' + price + '/mo)</a> for ' + benefit + '.';
   }
@@ -1651,6 +2056,10 @@ function upgradeToCreator() {
   window.location.href = STRIPE_CREATOR + '&prefilled_email=' + encodeURIComponent(userEmail);
 }
 
+function upgradeToPro(){
+  window.location.href = STRIPE_PRO + '&prefilled_email=' + encodeURIComponent(userEmail);
+}
+
 function openStore() {
   window.open('https://linkglobe.co/' + profile.handle, '_blank');
 }
@@ -1680,15 +2089,95 @@ function renderCreatorFeatures() {
   if (anGate)    anGate.style.display    = isCreator ? 'none'  : 'block';
   if (anTag)     anTag.style.display     = isCreator ? 'none'  : 'inline';
 
+  // Links section — Creator+ only
+  var linksCreatorView = document.getElementById('linksCreatorView');
+  var linksGateView    = document.getElementById('linksGateView');
+  var linksPlanTag     = document.getElementById('linksGate');
+  if(linksCreatorView) linksCreatorView.style.display = isCreator ? 'block' : 'none';
+  if(linksGateView)    linksGateView.style.display    = isCreator ? 'none'  : 'block';
+  if(linksPlanTag)     linksPlanTag.style.display     = isCreator ? 'none'  : 'inline';
+  if(isCreator) loadLinks();
+
+  // Subscribers section — Pro only
+  var subsProView  = document.getElementById('subsProView');
+  var subsGateView = document.getElementById('subsGateView');
+  var subsPlanTag  = document.getElementById('subsGate');
+  if(subsProView)  subsProView.style.display  = isPro ? 'block' : 'none';
+  if(subsGateView) subsGateView.style.display = isPro ? 'none'  : 'block';
+  if(subsPlanTag)  subsPlanTag.style.display  = isPro ? 'none'  : 'inline';
+  if(isPro) loadSubscribers();
+
+  // Partner Program — Pro only
+  if(isPro) {
+    loadPartnerProgram();
+  } else {
+    // Show gate for non-Pro users
+    var ps = document.getElementById('partnerSection');
+    if (ps) ps.innerHTML = '<div class="pro-gate"><div class="pro-gate-inner"><div class="pro-gate-icon">💸</div><div class="pro-gate-title">Earn 25% recurring for every creator you refer</div><div class="pro-gate-desc">Refer 4 Creator users and your Pro subscription pays for itself — forever. Tracked in your dashboard, paid monthly.</div><button class="btn-unlock" onclick="window.location.href=\'/onboarding.html?plan=pro\'">Unlock with Pro — $29/mo →</button></div></div>';
+  }
+
+  // Appearance gate — free users see lock overlay
+  var appearGate = document.getElementById('appearGate');
+  if (appearGate) appearGate.classList.toggle('show', !isCreator);
+
+  // CSV export — Pro only
+  var csvBtn   = document.getElementById('csvExportBtn');
+  var csvLabel = document.getElementById('csvProLabel');
+  if (csvBtn && !isPro) {
+    csvBtn.style.opacity = '0.4';
+    csvBtn.style.cursor  = 'not-allowed';
+    csvBtn.onclick = function(){ showToast('CSV export is a Pro feature — upgrade to download your data.'); };
+    if (csvLabel) csvLabel.style.display = 'inline';
+  }
+
+  // Trends tab — Pro only
+  var trendsTab = document.querySelector('[onclick*="trends"]');
+  if (trendsTab && !isPro) {
+    trendsTab.style.opacity = '0.45';
+    trendsTab.onclick = function(){ showToast('Trend charts are a Pro feature — upgrade to unlock.'); };
+  }
+
+  // Multiple storefronts section — Pro only
+  var sfProView   = document.getElementById('storefrontsProView');
+  var sfGateView  = document.getElementById('storefrontsGateView');
+  var sfPlanTag   = document.getElementById('storefrontsGate');
+  if (sfProView)  sfProView.style.display  = isPro ? 'block' : 'none';
+  if (sfGateView) sfGateView.style.display = isPro ? 'none'  : 'block';
+  if (sfPlanTag)  sfPlanTag.style.display  = isPro ? 'none'  : 'inline';
+
+  // Custom domain section — Pro only
+  var domProView  = document.getElementById('domainProView');
+  var domGateView = document.getElementById('domainGateView');
+  var domPlanTag  = document.getElementById('domainGate');
+  if (domProView)  domProView.style.display  = isPro ? 'block' : 'none';
+  if (domGateView) domGateView.style.display = isPro ? 'none'  : 'block';
+  if (domPlanTag)  domPlanTag.style.display  = isPro ? 'none'  : 'inline';
+
+  // Load custom domain if Pro
+  if (isPro) {
+    var savedDomain = profile.sf_custom_domain || '';
+    var domInput = document.getElementById('customDomainInput');
+    if (domInput && savedDomain) {
+      domInput.value = savedDomain;
+      showDnsInstructions(savedDomain);
+    }
+  }
+
   // Pro upgrade strip — show for free + creator
   var proStrip = document.getElementById('proStrip');
   if (proStrip) proStrip.style.display = isPro ? 'none' : 'flex';
+
+  // Pro features showcase card — Pro only
+  var proFeatCard = document.getElementById('proFeaturesCard');
+  if (proFeatCard) proFeatCard.style.display = isPro ? 'block' : 'none';
 
   if (isCreator) {
     loadCollections();
     loadAnalytics();
   }
-  // Load programs for all plans — everyone can connect their own programs
+  if (isPro) {
+    loadStorefronts();
+  }
   loadPrograms();
 
   // Pro strip CTA
@@ -1718,25 +2207,39 @@ function renderCollections() {
   var grid = document.getElementById('collGrid');
   if (!grid) return;
   if (!collections.length) {
-    grid.innerHTML = '<div class="empty-state"><div class="empty-state-icon">&#128194;</div><h3>No collections yet</h3><p>Create your first collection above and add products to it.</p></div>';
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1;padding:48px 24px;text-align:center"><div style="font-size:36px;margin-bottom:12px">📁</div><div style="font-size:15px;font-weight:600;color:var(--black);margin-bottom:6px">No collections yet</div><div style="font-size:13px;color:var(--muted)">Create a collection above — Morning Routine, Gym Bag, Travel Picks.</div></div>';
     return;
   }
   grid.innerHTML = collections.map(function(c) {
-    var ids = c.collection_products.map(function(cp) { return cp.product_id; });
+    var ids = (c.collection_products || []).map(function(cp) { return cp.product_id; });
+    var collProds = products.filter(function(p) { return ids.indexOf(p.id) !== -1; });
+    var allProds = collProds.length ? collProds : products;
     var link = 'https://linkglobe.co/' + profile.handle + '?c=' + c.slug;
-    var covers = products.slice(0, 3).map(function(p) {
-      return '<div class="coll-cover-item">' + (p.image ? '<img src="' + esc(p.image) + '" style="width:100%;height:100%;object-fit:cover;border-radius:7px" onerror="proxyImg(this,\'\')">' : '&#128717;') + '</div>';
-    }).join('');
-    return '<div class="coll-card">'
-      + '<div class="coll-cover">' + (covers || '<div class="coll-cover-item">&#128194;</div>') + '</div>'
-      + '<div class="coll-name">' + esc(c.name) + '</div>'
-      + '<div class="coll-meta">' + ids.length + ' products</div>'
-      + '<div class="coll-link">' + esc(link) + '</div>'
-      + '<div class="coll-acts">'
-      + '<button class="btn-coll" onclick="copyCollLink(\'' + esc(link) + '\',this)">Copy link</button>'
-      + '<button class="btn-coll" onclick="manageCollection(' + c.id + ')">Manage</button>'
-      + '<button class="btn-coll-del" onclick="deleteCollection(' + c.id + ')">&#10005;</button>'
-      + '</div></div>';
+
+    // Mosaic images — up to 4 cells
+    var mosaic = '';
+    var n = Math.min(allProds.length, 4);
+    var gridClass = n === 1 ? 'coll-mosaic coll-mosaic-1' : 'coll-mosaic';
+    if (n === 0) {
+      mosaic = '<div class="coll-mosaic" style="display:flex;align-items:center;justify-content:center;font-size:36px;background:var(--warm2)">📁</div>';
+    } else {
+      var cells = allProds.slice(0, n).map(function(p) {
+        return '<div class="cm-cell">' + (p.image ? '<img src="' + esc(p.image) + '" onerror="this.style.display=\'none\'">' : (p.emoji || '🛍️')) + '</div>';
+      }).join('');
+      mosaic = '<div class="' + gridClass + '" style="' + (n===1?'grid-template-columns:1fr;':'') + '">' + cells + '</div>';
+    }
+
+    return '<div class="coll-card" onclick="openManage(' + c.id + ')">'
+      + mosaic
+      + '<div class="coll-info">'
+      + '<div class="coll-name-row"><span class="coll-name">' + esc(c.name) + '</span>'
+      + '<span class="coll-count-pill">' + ids.length + ' items</span></div>'
+      + '<div class="coll-link-row">' + esc(link) + '</div>'
+      + '<div class="coll-actions" onclick="event.stopPropagation()">'
+      + '<button class="coll-btn primary" onclick="openManage(' + c.id + ')">✏ Manage</button>'
+      + '<button class="coll-btn" onclick="copyCollLink(\'' + esc(link) + '\',this)">🔗 Copy</button>'
+      + '<button class="coll-btn danger" onclick="deleteCollection(' + c.id + ')">Delete</button>'
+      + '</div></div></div>';
   }).join('');
 }
 
@@ -1788,15 +2291,18 @@ async function deleteCollection(id) {
 // ── MANAGE COLLECTION PANEL ────────────────────────────────────
 var manageCollId = null;
 var manageInColl = new Set();
-
-function manageCollection(id) { openManage(id); }
+var manageView = 'list'; // 'list' | 'grid'
+var manageFilter = '';
 
 function openManage(id) {
   var coll = collections.find(function(c) { return c.id === id; });
   if (!coll) return;
   manageCollId = id;
+  manageFilter = '';
   manageInColl = new Set((coll.collection_products || []).map(function(cp) { return cp.product_id; }));
   document.getElementById('managePanelTitle').textContent = coll.name;
+  document.getElementById('manageSearch').value = '';
+  updateManageCount();
   renderManagePanel();
   document.getElementById('managePanel').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1808,21 +2314,96 @@ function closeManage() {
   loadCollections();
 }
 
+function updateManageCount() {
+  var el = document.getElementById('manageCount');
+  if (el) el.textContent = manageInColl.size + ' product' + (manageInColl.size !== 1 ? 's' : '') + ' in collection';
+}
+
+function setManageView(v, btn) {
+  manageView = v;
+  document.querySelectorAll('.manage-view-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  var body = document.getElementById('managePanelBody');
+  if (v === 'grid') body.classList.add('grid-view'); else body.classList.remove('grid-view');
+  renderManagePanel();
+}
+
+function filterManagePanel(q) {
+  manageFilter = q.toLowerCase();
+  renderManagePanel();
+}
+
+async function renameCollection() {
+  var coll = collections.find(function(c) { return c.id === manageCollId; });
+  if (!coll) return;
+  var name = prompt('Rename collection:', coll.name);
+  if (!name || name.trim() === coll.name) return;
+  name = name.trim();
+  var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  var { error } = await sb.from('collections').update({ name, slug }).eq('id', manageCollId);
+  if (error) { showToast('❌ ' + error.message); return; }
+  coll.name = name; coll.slug = slug;
+  document.getElementById('managePanelTitle').textContent = name;
+  renderCollections();
+  showToast('✓ Renamed to "' + name + '"');
+}
+
+function copyManageLink() {
+  var coll = collections.find(function(c) { return c.id === manageCollId; });
+  if (!coll) return;
+  var link = 'https://linkglobe.co/' + profile.handle + '?c=' + coll.slug;
+  navigator.clipboard.writeText(link).then(function() { showToast('🔗 Collection link copied!'); });
+}
+
 function renderManagePanel() {
   var body = document.getElementById('managePanelBody');
+  var filtered = products.filter(function(p) {
+    if (!manageFilter) return true;
+    return p.name.toLowerCase().indexOf(manageFilter) !== -1 ||
+           (p.store_label || '').toLowerCase().indexOf(manageFilter) !== -1;
+  });
+
   if (!products.length) {
-    body.innerHTML = '<div class="manage-empty">No products yet — add products first, then add them to collections.</div>';
+    body.innerHTML = '<div class="manage-empty">No products yet — add some products first.</div>';
     return;
   }
-  body.innerHTML = products.map(function(p) {
+  if (!filtered.length) {
+    body.innerHTML = '<div class="manage-empty">No products match "' + esc(manageFilter) + '"</div>';
+    return;
+  }
+
+  // Sort: in-collection first
+  filtered.sort(function(a,b) {
+    return (manageInColl.has(b.id) ? 1 : 0) - (manageInColl.has(a.id) ? 1 : 0);
+  });
+
+  if (manageView === 'grid') {
+    body.innerHTML = '<div class="manage-grid">' + filtered.map(function(p) {
+      var inColl = manageInColl.has(p.id);
+      var img = p.image
+        ? '<img src="' + esc(p.image) + '" onerror="this.style.display=\'none\'">'
+        : (p.emoji || '🛍️');
+      return '<div class="manage-grid-card ' + (inColl ? 'in-coll' : '') + '" onclick="toggleProductInCollection(' + p.id + ',' + inColl + ',this)" data-pid="' + p.id + '">'
+        + '<div class="gc-img">' + img + '</div>'
+        + '<div class="gc-name">' + esc(p.name) + '</div>'
+        + '<div class="gc-store">' + esc(p.store_label || '') + '</div>'
+        + '<div class="gc-check">✓</div>'
+        + '</div>';
+    }).join('') + '</div>';
+    return;
+  }
+
+  // List view
+  body.innerHTML = filtered.map(function(p) {
     var inColl = manageInColl.has(p.id);
     var thumb = p.image
-      ? '<img src="' + esc(p.image) + '" data-fs="22" onerror="proxyImg(this,\'' + (p.emoji || '🛍️') + '\')">'
+      ? '<img src="' + esc(p.image) + '" onerror="this.parentElement.innerHTML=\'' + (p.emoji||'🛍️') + '\'">'
       : '<span>' + (p.emoji || '🛍️') + '</span>';
-    return '<div class="manage-prod-row">'
+    return '<div class="manage-prod-row" data-pid="' + p.id + '">'
+      + '<div class="manage-drag-handle">⠿</div>'
       + '<div class="manage-prod-thumb">' + thumb + '</div>'
       + '<div class="manage-prod-info">'
-      + '<div class="manage-prod-store">' + esc(p.store_label) + '</div>'
+      + '<div class="manage-prod-store">' + esc(p.store_label || '') + '</div>'
       + '<div class="manage-prod-name">' + esc(p.name) + '</div>'
       + '</div>'
       + '<button class="manage-toggle ' + (inColl ? 'in-coll' : '') + '" data-pid="' + p.id + '" onclick="toggleProductInCollection(' + p.id + ',' + inColl + ',this)">'
@@ -1832,28 +2413,43 @@ function renderManagePanel() {
   }).join('');
 }
 
-async function toggleProductInCollection(productId, isInColl, btn) {
-  btn.disabled = true;
-  if (isInColl) {
+async function toggleProductInCollection(productId, isInColl, el) {
+  // el can be button (list) or card (grid) — find the real toggle state
+  var nowInColl = manageInColl.has(productId);
+
+  if (nowInColl) {
     var res = await sb.from('collection_products')
       .delete().eq('collection_id', manageCollId).eq('product_id', productId);
     if (!res.error) {
       manageInColl.delete(productId);
-      btn.className = 'manage-toggle';
-      btn.textContent = '+';
-      btn.onclick = function() { toggleProductInCollection(productId, false, btn); };
-    } else { showToast('❌ ' + res.error.message); }
+    } else { showToast('❌ ' + res.error.message); return; }
   } else {
     var res = await sb.from('collection_products')
       .insert({ collection_id: manageCollId, product_id: productId });
     if (!res.error) {
       manageInColl.add(productId);
-      btn.className = 'manage-toggle in-coll';
-      btn.textContent = '✓';
-      btn.onclick = function() { toggleProductInCollection(productId, true, btn); };
-    } else { showToast('❌ ' + res.error.message); }
+    } else { showToast('❌ ' + res.error.message); return; }
   }
-  btn.disabled = false;
+
+  updateManageCount();
+
+  // Update the element in place without full re-render
+  if (manageView === 'grid') {
+    var card = document.querySelector('.manage-grid-card[data-pid="' + productId + '"]');
+    if (card) {
+      var nowIn = manageInColl.has(productId);
+      card.classList.toggle('in-coll', nowIn);
+      card.onclick = function() { toggleProductInCollection(productId, !nowIn, card); };
+    }
+  } else {
+    var togBtn = document.querySelector('.manage-toggle[data-pid="' + productId + '"]');
+    if (togBtn) {
+      var nowIn = manageInColl.has(productId);
+      togBtn.className = 'manage-toggle ' + (nowIn ? 'in-coll' : '');
+      togBtn.textContent = nowIn ? '✓' : '+';
+      togBtn.onclick = function() { toggleProductInCollection(productId, nowIn, togBtn); };
+    }
+  }
 }
 
 // ── ANALYTICS ─────────────────────────────────────────────────────
@@ -1898,6 +2494,21 @@ async function loadAnalytics() {
     document.getElementById('an-30d').textContent   = allClicks.filter(c => new Date(c.created_at) > day30).length;
     document.getElementById('an-7d').textContent    = allClicks.filter(c => new Date(c.created_at) > day7).length;
     document.getElementById('an-today').textContent = allClicks.filter(c => new Date(c.created_at) > today).length;
+
+    // Earnings estimate — ~3% commission × avg $45 order value × clicks
+    const commRates = { amazon:0.04, charlottetilbury:0.07, skims:0.10, asos:0.06, sephora:0.06, revolve:0.07, default:0.05 };
+    const avgOrderValue = 48;
+    const est = allClicks.reduce(function(sum, c){
+      const rate = commRates[c.store] || commRates.default;
+      return sum + (avgOrderValue * rate);
+    }, 0);
+    const estEl = document.querySelector('.stat-n');
+    // Find the Est. commission stat specifically
+    const commStat = document.querySelector('.stat-lock#lockComm');
+    if(commStat){
+      const statN = commStat.closest('.stat')?.querySelector('.stat-n');
+      if(statN) statN.textContent = '$' + est.toFixed(0);
+    }
 
     // Also update stat card
     var tc = document.getElementById('totalClicks');
@@ -1960,6 +2571,303 @@ function renderAnalytics() {
     var sorted = Object.entries(byProduct).sort(function(a,b){ return b[1]-a[1]; });
     renderBars('linkBars', sorted);
   }
+
+  if (anTab === 'trends') {
+    renderTrendChart();
+  }
+}
+
+function renderTrendChart(){
+  var el = document.getElementById('trendChart');
+  if(!el) return;
+  var clicks = getFilteredClicks();
+  if(!clicks.length){ el.innerHTML = '<div class="trend-empty">No click data yet — share your storefront to start tracking.</div>'; return; }
+
+  // Group clicks by day
+  var dayMap = {};
+  clicks.forEach(function(c){
+    var d = (c.created_at||'').slice(0,10);
+    if(d) dayMap[d] = (dayMap[d]||0)+1;
+  });
+
+  // Generate date range
+  var days = Math.min(anDays >= 9999 ? 30 : anDays, 30);
+  var dates = [];
+  for(var i = days-1; i >= 0; i--){
+    var d = new Date(Date.now() - i*864e5);
+    dates.push(d.toISOString().slice(0,10));
+  }
+
+  var max = Math.max(1, Math.max.apply(null, dates.map(function(d){ return dayMap[d]||0; })));
+
+  el.innerHTML = '<div class="trend-chart">'
+    + dates.map(function(d){
+      var count = dayMap[d]||0;
+      var pct   = Math.round((count/max)*100);
+      var label = d.slice(5); // MM-DD
+      return '<div class="trend-bar-wrap" title="'+d+': '+count+' clicks">'
+        +'<div class="trend-bar" style="height:'+Math.max(pct,2)+'%"></div>'
+        +'<div class="trend-bar-label">'+label+'</div>'
+        +'</div>';
+    }).join('')
+    +'</div>'
+    +'<div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:right">Clicks per day · last '+days+' days</div>';
+}
+
+// ── GEO WELCOME BANNER ───────────────────────────────────────────
+function showGeoWelcome(){
+  if(localStorage.getItem('lg_geo_welcome_seen')) return;
+  var banner = document.createElement('div');
+  banner.id = 'geoWelcomeBanner';
+  banner.style.cssText = 'background:linear-gradient(135deg,#0f0c29,#302b63);border-radius:14px;padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;animation:fadeIn .4s ease';
+  banner.innerHTML = '<div style="display:flex;align-items:center;gap:14px">'
+    +'<span style="font-size:28px">🌍</span>'
+    +'<div>'
+    +'<div style="font-size:14px;font-weight:600;color:white;margin-bottom:3px">Your geo-redirect is live ✓</div>'
+    +'<div style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.5">UK fans → Amazon.co.uk · US fans → Amazon.com · AU fans → Amazon.com.au<br>All with your affiliate tag. Automatically. No one else does this.</div>'
+    +'</div>'
+    +'</div>'
+    +'<button onclick="document.getElementById(\'geoWelcomeBanner\').remove();localStorage.setItem(\'lg_geo_welcome_seen\',\'1\')" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:white;padding:6px 14px;border-radius:50px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap">Got it</button>';
+  var container = document.querySelector('.container');
+  var upgradeBanner = document.getElementById('upgradeBanner');
+  if(container && upgradeBanner){
+    container.insertBefore(banner, upgradeBanner.nextSibling);
+  }
+  localStorage.setItem('lg_geo_welcome_seen', '1');
+}
+
+// ── REQUIRED SUPABASE SQL ──────────────────────────────────────────
+// Run in Supabase SQL editor before using new features:
+// ALTER TABLE clicks ADD COLUMN IF NOT EXISTS utm_source TEXT DEFAULT '';
+// CREATE TABLE IF NOT EXISTS subscribers (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), handle TEXT NOT NULL, name TEXT, email TEXT NOT NULL, created_at TIMESTAMPTZ DEFAULT NOW());
+// CREATE TABLE IF NOT EXISTS bio_links (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), handle TEXT NOT NULL, title TEXT NOT NULL, url TEXT NOT NULL, sort_order INTEGER DEFAULT 0, created_at TIMESTAMPTZ DEFAULT NOW());
+// ──────────────────────────────────────────────────────────────────
+
+// ── MULTIPLE STOREFRONTS (Pro) ─────────────────────────────────────
+// Requires Supabase table: storefronts (id uuid PK, owner_email text, handle text unique, name text, sf_theme text, sf_bg_color text, sf_bg_image text, created_at timestamptz default now())
+// Also requires: signups table to have sf_custom_domain text column
+// Run in Supabase SQL editor:
+// CREATE TABLE IF NOT EXISTS storefronts (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), owner_email TEXT NOT NULL, handle TEXT UNIQUE NOT NULL, name TEXT, sf_theme TEXT DEFAULT 'noir', sf_bg_color TEXT DEFAULT '', sf_bg_image TEXT DEFAULT '', created_at TIMESTAMPTZ DEFAULT NOW());
+// ALTER TABLE signups ADD COLUMN IF NOT EXISTS sf_custom_domain TEXT DEFAULT '';
+var extraStorefronts = [];
+
+async function loadStorefronts(){
+  var list = document.getElementById('sfList');
+  if(!list) return;
+  // Primary storefront always shown first
+  var primaryHtml = '<div class="sf-row">'
+    + '<div class="sf-row-info">'
+    + '<div class="sf-row-name">' + esc(profile.name || 'My Store') + '</div>'
+    + '<div class="sf-row-url">linkglobe.co/' + esc(profile.handle) + '</div>'
+    + '</div>'
+    + '<span class="sf-row-badge">Primary</span>'
+    + '<div class="sf-row-actions">'
+    + '<button class="btn-sf-del" onclick="window.open(\'https://linkglobe.co/\'+' + JSON.stringify(profile.handle) + ',\'_blank\')">View →</button>'
+    + '</div>'
+    + '</div>';
+
+  // Load extra storefronts
+  var { data, error } = await sb.from('storefronts').select('*').eq('owner_email', userEmail).order('created_at', { ascending: true });
+  extraStorefronts = data || [];
+
+  var extrasHtml = (extraStorefronts).map(function(sf){
+    return '<div class="sf-row">'
+      + '<div class="sf-row-info">'
+      + '<div class="sf-row-name">' + esc(sf.name || sf.handle) + '</div>'
+      + '<div class="sf-row-url">linkglobe.co/' + esc(sf.handle) + '</div>'
+      + '</div>'
+      + '<div class="sf-row-actions">'
+      + '<button class="btn-sf-del" onclick="window.open(\'https://linkglobe.co/' + esc(sf.handle) + '\',\'_blank\')">View →</button>'
+      + '<button class="btn-sf-del" onclick="deleteStorefront(\'' + sf.id + '\')">Remove</button>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+
+  list.innerHTML = primaryHtml + extrasHtml;
+
+  // Hide add form if at limit
+  var addForm = document.getElementById('sfAddForm');
+  if(addForm) addForm.style.display = extraStorefronts.length >= 3 ? 'none' : 'flex';
+}
+
+async function createStorefront(){
+  var nameEl   = document.getElementById('sfNewName');
+  var handleEl = document.getElementById('sfNewHandle');
+  var name   = (nameEl?.value || '').trim();
+  var handle = (handleEl?.value || '').trim().toLowerCase().replace(/[^a-z0-9-]/g,'');
+  if(!name)   { showToast('Please enter a storefront name'); return; }
+  if(!handle) { showToast('Please enter a handle (URL slug)'); return; }
+  if(handle === profile.handle){ showToast('That handle is already your primary storefront'); return; }
+  if(extraStorefronts.length >= 3){ showToast('Maximum 3 extra storefronts on Pro'); return; }
+
+  // Check handle not taken in signups
+  var { data: existing } = await sb.from('signups').select('handle').eq('handle', handle).single();
+  if(existing){ showToast('That handle is already taken — try another'); return; }
+  // Check not taken in storefronts
+  var { data: existingSf } = await sb.from('storefronts').select('id').eq('handle', handle).single();
+  if(existingSf){ showToast('That handle is already taken — try another'); return; }
+
+  var { data, error } = await sb.from('storefronts').insert({
+    owner_email: userEmail,
+    handle:      handle,
+    name:        name
+  }).select().single();
+
+  if(error){ showToast('Could not create storefront — ' + error.message); return; }
+  showToast('✓ Storefront created — linkglobe.co/' + handle);
+  if(nameEl)   nameEl.value   = '';
+  if(handleEl) handleEl.value = '';
+  loadStorefronts();
+}
+
+async function deleteStorefront(id){
+  if(!confirm('Remove this storefront? This will also remove all its products.')) return;
+  await sb.from('products').delete().eq('storefront_id', id);
+  var { error } = await sb.from('storefronts').delete().eq('id', id);
+  if(error){ showToast('Could not remove storefront'); return; }
+  showToast('Storefront removed');
+  loadStorefronts();
+}
+
+// ── CUSTOM DOMAIN (Pro) ────────────────────────────────────────────
+function onDomainInput(){
+  var val = (document.getElementById('customDomainInput')?.value || '').trim();
+  showDnsInstructions(val);
+}
+
+function showDnsInstructions(domain){
+  var el = document.getElementById('dnsInstructions');
+  var nameEl = document.getElementById('dnsName');
+  if(!el) return;
+  if(!domain){ el.classList.remove('show'); return; }
+  // subdomain → show subdomain part; root domain → show @
+  var parts = domain.split('.');
+  var subname = parts.length > 2 ? parts[0] : '@';
+  if(nameEl) nameEl.textContent = subname;
+  el.classList.add('show');
+}
+
+async function saveDomain(){
+  var val = (document.getElementById('customDomainInput')?.value || '').trim().toLowerCase();
+  if(!val){ showToast('Please enter a domain'); return; }
+  // Basic validation
+  if(!/^[a-z0-9.-]+\.[a-z]{2,}$/.test(val)){ showToast('Please enter a valid domain (e.g. picks.yourname.com)'); return; }
+  try {
+    await sb.from('signups').update({ sf_custom_domain: val }).eq('email', userEmail);
+    profile.sf_custom_domain = val;
+    showDnsInstructions(val);
+    var status = document.getElementById('domainStatus');
+    if(status){
+      status.className = 'domain-status pending';
+      status.textContent = '● Pending DNS verification';
+    }
+    showToast('✓ Domain saved — add the DNS record below, then contact support to verify');
+  } catch(e) { showToast('Could not save domain'); }
+}
+
+// ── LINKS (Creator+) ─────────────────────────────────────────────
+var bioLinks = [];
+
+async function loadLinks(){
+  var res = await sb.from('bio_links').select('*').eq('handle', profile.handle).order('sort_order', {ascending:true});
+  bioLinks = res.data || [];
+  renderLinksList();
+}
+
+function renderLinksList(){
+  var list = document.getElementById('linksList');
+  if(!list) return;
+  if(!bioLinks.length){
+    list.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px 0">No links yet — add your first one above.</div>';
+    return;
+  }
+  list.innerHTML = bioLinks.map(function(l){
+    return '<div style="display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px">'
+      +'<div style="flex:1;min-width:0">'
+      +'<div style="font-size:13px;font-weight:500;color:var(--black)">' + esc(l.title) + '</div>'
+      +'<div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + esc(l.url) + '</div>'
+      +'</div>'
+      +'<button onclick="deleteLink(\''+l.id+'\')" style="background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:50px;font-size:11px;cursor:pointer;font-family:inherit;flex-shrink:0">✕</button>'
+      +'</div>';
+  }).join('');
+}
+
+async function addLink(){
+  var title = (document.getElementById('newLinkTitle')?.value||'').trim();
+  var url   = (document.getElementById('newLinkUrl')?.value||'').trim();
+  if(!title||!url){ showToast('Please fill in both label and URL'); return; }
+  if(!/^https?:\/\//i.test(url)){ url = 'https://' + url; }
+  var {error} = await sb.from('bio_links').insert({ handle: profile.handle, title, url, sort_order: bioLinks.length });
+  if(error){ showToast('Could not save link'); return; }
+  document.getElementById('newLinkTitle').value = '';
+  document.getElementById('newLinkUrl').value   = '';
+  loadLinks();
+  showToast('✓ Link added');
+}
+
+async function deleteLink(id){
+  await sb.from('bio_links').delete().eq('id', id);
+  loadLinks();
+}
+
+// ── EMAIL SUBSCRIBERS (Pro) ──────────────────────────────────────
+var allSubscribers = [];
+
+async function loadSubscribers(){
+  var res = await sb.from('subscribers').select('*').eq('handle', profile.handle).order('created_at', {ascending: false});
+  allSubscribers = res.data || [];
+  var countEl = document.getElementById('subsCount');
+  if(countEl) countEl.textContent = allSubscribers.length + ' subscriber' + (allSubscribers.length === 1 ? '' : 's');
+  var list = document.getElementById('subsList');
+  if(!list) return;
+  if(!allSubscribers.length){
+    list.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px">No subscribers yet — your subscribe form is live on your storefront.</div>';
+    return;
+  }
+  list.innerHTML = allSubscribers.map(function(s){
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:1px solid var(--border)">'
+      +'<div style="width:30px;height:30px;border-radius:50%;background:var(--warm2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--gray);flex-shrink:0">'+(s.name||s.email||'?').charAt(0).toUpperCase()+'</div>'
+      +'<div><div style="font-size:13px;font-weight:500;color:var(--black)">'+(s.name?esc(s.name)+' — ':'')+esc(s.email||'')+'</div>'
+      +'<div style="font-size:11px;color:var(--muted)">'+(s.created_at?new Date(s.created_at).toLocaleDateString():'')+'</div></div>'
+      +'</div>';
+  }).join('');
+}
+
+function downloadSubscribers(){
+  if(!allSubscribers.length){ showToast('No subscribers yet'); return; }
+  var csv = 'Name,Email,Date\n' + allSubscribers.map(function(s){
+    return '"'+(s.name||'').replace(/"/g,'""')+'","'+(s.email||'').replace(/"/g,'""')+'","'+(s.created_at||'')+'"';
+  }).join('\n');
+  var blob = new Blob([csv], {type:'text/csv'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'subscribers-' + profile.handle + '.csv';
+  a.click();
+}
+
+// ── QR CODE ──────────────────────────────────────────────────────
+function generateQR(){
+  const url = 'https://linkglobe.co/' + profile.handle;
+  const wrap = document.getElementById('qrCanvas');
+  if(!wrap) return;
+  // Use Google Charts QR API — reliable, no library needed
+  const size = 100;
+  const img = document.createElement('img');
+  img.src = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(url)}&margin=2&color=0a0a0a&bgcolor=ffffff`;
+  img.style.cssText = 'width:100%;height:100%;border-radius:8px';
+  img.alt = 'QR code';
+  wrap.innerHTML = '';
+  wrap.appendChild(img);
+}
+
+function downloadQR(){
+  const url = 'https://linkglobe.co/' + profile.handle;
+  const size = 400;
+  const a = document.createElement('a');
+  a.href = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(url)}&margin=4&color=0a0a0a&bgcolor=ffffff`;
+  a.download = 'linkglobe-qr-' + profile.handle + '.png';
+  a.target = '_blank';
+  a.click();
 }
 
 // ── AFFILIATE PROGRAMS ────────────────────────────────────────────
@@ -2122,6 +3030,8 @@ async function saveProfile(){
 }
 
 // ── APPEARANCE ──────────────────────────────────────────────
+let _bgCurrent = '#1a1a1a'; // tracks the current preview background colour
+
 function loadAppearance(){
   // Theme
   const theme = profile.sf_theme || 'noir';
@@ -2133,17 +3043,7 @@ function loadAppearance(){
     const first = document.querySelector('#themeSwatches .theme-swatch');
     if(first) first.classList.add('active');
   }
-  // Apply saved background immediately on load
-  const activeBgEl = document.querySelector('#themeSwatches .theme-swatch.active');
-  const initBg = activeBgEl?.dataset.bg || '#0a0a0a';
-  const pvH = document.getElementById('pvHeader');
-  const pvS = document.querySelector('.phone-screen');
-  const pvF = document.querySelector('.phone-frame');
-  const pvBd = document.getElementById('pvBackdrop');
-  if(pvH)  pvH.style.background  = initBg;
-  if(pvS)  pvS.style.background  = initBg;
-  if(pvF)  pvF.style.background  = initBg;
-  if(pvBd) pvBd.style.background = initBg;
+  // Apply saved background immediately on load — done at end of loadAppearance via applyBgToPreview
   // Button colour
   const bc = profile.sf_btn_color || '#0a0a0a';
   const bcWheel = document.getElementById('btnColorWheel');
@@ -2204,8 +3104,14 @@ function loadAppearance(){
   }
   // Background image
   const bgUrlEl = document.getElementById('bgImageUrl');
-  if(bgUrlEl && profile.sf_bg_image){ bgUrlEl.value = profile.sf_bg_image; previewBgImage(profile.sf_bg_image); }
-  updatePreview();
+  if(bgUrlEl && profile.sf_bg_image){ bgUrlEl.value = profile.sf_bg_image; }
+  // Determine initial background: image > custom colour > active swatch
+  const bgImgLoad = (bgUrlEl?.value || '').trim();
+  const bgcLoad   = profile.sf_bg_color || '';
+  const activeBgLoad = document.querySelector('#themeSwatches .theme-swatch.active');
+  const swatchBgLoad = activeBgLoad ? (activeBgLoad.dataset.preview || activeBgLoad.dataset.bg || '#1a1a1a') : '#1a1a1a';
+  const initBg = bgImgLoad ? `url(${bgImgLoad}) center/cover no-repeat` : (bgcLoad || swatchBgLoad);
+  applyBgToPreview(initBg);
 }
 
 function selectTheme(el){
@@ -2213,24 +3119,53 @@ function selectTheme(el){
   el.classList.add('active');
   const bgW = document.getElementById('bgColorWheel');
   if(bgW){ bgW.dataset.custom = ''; bgW.value = el.dataset.preview || '#0a0a0a'; }
-  // Use data-preview (clear solid colour) for the preview, data-bg (gradient) saved to DB
-  applyBgToPreview(el.dataset.preview || el.dataset.bg || '#0a0a0a');
+  const bgUrlInput = document.getElementById('bgImageUrl');
+  if(bgUrlInput) bgUrlInput.value = '';
+  if(profile) profile.sf_bg_image = '';
+  const colour = el.dataset.preview || el.dataset.bg || '#0a0a0a';
+  // Paint immediately — no abstraction
+  var bd=document.getElementById('pvBackdrop'), hd=document.getElementById('pvHeader'),
+      sc=document.querySelector('.phone-screen'), fr=document.querySelector('.phone-frame');
+  if(bd) bd.style.setProperty('--pv-bg', colour);
+  if(hd) hd.style.background=colour;
+  if(sc) sc.style.background=colour;
+  if(fr) fr.style.background=colour;
+  _bgCurrent=colour;
+  var dot=document.getElementById('bgDebugDot');
+  if(dot) dot.style.background=colour;
+  updatePreview();
 }
 function onBgColorWheel(val){
   document.querySelectorAll('#themeSwatches .theme-swatch').forEach(s=>s.classList.remove('active'));
-  const bgW = document.getElementById('bgColorWheel');
-  if(bgW) bgW.dataset.custom = val;
-  applyBgToPreview(val);
+  var bd=document.getElementById('pvBackdrop'), hd=document.getElementById('pvHeader'),
+      sc=document.querySelector('.phone-screen'), fr=document.querySelector('.phone-frame');
+  if(bd) bd.style.setProperty('--pv-bg', val);
+  if(hd) hd.style.background=val;
+  if(sc) sc.style.background=val;
+  if(fr) fr.style.background=val;
+  _bgCurrent=val;
+  var dot=document.getElementById('bgDebugDot');
+  if(dot) dot.style.background=val;
+  updatePreview();
 }
+// ── Single source of truth for preview background ──────────
+// applyBgToPreview — paints preview background via CSS variable AND direct inline styles.
+// updatePreview() never touches background.
+// When bg is an image URL, it only applies to the header (matching storefront behaviour).
 function applyBgToPreview(bg){
-  const pvHeader  = document.getElementById('pvHeader');
-  const pvScreen  = document.querySelector('.phone-screen');
-  const pvFrame   = document.querySelector('.phone-frame');
-  const pvBackdrop= document.getElementById('pvBackdrop');
-  if(pvHeader)   pvHeader.style.background   = bg;
-  if(pvScreen)   pvScreen.style.background   = bg;
-  if(pvFrame)    pvFrame.style.background    = bg;
-  if(pvBackdrop) pvBackdrop.style.background = bg;
+  if(!bg) return;
+  _bgCurrent = bg;
+  var bd = document.getElementById('pvBackdrop');
+  var hd = document.getElementById('pvHeader');
+  var sc = document.querySelector('.phone-screen');
+  var fr = document.querySelector('.phone-frame');
+  const isImage = bg.startsWith('url(');
+  // Solid colour used for frame/screen; image only on header (mirrors storefront)
+  const solidBg = isImage ? '#1a1a1a' : bg;
+  if(bd) bd.style.setProperty('--pv-bg', solidBg);
+  if(hd) hd.style.background = bg;  // full image or colour on header
+  if(sc) sc.style.background = solidBg;
+  if(fr) fr.style.background = solidBg;
   updatePreview();
 }
 function selectFontColor(el){
@@ -2277,7 +3212,16 @@ function previewBgImage(url){
   } else if(thumb){
     thumb.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a0a0a8" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>`;
   }
-  updatePreview();
+  if(url){
+    applyBgToPreview(`url(${url}) center/cover no-repeat`);
+  } else {
+    // Fall back to current swatch / custom colour
+    const bgW = document.getElementById('bgColorWheel');
+    const customBg = bgW?.dataset.custom || '';
+    const activeSwatch = document.querySelector('#themeSwatches .theme-swatch.active');
+    const fallback = customBg || (activeSwatch?.dataset.preview || activeSwatch?.dataset.bg || '#0a0a0a');
+    applyBgToPreview(fallback);
+  }
 }
 function clearBgImage(){
   const urlEl = document.getElementById('bgImageUrl');
@@ -2328,6 +3272,7 @@ async function handleAvatarUpload(input){
   const thumb = document.getElementById('avatarThumb');
   if(thumb) thumb.innerHTML = `<img src="${avatarUrl}" alt="">`;
   await sb.from('signups').update({ avatar_url: avatarUrl }).eq('email', userEmail);
+  updatePreview();
 }
 
 function isLightColor(hex){
@@ -2353,40 +3298,26 @@ function updatePreview(){
   const font    = document.querySelector('.font-opt.active')?.dataset.font  || 'serif';
   const btn     = document.querySelector('.btn-style-opt.active')?.dataset.btn || 'rounded';
   // Colour wheel overrides: check data-custom attribute first
-  const bgWheelEl   = document.getElementById('bgColorWheel');
+  // NOTE: background is managed exclusively by applyBgToPreview/_bgCurrent — never set here
   const fcWheelEl   = document.getElementById('fontColorWheel');
   const bcWheelEl   = document.getElementById('btnColorWheel');
-  const customBg    = bgWheelEl?.dataset.custom;
   const customFc    = fcWheelEl?.dataset.custom;
   const customBc    = bcWheelEl?.dataset.custom;
   const fontColor   = customFc || document.querySelector('#fontColorOpts .theme-swatch.active')?.dataset.fc || '#ffffff';
-  const isLight = theme === 'ivory' || (customBg && isLightColor(customBg));
-
-  // Background — read data-bg directly from the active swatch
-  const pvHeader = document.getElementById('pvHeader');
-  const pvScreen = document.querySelector('.phone-screen');
-  const pvFrame  = document.querySelector('.phone-frame');
-  const bgImg = document.getElementById('bgImageUrl')?.value?.trim() || profile?.sf_bg_image || '';
-  const activeBgSwatch = document.querySelector('#themeSwatches .theme-swatch.active');
-  // Use data-preview (solid colour) for the preview widget; data-bg is the gradient saved to DB
-  const swatchBg = activeBgSwatch ? (activeBgSwatch.dataset.preview || activeBgSwatch.dataset.bg) : '#0a0a0a';
-  const resolvedBg = bgImg ? `url(${bgImg}) center/cover no-repeat` : (customBg || swatchBg);
-
-  const pvBackdropEl = document.getElementById('pvBackdrop');
-  if(pvHeader)     pvHeader.style.background     = resolvedBg;
-  if(pvScreen)     pvScreen.style.background     = resolvedBg;
-  if(pvFrame)      pvFrame.style.background      = resolvedBg;
-  if(pvBackdropEl) pvBackdropEl.style.background = resolvedBg;
+  // isLight: derive from _bgCurrent so it stays in sync with the actual displayed background
+  const isLight = (_bgCurrent === '#F4F1E2') ||
+                  (_bgCurrent.startsWith('#') && isLightColor(_bgCurrent)) ||
+                  (theme === 'ivory');
 
   // Avatar text colour
   const pvAv = document.getElementById('pvAvatar');
   if(pvAv){
     pvAv.style.color = fontColor;
     pvAv.style.background = isLight ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.15)';
-    // show avatar image if available
-    if(profile?.avatar_url && !pvAv.querySelector('img')){
+    // show avatar image if available — always refresh so new uploads appear
+    if(profile?.avatar_url){
       pvAv.innerHTML = `<img src="${profile.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-    } else if(!profile?.avatar_url){
+    } else {
       pvAv.textContent = (profile?.name || 'Y').charAt(0).toUpperCase();
     }
   }
@@ -2426,6 +3357,10 @@ function updatePreview(){
 }
 
 async function saveAppearance(){
+  if(profile.plan === 'free'){
+    upgradeToCreator();
+    return;
+  }
   const theme     = document.querySelector('#themeSwatches .theme-swatch.active')?.dataset.theme || 'noir';
   const font      = document.querySelector('.font-opt.active')?.dataset.font  || 'serif';
   const btn       = document.querySelector('.btn-style-opt.active')?.dataset.btn || 'rounded';
@@ -2470,6 +3405,96 @@ async function saveAppearance(){
   }
 }
 
+// ── PARTNER PROGRAM ──────────────────────────────────────────────────
+function generateRefCode(email) {
+  // deterministic short code from email
+  var str = email.toLowerCase().trim();
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0;
+  }
+  var chars = 'abcdefghjkmnpqrstuvwxyz23456789';
+  var code = '';
+  var n = Math.abs(hash);
+  for (var j = 0; j < 6; j++) {
+    code += chars[n % chars.length];
+    n = Math.floor(n / chars.length);
+  }
+  return code;
+}
+
+function calcPartnerEarnings() {
+  var creator = parseInt(document.getElementById('calcCreator').value) || 0;
+  var pro = parseInt(document.getElementById('calcPro').value) || 0;
+  var total = (creator * 4) + (pro * 7.25);
+  document.getElementById('calcResult').textContent = '$' + total.toFixed(2);
+}
+
+function copyPartnerLink() {
+  var link = document.getElementById('partnerRefLink').textContent;
+  navigator.clipboard.writeText(link).then(function() {
+    showToast('Referral link copied! 🎉');
+  });
+}
+
+async function loadPartnerProgram() {
+  if (!userEmail) return;
+
+  // Generate/save ref code
+  var refCode = profile.ref_code;
+  if (!refCode) {
+    refCode = generateRefCode(userEmail);
+    // Save it
+    await sb.from('signups').update({ ref_code: refCode }).eq('email', userEmail);
+    profile.ref_code = refCode;
+  }
+
+  var refLink = 'https://linkglobe.co?ref=' + refCode;
+  document.getElementById('partnerRefLink').textContent = refLink;
+
+  // Load referrals
+  var { data: refs } = await sb.from('referrals')
+    .select('*')
+    .eq('referrer_email', userEmail)
+    .order('created_at', { ascending: false });
+
+  var referrals = refs || [];
+  var paid = referrals.filter(function(r) { return r.referred_plan !== 'free'; });
+  var monthlyEarnings = paid.reduce(function(sum, r) {
+    return sum + (r.referred_plan === 'pro' ? 7.25 : 4);
+  }, 0);
+
+  document.getElementById('partnerEarnings').textContent = '$' + monthlyEarnings.toFixed(2);
+  document.getElementById('partnerReferralCount').textContent = referrals.length;
+  document.getElementById('partnerPaidCount').textContent = paid.length;
+
+  // Render referral list
+  var list = document.getElementById('partnerReferralsList');
+  if (referrals.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">No referrals yet. Share your link below to start earning.</div>';
+    return;
+  }
+
+  var PLAN_COLORS = { free: '#aaa', creator: '#5555ee', pro: '#e60023' };
+  list.innerHTML = '<div style="display:grid;gap:6px">' + referrals.map(function(r) {
+    var planColor = PLAN_COLORS[r.referred_plan] || '#aaa';
+    var earning = r.referred_plan === 'pro' ? '$7.25' : r.referred_plan === 'creator' ? '$4.00' : '$0';
+    var date = new Date(r.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+    var emailMasked = r.referred_email.replace(/(.{3}).*(@.*)/, '$1***$2');
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--warm);border:1px solid var(--border);border-radius:8px">' +
+      '<div>' +
+        '<div style="font-size:13px;font-weight:500;color:var(--black)">' + emailMasked + '</div>' +
+        '<div style="font-size:11px;color:var(--muted)">' + date + '</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:8px;align-items:center">' +
+        '<span style="font-size:11px;font-weight:600;padding:3px 8px;border-radius:50px;background:' + planColor + '20;color:' + planColor + '">' + r.referred_plan.toUpperCase() + '</span>' +
+        '<span style="font-size:13px;font-weight:600;color:var(--black)">' + earning + '/mo</span>' +
+      '</div>' +
+    '</div>';
+  }).join('') + '</div>';
+}
+
 async function exportCSV() {
   showToast('Preparing export...');
   var [clicksRes, prodsRes] = await Promise.all([
@@ -2495,14 +3520,28 @@ async function exportCSV() {
 <!-- MANAGE COLLECTION PANEL -->
 <div id="managePanel" class="manage-panel">
   <div class="manage-header">
-    <div class="manage-header-l">
-      <button class="manage-back" onclick="closeManage()">← Back to dashboard</button>
-      <div class="manage-title" id="managePanelTitle">Manage Collection</div>
-      <div class="manage-subtitle" id="managePanelSubtitle">Tap + to add products, ✓ to remove</div>
+    <div class="manage-header-top">
+      <button class="manage-back" onclick="closeManage()">← Collections</button>
+      <button class="manage-close-btn" onclick="closeManage()">✕</button>
     </div>
-    <button class="manage-close-btn" onclick="closeManage()">✕</button>
+    <div class="manage-title-row">
+      <div class="manage-title" id="managePanelTitle">Collection</div>
+      <button class="manage-rename-btn" onclick="renameCollection()">Rename</button>
+    </div>
+    <input class="manage-search" id="manageSearch" placeholder="Search products…" oninput="filterManagePanel(this.value)">
+    <div class="manage-toolbar">
+      <span class="manage-count" id="manageCount">0 products in collection</span>
+      <div class="manage-view-btns">
+        <button class="manage-view-btn active" id="viewList" onclick="setManageView('list',this)" title="List view">☰</button>
+        <button class="manage-view-btn" id="viewGrid" onclick="setManageView('grid',this)" title="Grid view">⊞</button>
+      </div>
+    </div>
   </div>
   <div class="manage-body" id="managePanelBody"></div>
+  <div class="manage-footer">
+    <button class="manage-copy-btn" onclick="copyManageLink()">🔗 Copy link</button>
+    <button class="manage-save-btn" onclick="closeManage()">Done ✓</button>
+  </div>
 </div>
 
 </body>

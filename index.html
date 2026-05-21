@@ -226,7 +226,7 @@ a { text-decoration: none; color: inherit; }
 .pc-feats li.off::before { content: '✗'; color: var(--red); font-size: 11px; }
 .pc.featured .pc-feats li.off { color: rgba(255,255,255,.3); }
 .pc.featured .pc-feats li.off::before { content: '✗'; color: #f87171; }
-.btn-plan { display: block; text-align: center; padding: 13px 20px; border-radius: 50px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--border2); color: var(--black); transition: all .2s; font-family: 'DM Sans', sans-serif; background: white; margin-top: 20px; }
+.btn-plan { display: block; text-align: center; padding: 13px 20px; border-radius: 50px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--border2); color: var(--black); transition: all .2s; font-family: 'DM Sans', sans-serif; background: white; margin-top: 20px; flex-shrink: 0; }
 .btn-plan:hover { border-color: var(--black); }
 .btn-plan.primary { background: white; color: var(--black); border-color: white; font-weight: 600; }
 .btn-plan.primary:hover { background: rgba(255,255,255,.88); }
@@ -304,34 +304,111 @@ footer nav a:hover { color: var(--black); }
   line-height: 1;
 }
 
+/* ── TABLET / LARGE MOBILE ─────────────────────────────── */
 @media (max-width: 860px) {
+  /* Nav */
   .lg-nav { top: 10px; width: calc(100% - 24px); height: 54px; padding: 0 10px 0 14px; }
   .lg-nav__links { display: none; }
   .lg-nav__signin { display: none; }
   .lg-nav__cta { display: none; }
   .lg-nav__hamburger { display: flex; }
   .lg-nav__wordmark { font-size: 15px; }
-  .hero { padding: 100px 20px 64px; }
+
+  /* Hero */
+  .hero { padding: 86px 20px 40px; }
   .hero-inner { max-width: 100%; }
-  .demo-wrap { padding: 0 20px 64px; }
-  .demo-grid { grid-template-columns: 1fr; }
-  .demo-left { border-right: none; border-bottom: 1px solid var(--border); }
-  .proof-section { padding: 64px 20px; }
-  .calc-sliders { grid-template-columns: 1fr; }
-  .calc-bottom { grid-template-columns: 1fr 1fr; gap: 20px; }
-  .calc-metric { padding: 0; border: none; }
-  .stats-row { grid-template-columns: 1fr; gap: 10px; }
-  .hiw-section, .feat-section, .social-section .social-inner, .pricing-section, .cta-section { padding-left: 20px; padding-right: 20px; }
-  .social-section { padding: 64px 20px; }
-  .steps, .feat-grid { grid-template-columns: 1fr; }
-  .proof-grid, .price-grid { grid-template-columns: 1fr; }
-  footer { flex-direction: column; text-align: center; padding: 28px 20px; }
-  footer nav { flex-wrap: wrap; justify-content: center; }
+  .hero h1 { font-size: clamp(36px, 9vw, 64px); letter-spacing: -1.5px; margin-bottom: 18px; }
+  .hero-sub { font-size: 15px; margin-bottom: 28px; }
+  .hero-eyebrow { margin-bottom: 22px; }
   .hero-form, .cta-form { flex-direction: column; border-radius: 14px; padding: 10px; gap: 6px; }
   .hero-btn, .cta-btn { width: 100%; text-align: center; border-radius: 10px; padding: 12px; }
+  .hero-meta { gap: 10px; }
+
+  /* Demo */
+  .demo-wrap { padding: 0 20px 44px; }
+  .demo-grid { grid-template-columns: 1fr; }
+  .demo-left { border-right: none; border-bottom: 1px solid var(--border); padding: 20px; }
+  .demo-right { padding: 20px; }
+
+  /* Proof / calculator (dark section) */
+  .proof-section { padding: 48px 20px; }
+  .proof-inner > p { margin-bottom: 32px; font-size: 14px; }
+  .proof-inner h2 { font-size: clamp(28px, 7vw, 44px); margin-bottom: 10px; }
+  .calc-sliders { grid-template-columns: 1fr; }
+  .calc-bottom { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .calc-top { padding: 20px; }
+  .calc-bottom { padding: 20px; }
+  .calc-metric { padding: 0; border: none; }
+  .cm-num { font-size: 30px; }
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Section headings */
+  .sec-h2 { font-size: clamp(28px, 7vw, 44px); }
+
+  /* How it works */
+  .hiw-section { padding: 48px 20px; }
+  .steps { grid-template-columns: 1fr; }
+  .step { padding: 22px 20px; }
+  .step-n { font-size: 48px; margin-bottom: 8px; }
+  .sec-sub { font-size: 14px; margin-bottom: 28px; }
+
+  /* Features */
+  .feat-section { padding: 0 20px 48px; }
+  .feat-grid { grid-template-columns: 1fr 1fr; }
+  .feat { padding: 22px 18px; }
+
+  /* Social proof */
+  .social-section { padding: 48px 20px; }
+  .social-section .social-inner { padding-left: 0; padding-right: 0; }
+  .proof-grid { grid-template-columns: 1fr; margin-top: 28px; gap: 12px; }
+  .proof-card { padding: 20px; }
+  .proof-quote { font-size: 14px; }
+
+  /* Pricing */
+  .pricing-section { padding: 48px 20px; }
+  .price-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
+  .pc { padding: 24px; }
+
+  /* CTA */
+  .cta-section { padding: 48px 20px; }
+
+  /* Footer */
+  footer { flex-direction: column; text-align: center; padding: 28px 20px; }
+  footer nav { flex-wrap: wrap; justify-content: center; }
 }
-@media (max-width: 520px) {
-  .calc-bottom { grid-template-columns: 1fr 1fr; }
+
+/* ── SMALL PHONES ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .hero { padding: 76px 16px 32px; }
+  .hero h1 { font-size: clamp(32px, 10vw, 42px); letter-spacing: -1px; margin-bottom: 14px; }
+  .hero-sub { font-size: 14px; line-height: 1.55; margin-bottom: 22px; }
+  .hero-meta span { font-size: 11px; }
+
+  .proof-section { padding: 40px 16px; }
+  .calc-top { padding: 16px; }
+  .calc-bottom { padding: 16px; grid-template-columns: 1fr 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-card { padding: 18px 14px; }
+  .sc-num { font-size: clamp(30px, 8vw, 44px); }
+
+  .hiw-section { padding: 40px 16px; }
+  .step { padding: 18px 16px; }
+  .step-n { font-size: 40px; }
+
+  .feat-section { padding: 0 16px 40px; }
+  .feat-grid { grid-template-columns: 1fr; }
+  .feat { padding: 18px 16px; }
+  .feat-icon { width: 30px; height: 30px; font-size: 15px; margin-bottom: 10px; }
+
+  .social-section { padding: 40px 16px; }
+  .proof-card { padding: 18px; }
+
+  .pricing-section { padding: 40px 16px; }
+  .pc { padding: 20px; }
+  .pc-price { font-size: 48px; }
+
+  .cta-section { padding: 40px 16px; }
+  .sec-h2 { font-size: clamp(26px, 9vw, 40px); }
 }
 </style>
 
@@ -538,25 +615,33 @@ footer nav a:hover { color: var(--black); }
 <!-- ── PRICING ─────────────────────────────────────────────── -->
 <section class="pricing-section" id="pricing">
   <div class="sec-tag">Pricing that grows with you</div>
-  <h2 class="sec-h2">Start free.<br>Earn from <em>every</em> country.</h2>
+  <h2 class="sec-h2">Start free.<br>Scale to <em>serious</em> income.</h2>
   <p style="font-size:16px;color:var(--gray);font-weight:300;margin-top:14px">No commission cuts. No hidden fees. Cancel any time.</p>
+
+  <!-- Annual toggle -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin:24px 0 8px">
+    <span id="monthlyLabel" style="font-size:13px;font-weight:600;color:var(--black)">Monthly</span>
+    <div onclick="toggleBilling()" style="width:44px;height:24px;background:var(--black);border-radius:50px;position:relative;cursor:pointer;flex-shrink:0" id="billingToggle">
+      <div id="billingDot" style="position:absolute;width:18px;height:18px;background:white;border-radius:50%;top:3px;left:3px;transition:left .2s"></div>
+    </div>
+    <span id="annualLabel" style="font-size:13px;color:var(--gray)">Annual <span style="background:#dcfce7;color:#16a34a;font-size:11px;font-weight:600;padding:2px 8px;border-radius:50px;margin-left:4px">Save 2 months</span></span>
+  </div>
+
   <div class="price-grid">
 
-    <!-- FREE -->
     <!-- FREE -->
     <div class="pc">
       <div class="pc-tier">Free</div>
       <div class="pc-price"><sup>$</sup>0<sub>/mo</sub></div>
-      <p class="pc-desc">Dip your toes in. Start earning from Amazon globally — no card needed.</p>
+      <p class="pc-desc">Start earning from every fan.</p>
       <ul class="pc-feats">
         <li>5 products</li>
-        <li>All countries supported</li>
-        <li class="off">Brand redirects</li>
-        <li class="off">Click analytics</li>
-        <li class="off">Custom accent colour</li>
-        <li class="off">Email support</li>
+        <li>Amazon geo-redirects</li>
+        <li>Basic storefront</li>
+        <li>Click analytics</li>
+        <li>Earnings estimates</li>
+        <li class="off">All brand redirects</li>
         <li class="off">Custom domain</li>
-        <li class="off">Multiple storefronts</li>
       </ul>
       <a href="/onboarding.html" class="btn-plan">Get started free</a>
     </div>
@@ -565,42 +650,65 @@ footer nav a:hover { color: var(--black); }
     <div class="pc featured">
       <div class="pc-badge">Most popular</div>
       <div class="pc-tier">Creator</div>
-      <div class="pc-price"><sup>$</sup>16<sub>/mo</sub></div>
-      <p class="pc-desc">Beyond Amazon. Every brand, every country — finally earning what you deserve.</p>
+      <div class="pc-price"><sup>$</sup><span class="price-num" data-monthly="15" data-annual="12">15</span><sub>/mo</sub></div>
+      <p class="pc-desc">Every brand. Every country.</p>
       <ul class="pc-feats">
-        <li>20 products</li>
-        <li>All countries supported</li>
+        <li>50 products</li>
         <li>All brand redirects</li>
-        <li>Click count per product</li>
-        <li>Custom accent colour</li>
-        <li>Email support</li>
-        <li class="off">Custom domain</li>
-        <li class="off">Multiple storefronts</li>
+        <li>Analytics + country breakdown</li>
+        <li>Earnings estimates</li>
+        <li>Custom storefront design</li>
+        <li>Collections + QR code</li>
+        <li class="off" style="color:rgba(255,255,255,.3)">Multiple storefronts</li>
+        <li class="off" style="color:rgba(255,255,255,.3)">Partner program (earn 25%)</li>
+        <li class="off" style="color:rgba(255,255,255,.3)">Custom domain</li>
       </ul>
       <a href="/onboarding.html?plan=creator" class="btn-plan primary">Start 14-day free trial →</a>
     </div>
 
     <!-- PRO -->
-    <div class="pc">
-      <div class="pc-badge" style="background:var(--black);color:white">For serious creators</div>
-      <div class="pc-tier">Pro</div>
-      <div class="pc-price"><sup>$</sup>29<sub>/mo</sub></div>
-      <p class="pc-desc">The full picture. Unlimited products, full analytics, and it looks 100% yours.</p>
-      <ul class="pc-feats">
-        <li>Unlimited products</li>
-        <li>All countries supported</li>
-        <li>All brand redirects</li>
-        <li>Full analytics dashboard</li>
-        <li>Custom accent colour</li>
-        <li>Priority support</li>
-        <li>Custom domain <span style="font-size:10px;opacity:.5;font-weight:600">soon</span></li>
-        <li>Multiple storefronts <span style="font-size:10px;opacity:.5;font-weight:600">soon</span></li>
+    <div class="pc" style="background:linear-gradient(160deg,#0f0f1a 0%,#1a1040 100%);border-color:#2a2a5a;position:relative;">
+      <div style="position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none"><div style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(108,99,255,.18) 0%,transparent 70%)"></div></div>
+      <div class="pc-badge" style="background:linear-gradient(90deg,#6c63ff,#e60023);color:white;border:none">Best for business</div>
+      <div class="pc-tier" style="color:rgba(255,255,255,.4)">Pro</div>
+      <div class="pc-price" style="color:white"><sup style="color:rgba(255,255,255,.5)">$</sup><span class="price-num" data-monthly="29" data-annual="24">29</span><sub style="color:rgba(255,255,255,.3)">/mo</sub></div>
+      <p class="pc-desc" style="color:rgba(255,255,255,.4)">Everything Creator, plus the tools that turn this into a business.</p>
+      <ul class="pc-feats" style="border-bottom-color:rgba(255,255,255,.08)">
+        <li style="color:rgba(255,255,255,.85)">Everything in Creator</li>
+        <li style="color:rgba(255,255,255,.85)">Email capture + own your audience</li>
+        <li style="color:rgba(255,255,255,.85)">Unlimited products</li>
+        <li style="color:rgba(255,255,255,.85)">Multiple storefronts <span style="font-size:10px;background:rgba(108,99,255,.3);color:#a5b4fc;padding:2px 7px;border-radius:50px;margin-left:4px">up to 5</span></li>
+        <li style="color:rgba(255,255,255,.85)">Advanced analytics + trends</li>
+        <li style="color:rgba(255,255,255,.85)">💸 Partner program — earn 25% recurring</li>
+        <li style="color:rgba(255,255,255,.85)">Custom domain <span style="font-size:10px;background:rgba(108,99,255,.3);color:#a5b4fc;padding:2px 7px;border-radius:50px;margin-left:4px">yourname.com</span></li>
+        <li style="color:rgba(255,255,255,.85)">Remove LinkGlobe branding</li>
+        <li style="color:rgba(255,255,255,.85)">Priority support</li>
       </ul>
-      <a href="/onboarding.html?plan=pro" class="btn-plan">Get Pro →</a>
+      <!-- Partner callout -->
+      <div style="margin:12px 0 16px;padding:12px 14px;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.3);border-radius:10px">
+        <p style="font-size:12px;color:#a5b4fc;font-weight:600;margin-bottom:3px">💰 Pays for itself</p>
+        <p style="font-size:11.5px;color:rgba(255,255,255,.5);line-height:1.5">Refer 4 Creator users and your Pro plan costs you nothing — forever.</p>
+      </div>
+      <a href="/onboarding.html?plan=pro" style="display:block;text-align:center;padding:14px 20px;border-radius:50px;font-size:13px;font-weight:600;background:linear-gradient(90deg,#6c63ff,#5555ee);color:white;text-decoration:none;transition:opacity .2s;font-family:'DM Sans',sans-serif" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Get Pro →</a>
     </div>
 
   </div>
+  <p style="text-align:center;font-size:13px;color:var(--gray);margin-top:22px">100% of your commission, always. We never take a cut.</p>
 </section>
+
+<script>
+var isAnnual = false;
+function toggleBilling() {
+  isAnnual = !isAnnual;
+  document.getElementById('billingDot').style.left = isAnnual ? '23px' : '3px';
+  document.getElementById('monthlyLabel').style.color = isAnnual ? 'var(--gray)' : 'var(--black)';
+  document.getElementById('annualLabel').style.color = isAnnual ? 'var(--black)' : 'var(--gray)';
+  document.getElementById('annualLabel').style.fontWeight = isAnnual ? '600' : '400';
+  document.querySelectorAll('.price-num').forEach(function(el) {
+    el.textContent = isAnnual ? el.dataset.annual : el.dataset.monthly;
+  });
+}
+</script>
 
 <!-- ── FEATURES ─────────────────────────────────────────────── -->
 <div class="feat-section" id="features">
@@ -665,8 +773,8 @@ footer nav a:hover { color: var(--black); }
     <a href="#pricing">Pricing</a>
     <a href="/onboarding.html">Sign up</a>
     <a href="/dashboard.html">Dashboard</a>
-    <a href="/terms">Terms</a>
-    <a href="/privacy">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy.html">Privacy</a>
   </nav>
 </footer>
 
@@ -709,14 +817,16 @@ function heroGo() {
   if (!el) return;
   const e = el.value.trim();
   if (!e || !e.includes('@')) { el.style.borderColor = 'rgba(220,38,38,0.6)'; return; }
-  window.location.href = '/onboarding.html?email=' + encodeURIComponent(e);
+  var ref = localStorage.getItem('lg_ref') || new URLSearchParams(window.location.search).get('ref') || '';
+  window.location.href = '/onboarding.html?email=' + encodeURIComponent(e) + (ref ? '&ref=' + encodeURIComponent(ref) : '');
 }
 function ctaGo() {
   const el = document.getElementById('ctaEmail');
   if (!el) return;
   const e = el.value.trim();
   if (!e || !e.includes('@')) { el.style.borderColor = 'rgba(220,38,38,0.6)'; return; }
-  window.location.href = '/onboarding.html?email=' + encodeURIComponent(e);
+  var ref = localStorage.getItem('lg_ref') || new URLSearchParams(window.location.search).get('ref') || '';
+  window.location.href = '/onboarding.html?email=' + encodeURIComponent(e) + (ref ? '&ref=' + encodeURIComponent(ref) : '');
 }
 
 function go(inputId) {
@@ -724,8 +834,15 @@ function go(inputId) {
   if (!el) return;
   const e = el.value.trim();
   if (!e || !e.includes('@')) { el.style.borderColor = 'rgba(220,38,38,0.6)'; return; }
-  window.location.href = '/onboarding.html?email=' + encodeURIComponent(e);
+  var ref = localStorage.getItem('lg_ref') || new URLSearchParams(window.location.search).get('ref') || '';
+  window.location.href = '/onboarding.html?email=' + encodeURIComponent(e) + (ref ? '&ref=' + encodeURIComponent(ref) : '');
 }
+
+// ── REFERRAL TRACKING ──────────────────────────────────────────
+(function(){
+  var ref = new URLSearchParams(window.location.search).get('ref');
+  if (ref) localStorage.setItem('lg_ref', ref);
+})();
 
 // ── MOBILE HAMBURGER MENU ──────────────────────────────────────
 (function(){

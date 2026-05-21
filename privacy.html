@@ -1,82 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Policy – LinkGlobe</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — LinkGlobe</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:#fff;color:#1c1c1c;-webkit-font-smoothing:antialiased;padding:60px 24px 80px}
-a{color:#4f46e5;text-decoration:none}
-a:hover{text-decoration:underline}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:#1c1c1c;-webkit-font-smoothing:antialiased;padding:80px 24px}
 .wrap{max-width:680px;margin:0 auto}
-.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#64646a;margin-bottom:40px;transition:color .15s}
-.back:hover{color:#0a0a0a;text-decoration:none}
-h1{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:600;letter-spacing:-1px;margin-bottom:8px;line-height:1}
-.meta{font-size:13px;color:#a0a0a8;margin-bottom:48px}
-h2{font-size:16px;font-weight:600;color:#0a0a0a;margin:36px 0 10px}
-p{font-size:15px;color:#3a3a3a;line-height:1.75;margin-bottom:14px;font-weight:300}
-ul{padding-left:20px;margin-bottom:14px}
-li{font-size:15px;color:#3a3a3a;line-height:1.75;margin-bottom:6px;font-weight:300}
-.footer-note{margin-top:56px;padding-top:24px;border-top:1px solid #e8e6e1;font-size:13px;color:#a0a0a8}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#64646a;text-decoration:none;margin-bottom:40px}
+.back:hover{color:#1c1c1c}
+h1{font-size:36px;font-weight:600;letter-spacing:-.5px;margin-bottom:8px}
+.updated{font-size:13px;color:#a0a0a8;margin-bottom:48px}
+h2{font-size:18px;font-weight:600;margin:36px 0 10px}
+p,li{font-size:15px;color:#444;line-height:1.75;margin-bottom:12px}
+ul{padding-left:20px;margin-bottom:12px}
+a{color:#4f46e5}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <a href="https://linkglobe.co" class="back">← Back to LinkGlobe</a>
+  <a class="back" href="/">← Back to LinkGlobe</a>
   <h1>Privacy Policy</h1>
-  <p class="meta">Last updated: May 2026</p>
+  <p class="updated">Last updated: May 2026</p>
 
-  <p>LinkGlobe ("we", "us") is committed to protecting your privacy. This policy explains what data we collect, how we use it, and your rights.</p>
+  <p>LinkGlobe ("we", "us") takes your privacy seriously. This policy explains what data we collect, how we use it, and your rights.</p>
 
   <h2>1. What We Collect</h2>
-  <p>When you sign up we collect:</p>
   <ul>
-    <li>Your name and email address</li>
-    <li>Your chosen handle and storefront details (bio, social links)</li>
-    <li>Your Amazon affiliate tags (stored securely, used only to build your redirect links)</li>
-    <li>Products you add to your storefront</li>
-    <li>Payment information — processed entirely by Stripe. We never see or store your card details.</li>
+    <li><strong>Account data:</strong> email address, display name, handle, bio, and profile photo when you sign up.</li>
+    <li><strong>Product data:</strong> URLs and metadata for products you add to your storefront.</li>
+    <li><strong>Usage data:</strong> click counts per product and per country for your analytics dashboard.</li>
+    <li><strong>Billing data:</strong> subscription status. Payment details are handled entirely by Stripe — we never see or store your card number.</li>
+    <li><strong>Affiliate tags:</strong> the affiliate IDs you enter for each marketplace (e.g. Amazon Associates tags).</li>
   </ul>
 
-  <h2>2. What We Don't Collect</h2>
-  <p>We do not collect personal information from your fans or visitors. When a fan clicks your LinkGlobe link, we detect their country from their IP address to perform the redirect, but we do not store, log, or profile individual visitor data.</p>
-
-  <h2>3. How We Use Your Data</h2>
+  <h2>2. How We Use Your Data</h2>
   <ul>
-    <li>To provide the geo-redirect service</li>
-    <li>To display your storefront at linkglobe.co/yourhandle</li>
-    <li>To send you account-related emails (magic links, billing)</li>
-    <li>To show you aggregate click analytics on your dashboard</li>
+    <li>To provide and improve the Service</li>
+    <li>To route affiliate links to the correct regional store</li>
+    <li>To display analytics in your dashboard</li>
+    <li>To send transactional emails (account confirmation, billing receipts)</li>
+    <li>We do not sell your data to third parties</li>
   </ul>
-  <p>We do not sell your data. We do not use your data for advertising.</p>
 
-  <h2>4. Data Storage</h2>
-  <p>Your account data is stored securely in Supabase (hosted on AWS in the Sydney region). Payments are handled by Stripe. Both providers are SOC 2 certified.</p>
+  <h2>3. Data Storage</h2>
+  <p>Your data is stored securely using Supabase (hosted on AWS). Data is stored in the EU region. We use industry-standard encryption in transit (TLS) and at rest.</p>
 
-  <h2>5. Cookies</h2>
-  <p>We use only essential cookies required for authentication (your login session). We do not use tracking or advertising cookies.</p>
+  <h2>4. Cookies</h2>
+  <p>We use a single session cookie to keep you logged in. We do not use tracking cookies or advertising pixels.</p>
 
-  <h2>6. Your Rights</h2>
-  <p>You have the right to access, correct, or delete your personal data at any time. To request deletion of your account and all associated data, email us at <a href="mailto:hello@linkglobe.co">hello@linkglobe.co</a>.</p>
+  <h2>5. Your Rights</h2>
+  <p>You have the right to access, correct, or delete your personal data at any time. You can delete your account from within the dashboard settings. For data requests, email <a href="mailto:hello@linkglobe.co">hello@linkglobe.co</a>.</p>
 
-  <h2>7. Third-Party Services</h2>
-  <p>We use the following third-party services:</p>
+  <h2>6. Third Parties</h2>
   <ul>
     <li><strong>Supabase</strong> — database and authentication</li>
     <li><strong>Stripe</strong> — payment processing</li>
-    <li><strong>Vercel</strong> — hosting and serverless functions</li>
+    <li><strong>Vercel</strong> — hosting and edge delivery</li>
   </ul>
-  <p>Each has their own privacy policy which governs their use of data.</p>
+  <p>Each third party has their own privacy policy. We only share data with them to the extent necessary to provide the Service.</p>
 
-  <h2>8. Changes to This Policy</h2>
-  <p>We may update this policy. We'll notify you by email for material changes. The date at the top of this page shows when it was last updated.</p>
+  <h2>7. Children</h2>
+  <p>LinkGlobe is not directed at children under 18. We do not knowingly collect data from minors.</p>
+
+  <h2>8. Changes</h2>
+  <p>We may update this policy. We will notify you of material changes by email. Continued use of the Service constitutes acceptance.</p>
 
   <h2>9. Contact</h2>
-  <p>Questions about your privacy? Email us at <a href="mailto:hello@linkglobe.co">hello@linkglobe.co</a></p>
-
-  <div class="footer-note">© 2026 LinkGlobe · <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a></div>
+  <p>Privacy questions? Email <a href="mailto:hello@linkglobe.co">hello@linkglobe.co</a>.</p>
 </div>
 </body>
 </html>

@@ -1,0 +1,6 @@
+marketing/
+node_modules/
+.env*
+*.py
+.DS_Store
+.claude/

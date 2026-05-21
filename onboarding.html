@@ -476,6 +476,9 @@ async function proceedFromPlan() {
     return;
   }
 
+  // Capture referral code from URL or localStorage
+  const refCode = new URLSearchParams(window.location.search).get('ref') || localStorage.getItem('lg_ref') || null;
+
   const profileData = {
     name,
     email,
@@ -484,6 +487,7 @@ async function proceedFromPlan() {
     instagram: document.getElementById('finsta').value.trim().replace('@','')   || null,
     tiktok:    document.getElementById('ftiktok').value.trim().replace('@','')   || null,
     plan,
+    referred_by: refCode || null,
   };
 
   const { error: upsertErr } = await sb.from('signups')
@@ -511,7 +515,7 @@ async function proceedFromPlan() {
     prefilled_email:       email,
     client_reference_id:   handle,
   });
-  window.location.href = stripeUrl + '?' + stripeParams.toString();
+  window.location.href = stripeUrl + '&' + stripeParams.toString();
 }
 
 
@@ -606,7 +610,7 @@ async function finish() {
       document.getElementById('dashBtn').textContent = 'Complete '+plan+' subscription →';
       document.getElementById('dashBtn').onclick = function() {
         const sp = new URLSearchParams({ prefilled_email: email, client_reference_id: handle });
-        window.location.href = stripeUrl + '?' + sp.toString();
+        window.location.href = stripeUrl + '&' + sp.toString();
       };
     }
 
