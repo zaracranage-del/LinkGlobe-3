@@ -610,6 +610,141 @@ footer nav a:hover { color: var(--black); }
       <p>Every fan clicks and lands on their own country's store with your tag applied. You earn commission from Australia, the US, the UK — everywhere, automatically.</p>
     </div>
   </div>
+
+  <!-- Animated product demo -->
+  <div class="live-demo-wrap" id="liveDemo">
+    <div class="ld-phone">
+      <div class="ld-screen">
+        <div class="ld-topbar">
+          <div class="ld-avatar"></div>
+          <span class="ld-handle">@yourname</span>
+          <span class="ld-live-chip">LIVE</span>
+        </div>
+        <div class="ld-step" id="ldStep1">
+          <div class="ld-label">Paste your product URL</div>
+          <div class="ld-input-wrap">
+            <div class="ld-input" id="ldInputText"></div>
+            <div class="ld-cursor" id="ldCursor"></div>
+          </div>
+        </div>
+        <div class="ld-step" id="ldStep2" style="display:none">
+          <div class="ld-label" style="color:#15803d">✓ Your geo-smart link</div>
+          <div class="ld-link-box">
+            <span class="ld-globe">🌐</span>
+            <span class="ld-smartlink">linkglobe.co/<strong>yourname</strong>/dyson-v15</span>
+            <span class="ld-copy-btn">Copy</span>
+          </div>
+        </div>
+        <div class="ld-divider" id="ldDivider" style="display:none"></div>
+        <div class="ld-fans" id="ldFans" style="display:none">
+          <div class="ld-fan" id="ldf1" style="opacity:0"><span class="ldf-flag">🇦🇺</span><span class="ldf-dest">amazon.com.au · <em>your AU tag</em></span><span class="ldf-tick">✓</span></div>
+          <div class="ld-fan" id="ldf2" style="opacity:0"><span class="ldf-flag">🇬🇧</span><span class="ldf-dest">amazon.co.uk · <em>your UK tag</em></span><span class="ldf-tick">✓</span></div>
+          <div class="ld-fan" id="ldf3" style="opacity:0"><span class="ldf-flag">🇺🇸</span><span class="ldf-dest">amazon.com · <em>your US tag</em></span><span class="ldf-tick">✓</span></div>
+          <div class="ld-fan" id="ldf4" style="opacity:0"><span class="ldf-flag">🇨🇦</span><span class="ldf-dest">amazon.ca · <em>your CA tag</em></span><span class="ldf-tick">✓</span></div>
+        </div>
+        <div class="ld-earning" id="ldEarning" style="opacity:0">💸 Earning from every click</div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+  .live-demo-wrap{display:flex;justify-content:center;margin-top:48px}
+  .ld-phone{background:#0a0a0a;border-radius:28px;padding:4px;box-shadow:0 24px 60px rgba(0,0,0,.2),0 0 0 1px rgba(255,255,255,.06);width:100%;max-width:420px}
+  .ld-screen{background:#111;border-radius:24px;padding:20px;min-height:280px;display:flex;flex-direction:column;gap:14px}
+  .ld-topbar{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .ld-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#e60023);flex-shrink:0}
+  .ld-handle{font-size:13px;font-weight:600;color:#fff;flex:1}
+  .ld-live-chip{font-size:10px;font-weight:700;background:#e60023;color:#fff;padding:2px 7px;border-radius:50px;letter-spacing:.5px}
+  .ld-step{display:flex;flex-direction:column;gap:8px}
+  .ld-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:#6c63ff}
+  .ld-input-wrap{background:#1c1c1c;border:1px solid #2a2a2a;border-radius:10px;padding:10px 14px;font-size:13px;color:#ccc;font-family:monospace;min-height:38px;display:flex;align-items:center;gap:2px;overflow:hidden}
+  .ld-input{flex:1;word-break:break-all}
+  .ld-cursor{width:2px;height:14px;background:#6c63ff;animation:blink .8s infinite;flex-shrink:0}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  .ld-link-box{background:#1a2a1a;border:1px solid #2a4a2a;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px}
+  .ld-globe{font-size:16px;flex-shrink:0}
+  .ld-smartlink{font-size:12px;color:#86efac;font-family:monospace;flex:1;word-break:break-all}
+  .ld-copy-btn{font-size:11px;font-weight:600;background:#15803d;color:#fff;padding:3px 10px;border-radius:50px;flex-shrink:0;cursor:pointer}
+  .ld-divider{height:1px;background:#222;margin:2px 0}
+  .ld-fans{display:flex;flex-direction:column;gap:6px}
+  .ld-fan{display:flex;align-items:center;gap:8px;background:#161616;border-radius:8px;padding:7px 12px;transition:opacity .4s}
+  .ldf-flag{font-size:16px;flex-shrink:0}
+  .ldf-dest{font-size:12px;color:#888;flex:1}.ldf-dest em{color:#6c63ff;font-style:normal}
+  .ldf-tick{font-size:13px;color:#15803d;font-weight:700;flex-shrink:0}
+  .ld-earning{text-align:center;font-size:13px;font-weight:600;color:#86efac;background:#0d1f0d;border:1px solid #1a3a1a;border-radius:8px;padding:8px;transition:opacity .6s}
+  @media(max-width:480px){.ld-phone{max-width:100%}}
+  </style>
+
+  <script>
+  (function(){
+    var url = 'amazon.com/dp/B09XYZ7843';
+    var pos = 0;
+    var inputEl = document.getElementById('ldInputText');
+    var cursorEl = document.getElementById('ldCursor');
+    var step1 = document.getElementById('ldStep1');
+    var step2 = document.getElementById('ldStep2');
+    var divider = document.getElementById('ldDivider');
+    var fansEl = document.getElementById('ldFans');
+    var earningEl = document.getElementById('ldEarning');
+    var fans = [document.getElementById('ldf1'),document.getElementById('ldf2'),document.getElementById('ldf3'),document.getElementById('ldf4')];
+    var running = false;
+
+    function runDemo(){
+      if(running) return;
+      running = true;
+      pos = 0;
+      if(inputEl) inputEl.textContent = '';
+      if(step2) step2.style.display='none';
+      if(divider) divider.style.display='none';
+      if(fansEl) fansEl.style.display='none';
+      if(earningEl) earningEl.style.opacity='0';
+      fans.forEach(function(f){if(f)f.style.opacity='0';});
+      if(step1) step1.style.display='flex';
+
+      function typeChar(){
+        if(pos < url.length){
+          if(inputEl) inputEl.textContent = url.slice(0, pos+1);
+          pos++;
+          setTimeout(typeChar, 38 + Math.random()*30);
+        } else {
+          setTimeout(showResult, 500);
+        }
+      }
+
+      function showResult(){
+        if(cursorEl) cursorEl.style.display='none';
+        if(step2){step2.style.display='flex';}
+        if(divider){divider.style.display='block';}
+        if(fansEl){fansEl.style.display='flex';}
+        fans.forEach(function(f,i){
+          setTimeout(function(){ if(f) f.style.opacity='1'; }, i*200);
+        });
+        setTimeout(function(){ if(earningEl) earningEl.style.opacity='1'; }, 900);
+        setTimeout(function(){
+          running = false;
+          // Reset after pause then replay
+          setTimeout(function(){
+            if(cursorEl) cursorEl.style.display='block';
+            runDemo();
+          }, 3000);
+        }, 1200);
+      }
+
+      setTimeout(typeChar, 400);
+    }
+
+    // Start when section scrolls into view
+    var demoEl = document.getElementById('liveDemo');
+    if(demoEl && 'IntersectionObserver' in window){
+      var obs = new IntersectionObserver(function(entries){
+        if(entries[0].isIntersecting){ obs.disconnect(); runDemo(); }
+      }, {threshold:0.3});
+      obs.observe(demoEl);
+    } else {
+      runDemo();
+    }
+  })();
+  </script>
 </section>
 
 <!-- ── PRICING ─────────────────────────────────────────────── -->

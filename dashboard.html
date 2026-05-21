@@ -1078,7 +1078,7 @@ a.nav-logo{text-decoration:none;cursor:pointer}
         <div style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;font-family:monospace;color:var(--ink);word-break:break-all" id="partnerRefLink">linkglobe.co?ref=...</div>
         <button onclick="copyPartnerLink()" style="flex-shrink:0;background:var(--black);color:white;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">Copy</button>
       </div>
-      <div style="margin-top:10px;font-size:12px;color:var(--muted)">When another creator signs up through your link, you earn <strong>25% of their subscription every month</strong> — forever. Creator = $4 AUD/mo. Pro = $7.25 AUD/mo per referral.</div>
+      <div style="margin-top:10px;font-size:12px;color:var(--muted)">When another creator signs up through your link, you earn <strong>25% of their subscription every month</strong> — forever. Creator = $3.75 USD/mo. Pro = $7.25 USD/mo per referral.</div>
     </div>
 
     <div class="card" style="padding:20px;margin-bottom:16px">
@@ -1095,12 +1095,12 @@ a.nav-logo{text-decoration:none;cursor:pointer}
         <div style="text-align:center;padding:10px 20px;background:var(--warm);border:1px solid var(--border);border-radius:8px;min-width:140px">
           <div style="font-size:11px;color:var(--muted);margin-bottom:2px">Monthly earnings</div>
           <div style="font-size:28px;font-weight:700;color:var(--black);font-family:'Cormorant Garamond',serif" id="calcResult">$61.75</div>
-          <div style="font-size:11px;color:var(--muted)">AUD/mo</div>
+          <div style="font-size:11px;color:var(--muted)">USD/mo</div>
         </div>
       </div>
       <div style="margin-top:14px;padding:12px;background:#f0fff0;border:1px solid #c3e6c3;border-radius:8px">
         <div style="font-size:12px;font-weight:600;color:#2a7a2a;margin-bottom:4px">📈 The math for a creator with 10k followers</div>
-        <div style="font-size:12px;color:#3a8a3a;line-height:1.6">Post once about LinkGlobe → 1% convert = 100 signups → 25 go paid → <strong>~$130 AUD/mo passive</strong> for one post</div>
+        <div style="font-size:12px;color:#3a8a3a;line-height:1.6">Post once about LinkGlobe → 1% convert = 100 signups → 25 go paid → <strong>~$125 USD/mo passive</strong> for one post</div>
       </div>
     </div>
 
@@ -3427,7 +3427,7 @@ function generateRefCode(email) {
 function calcPartnerEarnings() {
   var creator = parseInt(document.getElementById('calcCreator').value) || 0;
   var pro = parseInt(document.getElementById('calcPro').value) || 0;
-  var total = (creator * 4) + (pro * 7.25);
+  var total = (creator * 3.75) + (pro * 7.25);
   document.getElementById('calcResult').textContent = '$' + total.toFixed(2);
 }
 
@@ -3479,7 +3479,7 @@ async function loadPartnerProgram() {
   var PLAN_COLORS = { free: '#aaa', creator: '#5555ee', pro: '#e60023' };
   list.innerHTML = '<div style="display:grid;gap:6px">' + referrals.map(function(r) {
     var planColor = PLAN_COLORS[r.referred_plan] || '#aaa';
-    var earning = r.referred_plan === 'pro' ? '$7.25' : r.referred_plan === 'creator' ? '$4.00' : '$0';
+    var earning = r.referred_plan === 'pro' ? '$7.25' : r.referred_plan === 'creator' ? '$3.75' : '$0';
     var date = new Date(r.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
     var emailMasked = r.referred_email.replace(/(.{3}).*(@.*)/, '$1***$2');
     return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--warm);border:1px solid var(--border);border-radius:8px">' +
