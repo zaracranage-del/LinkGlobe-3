@@ -50,6 +50,24 @@ module.exports = async (req, res) => {
       if (email && plan) {
         await supabase.from('signups').update({ plan }).eq('email', email);
         console.log(`Upgraded ${email} to ${plan}`);
+
+        // Record referral if this user was referred
+        const { data: newUser } = await supabase
+          .from('signups').select('referred_by').eq('email', email).single();
+        if (newUser?.referred_by) {
+          // Find referrer's email by their ref_code
+          const { data: referrer } = await supabase
+            .from('signups').select('email').eq('ref_code', newUser.referred_by).single();
+          if (referrer?.email) {
+            // Upsert so re-upgrades just update the plan
+            await supabase.from('referrals').upsert({
+              referrer_email: referrer.email,
+              referred_email: email,
+              referred_plan: plan,
+            }, { onConflict: 'referred_email' });
+            console.log(`Referral recorded: ${referrer.email} → ${email} (${plan})`);
+          }
+        }
       } else {
         console.warn('checkout.session.completed — could not determine plan', {
           email, priceId, plan, metadata: session.metadata,
