@@ -1235,7 +1235,7 @@ const SUPABASE_URL      = 'https://lyknsmgvqrxuhxwryzws.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5a25zbWd2cXJ4dWh4d3J5endzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzA4ODksImV4cCI6MjA5Mzc0Njg4OX0.o1DVN9fEb7qfIi0Kw7zGFUpPuluaUvllGIXEY3wHTW4';
 const STRIPE_CREATOR    = 'https://buy.stripe.com/dRm14pfhpd3y0Ku9DAcbC04?success_url=https%3A%2F%2Flinkglobe.co%2Fdashboard.html%3Fcheckout%3Dsuccess&cancel_url=https%3A%2F%2Flinkglobe.co%2Fdashboard.html';
 const STRIPE_PRO        = 'https://buy.stripe.com/00w14pb19gfK1OydTQcbC02?success_url=https%3A%2F%2Flinkglobe.co%2Fdashboard.html%3Fcheckout%3Dsuccess&cancel_url=https%3A%2F%2Flinkglobe.co%2Fdashboard.html';
-const FREE_LIMIT        = 10;
+const FREE_LIMIT        = 5;
 const CREATOR_LIMIT     = 50;
 // ───────────────────────────────────────────────────────────────
 
@@ -1322,7 +1322,7 @@ function updateColorPreview(val) {
 async function loadClickCount() {
   try {
     const { count } = await sb
-      .from('clicks')
+      .from('link_clicks')
       .select('*', { count: 'exact', head: true })
       .eq('handle', profile.handle);
     document.getElementById('totalClicks').textContent = count || 0;
@@ -1655,11 +1655,11 @@ function _cleanUrl(url) {
 
 async function fetchOgImage(rawUrl) {
   const url = _cleanUrl(rawUrl);
-  console.log('[fetchOgImage] fetching image for', url);
+  // console.log('[fetchOgImage] fetching image for', url);
 
   function attempt(promise) {
     return promise.then(img => {
-      if (img && img.startsWith('http')) { console.log('[fetchOgImage] got', img); return img; }
+      if (img && img.startsWith('http')) { return img; }
       return Promise.reject('empty');
     });
   }
@@ -1695,7 +1695,7 @@ async function fetchOgImage(rawUrl) {
   try {
     return await Promise.any([tryApi(), tryMicrolink(), tryJsonLink(), tryOpengraph()]);
   } catch {
-    console.warn('[fetchOgImage] all sources failed for', url);
+    // console.warn('[fetchOgImage] all sources failed for', url);
     return '';
   }
 }
@@ -1703,14 +1703,14 @@ async function fetchOgImage(rawUrl) {
 // ── REFRESH MISSING IMAGES ────────────────────────────────────
 async function refreshMissingImages() {
   const missing = products.filter(p => !p.image && p.original_url);
-  console.log('[refreshMissingImages] products missing images:', missing.length);
+  // console.log('[refreshMissingImages] products missing images:', missing.length);
   if (!missing.length) return;
 
   await Promise.allSettled(missing.map(async p => {
     try {
       const img = await fetchOgImage(p.original_url);
-      if (!img) { console.warn('[refreshMissingImages] no image for', p.original_url); return; }
-      console.log('[refreshMissingImages] updating', p.id, img);
+      if (!img) { return; }
+      // updating product image
       p.image = img;
       _updateCardImage(p.id, img, p.emoji);
       sb.from('products').update({ image: img }).eq('id', p.id).then(({ error }) => {
